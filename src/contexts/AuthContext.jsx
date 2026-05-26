@@ -1,6 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { USER_INFOS } from "@constants/appConstant";
-import api from "@lib/api";
 
 //Init du context
 const AuthContext = createContext({
