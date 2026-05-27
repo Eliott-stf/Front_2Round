@@ -1,4 +1,4 @@
-import { LogIn, LogOut, Mail, MapPin, Menu, Phone, Send, Settings, ShoppingBag, User, UserPlus, Wallet } from "lucide-react";
+import { LogIn, LogInIcon, LogOut, Mail, MapPin, Menu, Paperclip, Phone, Send, Settings, ShoppingBag, User, UserPlus, Wallet } from "lucide-react";
 
 // ====================
 // CLE DU LOCAL STORAGE
@@ -40,11 +40,12 @@ export const dataNavbarGuest = [
     {
         icon: User,
         options: [
-            { title: "Se connecter", path: "/connexion", icon: LogIn },
+            { title: "Me connecter", path: "/login", icon: LogInIcon },
+            { title: "M'inscrire", path: "/register", icon: Paperclip },
         ]
     },
     {
-        path: "/login",
+        path: "/messages",
         icon: Send
     },
     {

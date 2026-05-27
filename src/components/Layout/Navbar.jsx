@@ -3,7 +3,7 @@ import { Search, Camera, LayoutDashboard } from 'lucide-react';
 import { dataNavbarAuth, dataNavbarGuest, ROLES } from '@constants/appConstant';
 import { SmartNavlinks } from './SmartNavlinks';
 import { Logo } from '@components/UI/Logo';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuthContext } from '@contexts/AuthContext';
 
 const Navbar = () => {
@@ -22,7 +22,9 @@ const Navbar = () => {
   return (
     <header className="w-full bg-black flex items-center justify-between px-4 md:px-12 lg:px-25.5 py-4 lg:py-8">
       <div className="w-25 md:w-30 lg:w-38.25 shrink-0">
-        <Logo className="w-full h-auto" fill="white" />
+        <Link to="/">
+          <Logo className="w-full h-auto" fill="white" />
+        </Link>
       </div>
 
       <div className="hidden md:flex flex-1 max-w-199.25 mx-4 lg:ml-27 lg:mr-auto h-11 lg:h-13.5 border border-white rounded-full px-4 lg:px-5.5 items-center">

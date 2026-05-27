@@ -2,16 +2,17 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { DropdownItem } from './DropdownItem';
 
-export const SmartNavlinks = ({ data, containerClassName, itemClassName }) => {
+export const SmartNavlinks = ({ data, containerClassName, itemClassName, onLogout }) => {
   return (
     <div className={containerClassName}>
       {data && data.map((item, index) => {
         if (item.options && item.options.length > 0) {
           return (
-            <DropdownItem 
-              key={`dropdown-${index}`} 
-              item={item} 
-              className={itemClassName} 
+            <DropdownItem
+              key={`dropdown-${index}`}
+              item={item}
+              className={itemClassName}
+              onLogout={onLogout}
             />
           );
         }
