@@ -93,3 +93,5 @@ export const footerContact = [
     { title: "contact@2round.fr", path: "mailto:contact@2round.fr", icon: Mail },
     { title: "Perpignan, 66000 France", path: "#", icon: MapPin }
 ];
+
+export const BOXING_TYPES = ['Boxe Anglaise', 'Muay Thai', 'Kick Boxing', 'Boxe Française', 'MMA'];

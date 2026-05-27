@@ -4,6 +4,7 @@ import Register from '@/screens/OfflineScreens/Register';
 import App from '../App';
 import ErrorPage from '@screens/ErrorScreens/ErrorPage';
 import Home from '@screens/OfflineScreens/Home';
+import Profil from '@screens/OnlineScreens/Profil';
 
 const OfflineRouter = createBrowserRouter([
   {
@@ -14,6 +15,7 @@ const OfflineRouter = createBrowserRouter([
       { index: true, element: <Home /> },
       { path: 'login', element: <Login /> },
       { path: 'register', element: <Register /> },
+      { path: 'profil', element: <Profil /> },
     ],
   },
 ]);

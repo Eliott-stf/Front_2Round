@@ -24,5 +24,20 @@ const api = wretch(API_ROOT)
             return next(url, opts);
         },
     ]);
+
+// Instance dédiée aux uploads  sans Content-Type
+export const apiUpload = wretch(API_ROOT)
+    .middlewares([
+        next => (url, opts) => {
+            const token = localStorage.getItem('token');
+            if (token) {
+                opts.headers = {
+                    ...opts.headers,
+                    Authorization: `Bearer ${token}`,
+                };
+            }
+            return next(url, opts);
+        },
+    ]);
 //On exporte l'instance pour la réutiliser pour toutes nos requetes 
 export default api;

@@ -11,6 +11,7 @@ const OnlineRouter = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       { index: true, element: <Home /> },
+      
     ],
   },
 ]);
