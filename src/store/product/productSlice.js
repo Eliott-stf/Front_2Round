@@ -11,7 +11,7 @@ export const fetchProductById = createAsyncThunk('products/fetchOne', (id, { rej
 );
 
 export const fetchMyProducts = createAsyncThunk('products/fetchMine', (sellerId, { rejectWithValue }) =>
-    api.url('/products').query({ sellerId }).get().json().catch(() => rejectWithValue('Erreur chargement mes produits'))
+    api.url(`/products?sellerId=${sellerId}`).get().json().catch(() => rejectWithValue('Erreur chargement mes produits'))
 );
 
 export const createProduct = createAsyncThunk('products/create', (data, { rejectWithValue }) =>
@@ -54,8 +54,7 @@ const productSlice = createSlice({
             })
             .addCase(fetchProductById.fulfilled, (state, action) => { state.current = action.payload; })
             .addCase(fetchMyProducts.fulfilled, (state, action) => {
-                console.log('action.payload:', action.payload); // ← ajoute ce log
-                state.myItems = action.payload.data; // ← doit être .data
+                state.myItems = action.payload.data;
             })
             .addCase(createProduct.fulfilled, (state, action) => { state.myItems.unshift(action.payload); })
             .addCase(updateProduct.fulfilled, (state, action) => {

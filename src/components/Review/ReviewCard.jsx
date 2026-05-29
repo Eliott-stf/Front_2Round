@@ -1,31 +1,72 @@
-// src/components/ReviewCard.jsx
 import React from 'react';
+import { formatDistanceToNow } from 'date-fns';
+import { fr } from 'date-fns/locale';
+import { Link } from 'react-router-dom';
+import StarRating from '@components/UI/StarRating';
 
-const StarIcon = ({ filled }) => (
-  <svg className={`w-6 h-6 ${filled ? 'text-red' : 'text-white'}`} viewBox="0 0 58 55" fill="currentColor">
-    <path d="M28.5312 0L35.2667 20.7295H57.0629L39.4294 33.541L46.1648 54.2705L28.5312 41.459L10.8977 54.2705L17.6331 33.541L-0.00044632 20.7295H21.7958L28.5312 0Z"/>
-  </svg>
-);
+export default function ReviewCard({ review }) {
 
-export default function ReviewCard({ avatar, username, date, content, rating }) {
+  //On déclare nos datas pour le confort 
+  const buyer = review?.order?.buyer;
+  const buyerId = buyer?.id;
+  const username = buyer ? `${buyer.name} ${buyer.lastname}` : 'Utilisateur inconnu';
+  const avatar = buyer?.avatarUrl ? `http://localhost:3000${buyer.avatarUrl}` : '/images/placeholder.jpg';
+  const rating = review?.rating || 0;
+  const content = review?.comment || 'Aucun commentaire.';
+  const productName = review?.order?.items?.[0]?.product?.title || 'Article';
+
+  //Format de date 
+  const date = review?.createdAt
+    ? formatDistanceToNow(new Date(review.createdAt), { addSuffix: true, locale: fr })
+    : '';
+
   return (
-    <article className="flex gap-8 py-8 border-b border-[#222222] last:border-b-0 w-full max-w-[1000px]">
-      <div className="flex-shrink-0">
-        <img src={avatar} alt={`Profil de ${username}`} className="w-[90px] h-[90px] rounded-full object-cover" />
+    <article className="flex gap-8 py-8 border-b border-[#222222] last:border-b-0 w-full max-w-250">
+      <div className="shrink-0">
+        {buyerId ? (
+          <Link to={`/profil/${buyerId}`}>
+            <img 
+              src={avatar} 
+              alt={`Profil de ${username}`} 
+              className="w-22.5 h-22.5 rounded-full object-cover bg-black hover:opacity-80 transition-opacity cursor-pointer" 
+            />
+          </Link>
+        ) : (
+          <img 
+            src={avatar} 
+            alt={`Profil de ${username}`} 
+            className="w-22.5 h-22.5 rounded-full object-cover bg-black" 
+          />
+        )}
       </div>
 
       <div className="flex flex-col flex-1 justify-center pt-1">
         <div className="flex justify-between items-center w-full">
-          <h3 className="font-bebas text-3xl uppercase text-white tracking-wide">{username}</h3>
+          <div className="flex flex-col">
+            {buyerId ? (
+              <Link to={`/profil/${buyerId}`}>
+                <h3 className="font-bebas text-3xl uppercase tracking-wide cursor-pointer text-white hover:text-red transition-colors w-fit">
+                  {username}
+                </h3>
+              </Link>
+            ) : (
+              <h3 className="font-bebas text-3xl uppercase text-white tracking-wide">
+                {username}
+              </h3>
+            )}
+            <span className="font-inter text-gray-light text-xs uppercase tracking-widest mt-1">Acheté : {productName}</span>
+          </div>
           <span className="font-inter text-gray text-sm font-light">{date}</span>
         </div>
 
-        <p className="font-inter text-gray-light text-xl font-light mt-1">{content}</p>
+        <p className="font-inter text-gray-light text-xl font-light mt-3">{content}</p>
 
         <div className="flex gap-2 mt-4">
-          {[...Array(5)].map((_, index) => (
-            <StarIcon key={index} filled={index < rating} />
-          ))}
+          <StarRating
+            rating={rating}
+            sizeClass="w-6 h-6"
+            emptyColor="text-white"
+          />
         </div>
       </div>
     </article>

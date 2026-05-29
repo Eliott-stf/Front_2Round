@@ -5,6 +5,10 @@ export const fetchMe = createAsyncThunk('user/fetchMe', (_, { rejectWithValue })
     api.url('/users/me').get().json().catch(() => rejectWithValue('Erreur chargement profil'))
 );
 
+export const fetchUserById = createAsyncThunk('user/fetchById', (id, { rejectWithValue }) =>
+    api.url(`/users/${id}`).get().json().catch(() => rejectWithValue('Erreur chargement utilisateur'))
+);
+
 export const updateMe = createAsyncThunk('user/updateMe', (data, { rejectWithValue }) =>
     api.url('/users/me').patch(data).json().catch(() => rejectWithValue('Erreur mise à jour profil'))
 );
@@ -24,6 +28,7 @@ const userSlice = createSlice({
     name: 'user',
     initialState: {
         me: null,
+        currentProfile: null,
         loading: false,
         error: null,
     },
@@ -31,6 +36,7 @@ const userSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(fetchMe.fulfilled, (state, action) => { state.me = action.payload; })
+            .addCase(fetchUserById.fulfilled, (state, action) => { state.currentProfile = action.payload; })
             .addCase(updateMe.fulfilled, (state, action) => { state.me = action.payload; })
             .addCase(uploadAvatar.fulfilled, (state, action) => {
                 state.me = action.payload;
