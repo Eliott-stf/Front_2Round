@@ -18,7 +18,7 @@ export const dataNavbarAuth = [
         icon: User,
         options: [
             { title: "Mon round personnalisé", path: "/round", icon: ShoppingBag },
-            { title: "Mon vestiaire", path: "/vestiaire", icon: Settings },
+            { title: "Mon vestiaire", path: "/profil", icon: Settings },
             { title: "Mon portefeuille", path: "/wallet", icon: Wallet }
         ]
     },

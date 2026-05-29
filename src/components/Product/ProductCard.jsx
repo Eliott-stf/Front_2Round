@@ -1,5 +1,5 @@
-
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 //TODO: Badge temporaire 
 const VerifiedBadge = () => (
@@ -23,25 +23,27 @@ export default function ProductCard({ product }) {
 
     return (
         <article className="flex flex-col group cursor-pointer w-fit">
-            <div className="relative w-55 h-55 bg-[#1a1a1a] mb-4 overflow-hidden rounded-sm">
-                <img
-                    src={imageUrl}
-                    alt={title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <VerifiedBadge />
-            </div>
-            <div className="flex flex-col font-inter">
-                <h3 className="text-white font-bold text-lg leading-tight uppercase truncate max-w-55">
-                    {title}
-                </h3>
-                <p className="text-gray text-sm mt-1 mb-2 font-light truncate max-w-55">
-                    {subtitle}
-                </p>
-                <span className="text-white font-bold text-lg">
-                    {price}€
-                </span>
-            </div>
+            <Link to={`/product/${product?.id}`} className="flex flex-col">
+                <div className="relative w-55 h-55 bg-[#1a1a1a] mb-4 overflow-hidden rounded-sm">
+                    <img
+                        src={imageUrl}
+                        alt={title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                    <VerifiedBadge />
+                </div>
+                <div className="flex flex-col font-inter">
+                    <h3 className="text-white font-bold text-lg leading-tight uppercase truncate max-w-55">
+                        {title}
+                    </h3>
+                    <p className="text-gray text-sm mt-1 mb-2 font-light truncate max-w-55">
+                        {subtitle}
+                    </p>
+                    <span className="text-white font-bold text-lg">
+                        {price}€
+                    </span>
+                </div>
+            </Link>
         </article>
     );
 }

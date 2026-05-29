@@ -5,6 +5,7 @@ import App from '../App';
 import ErrorPage from '@screens/ErrorScreens/ErrorPage';
 import Home from '@screens/OfflineScreens/Home';
 import Profil from '@screens/OnlineScreens/Profil';
+import ProductDetail from '@screens/OfflineScreens/ProductDetail';
 
 const OfflineRouter = createBrowserRouter([
   {
@@ -16,6 +17,7 @@ const OfflineRouter = createBrowserRouter([
       { path: 'login', element: <Login /> },
       { path: 'register', element: <Register /> },
       { path: 'profil', element: <Profil /> },
+      { path: 'product/:id', element: <ProductDetail /> },
     ],
   },
 ]);
