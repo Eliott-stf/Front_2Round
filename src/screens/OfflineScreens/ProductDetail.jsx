@@ -1,4 +1,3 @@
-// src/screens/OnlineScreens/ProductDetail.jsx
 import ProductImg from '@components/Product/ProductImg';
 import SimilarProduct from '@components/Product/SimilarProduct';
 import PageLoader from '@components/Loader/PageLoader';
@@ -7,46 +6,60 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProductById, fetchMyProducts, fetchProducts } from '@store/product/productSlice';
 import ProductInfos from '@components/Product/ProductInfos';
+import { useAuthContext } from '@contexts/AuthContext';
 
 export default function ProductDetail() {
+
+  //On récupr l'id passé en param
   const { id } = useParams();
+
+  // On récupère les hooks
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { 
-    current: product, 
-    myItems = [], 
-    items = [], 
-    loading, 
-    error 
+  //On récup le userID du AuthContext
+  const { userId } = useAuthContext();
+
+  // On déclare nos states locaux et store
+  const {
+    current: product,
+    myItems = [],
+    items = [],
+    loading,
+    error
   } = useSelector(state => state.products);
 
+  //On déclare nos constantes
+  //Flag de confort pour savoir si c'est le Owner
+  const isOwner = userId === product?.sellerId;
+
+  //On exclu le produit actuel 
+  const dressingProducts = (myItems || []).filter(p => p.id !== id);
+  const suggestionsProducts = (items || []).filter(p => p.id !== id);
+
+  // Méthode appel API du produit par son ID
   useEffect(() => {
     if (id) {
-      console.log("1. Fetch produit principal ID:", id);
       dispatch(fetchProductById(id));
     }
   }, [id, dispatch]);
 
+  // Méthode pour charger les données associées au produit
   useEffect(() => {
-    if (product) {
-      console.log("2. Produit reçu:", product);
+    // Exécution conditionnée par l'existence de l'ID produit uniquement
+    if (product?.id) {
       if (product.sellerId) {
-        console.log("3. Fetch dressing sellerId:", product.sellerId);
         dispatch(fetchMyProducts(product.sellerId));
       }
       if (product.categoryId) {
-        console.log("4. Fetch suggestions categoryId:", product.categoryId);
         dispatch(fetchProducts({ categoryId: product.categoryId }));
       }
     }
-  }, [product, dispatch]);
+  }, [product?.id, product?.sellerId, product?.categoryId, dispatch]);
 
-  console.log("5. Store myItems (Brut):", myItems);
-  console.log("6. Store items (Brut):", items);
-
+  //Loading et erreur
   if (loading && !product) return <PageLoader />;
-  
+
   if (error || !product) {
     return (
       <main className="w-full min-h-screen bg-black flex flex-col items-center justify-center p-8">
@@ -58,18 +71,11 @@ export default function ProductDetail() {
     );
   }
 
-  // Sécurisation avec chaînage optionnel au cas où le state ne renvoie pas un tableau valide
-  const dressingProducts = (myItems || []).filter(p => p.id !== id);
-  const suggestionsProducts = (items || []).filter(p => p.id !== id);
-
-  console.log("7. dressingProducts (Filtré):", dressingProducts);
-  console.log("8. suggestionsProducts (Filtré):", suggestionsProducts);
-
   return (
     <main className="w-full min-h-screen bg-black relative py-12 px-8">
-      
-      <button 
-        onClick={() => navigate(-1)} 
+
+      <button
+        onClick={() => navigate(-1)}
         className="absolute top-12 left-[183px] text-white hover:text-red transition-colors z-20"
       >
         <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -78,24 +84,24 @@ export default function ProductDetail() {
       </button>
 
       <div className="max-w-[1300px] mx-auto flex flex-col lg:flex-row gap-[93px] justify-center items-start mt-[100px]">
-        
+
         <div className="flex flex-col w-full max-w-[595px]">
           <ProductImg product={product} />
-          
-          <SimilarProduct 
-            title="Dressing du membre" 
-            products={dressingProducts} 
-            limit={2} 
+
+          <SimilarProduct
+            title={isOwner ? "Vos autres articles en ligne" : "Dressing du membre"}
+            products={dressingProducts}
+            limit={2}
           />
-          <SimilarProduct 
-            title="Suggestions" 
-            products={suggestionsProducts} 
-            limit={4} 
+          <SimilarProduct
+            title="Suggestions"
+            products={suggestionsProducts}
+            limit={4}
           />
         </div>
 
         <div className="w-full max-w-[653px] lg:sticky lg:top-12">
-          <ProductInfos product={product} />
+          <ProductInfos product={product} isOwner={isOwner} />
         </div>
 
       </div>

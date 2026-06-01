@@ -95,3 +95,10 @@ export const footerContact = [
 ];
 
 export const BOXING_TYPES = ['Boxe Anglaise', 'Muay Thai', 'Kick Boxing', 'Boxe Française', 'MMA'];
+
+export const PRODUCT_CONDITIONS = [
+    { value: 'NEW', label: 'Neuf' },
+    { value: 'VERY_GOOD', label: 'Très bon état' },
+    { value: 'GOOD', label: 'Bon état' },
+    { value: 'FAIR', label: 'État correct' }
+];
