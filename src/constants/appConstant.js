@@ -102,3 +102,32 @@ export const PRODUCT_CONDITIONS = [
     { value: 'GOOD', label: 'Bon état' },
     { value: 'FAIR', label: 'État correct' }
 ];
+
+//Const d'aniamtion sur la modale de paiment
+export const slideVariants = {
+    enter: (direction) => ({
+        x: direction > 0 ? "100%" : "-100%",
+        opacity: 0,
+    }),
+    center: {
+        x: 0,
+        opacity: 1,
+        transition: { duration: 0.3, ease: [0.16, 1, 0.3, 1] },
+    },
+    exit: (direction) => ({
+        x: direction < 0 ? "100%" : "-100%",
+        opacity: 0,
+        transition: { duration: 0.3, ease: [0.16, 1, 0.3, 1] },
+    }),
+};
+
+//const de theme STRIPE
+export const stripeAppearance = {
+    theme: 'night',
+    variables: {
+        colorBackground: '#111111',
+        colorDanger: '#eb001b',
+        colorText: '#ffffff',
+        colorPrimary: '#ffffff',
+    },
+};
