@@ -1,4 +1,3 @@
-// src/store/media/mediaSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '@lib/api';
 

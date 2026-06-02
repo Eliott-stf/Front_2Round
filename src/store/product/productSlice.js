@@ -1,13 +1,11 @@
-// src/store/product/productSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '@lib/api';
 
 export const fetchProducts = createAsyncThunk('products/fetchAll', (filters = {}, { rejectWithValue }) => {
     const cleanFilters = Object.fromEntries(Object.entries(filters).filter(([_, v]) => v !== ''));
-    // On repasse sur une concaténation manuelle sécurisée au cas où .query() formaterait mal
     const queryString = new URLSearchParams(cleanFilters).toString();
     const url = queryString ? `/products?${queryString}` : '/products';
-    
+
     return api.url(url).get().json().catch(() => rejectWithValue('Erreur chargement produits'));
 });
 
@@ -16,7 +14,6 @@ export const fetchProductById = createAsyncThunk('products/fetchOne', (id, { rej
 );
 
 export const fetchMyProducts = createAsyncThunk('products/fetchMine', (sellerId, { rejectWithValue }) =>
-    // Retour à votre syntaxe d'origine qui marchait pour le sellerId
     api.url(`/products?sellerId=${sellerId}`).get().json().catch(() => rejectWithValue('Erreur chargement mes produits'))
 );
 
@@ -30,6 +27,10 @@ export const updateProduct = createAsyncThunk('products/update', ({ id, data }, 
 
 export const deleteProduct = createAsyncThunk('products/delete', (id, { rejectWithValue }) =>
     api.url(`/products/${id}`).delete().res().then(() => id).catch(() => rejectWithValue('Erreur suppression produit'))
+);
+
+export const toggleFavorite = createAsyncThunk('products/toggleFavorite', (id, { rejectWithValue }) =>
+    api.url(`/products/${id}/favorite`).post().json().catch(() => rejectWithValue('Erreur lors de la mise en favori'))
 );
 
 const initialFilters = {
@@ -55,22 +56,19 @@ const productSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(fetchProducts.fulfilled, (state, action) => {
-                console.log("➡️ API RAW Suggestions :", action.payload);
-                // Extracteur ultra-permissif pour s'adapter à toutes les formes de réponses NestJS
                 const data = action.payload?.data || action.payload?.items || action.payload;
                 state.items = Array.isArray(data) ? data : [];
                 state.meta = action.payload?.meta || state.meta;
             })
-            .addCase(fetchProductById.fulfilled, (state, action) => { 
-                state.current = action.payload?.data || action.payload; 
+            .addCase(fetchProductById.fulfilled, (state, action) => {
+                state.current = action.payload?.data || action.payload;
             })
             .addCase(fetchMyProducts.fulfilled, (state, action) => {
-                console.log("➡️ API RAW Dressing :", action.payload);
                 const data = action.payload?.data || action.payload?.items || action.payload;
                 state.myItems = Array.isArray(data) ? data : [];
             })
-            .addCase(createProduct.fulfilled, (state, action) => { 
-                state.myItems.unshift(action.payload?.data || action.payload); 
+            .addCase(createProduct.fulfilled, (state, action) => {
+                state.myItems.unshift(action.payload?.data || action.payload);
             })
             .addCase(updateProduct.fulfilled, (state, action) => {
                 const updatedProduct = action.payload?.data || action.payload;

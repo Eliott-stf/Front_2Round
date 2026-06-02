@@ -5,6 +5,7 @@ import productReducer from './product/productSlice';
 import reviewReducer from './review/reviewSlice';
 import categoryReducer from './category/categorySlice';
 import mediaReducer from './media/mediaSlice';
+import walletReducer from './wallet/walletSlice';
 
 
 export const store = configureStore({
@@ -16,5 +17,6 @@ export const store = configureStore({
         reviews: reviewReducer,
         categories: categoryReducer,
         medias: mediaReducer,
+        wallets: walletReducer,
     }
 });
