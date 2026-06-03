@@ -72,7 +72,7 @@ export default function ProfileModal({ onClose }) {
               <div className="w-24 h-24 bg-black/40 border border-gray-dark rounded-xl shrink-0 flex items-center justify-center overflow-hidden">
                 {me?.avatarUrl ? (
                   <img 
-                    src={`http://localhost:3000${me.avatarUrl}`} 
+                    src={`${API_ROOT}${me.avatarUrl}`} 
                     alt="Avatar" 
                     className="w-full h-full object-cover grayscale" 
                   />

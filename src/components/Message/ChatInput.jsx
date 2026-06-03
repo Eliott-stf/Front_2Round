@@ -1,42 +1,49 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { Send } from 'lucide-react';
 import { sendMessage } from '@store/message/messageSlice';
 
 export default function ChatInput({ activeId }) {
+    // On récupère les hooks
     const dispatch = useDispatch();
-    const [content, setContent] = useState('');
 
-    const handleSend = () => {
-        if (!content.trim()) return;
-        dispatch(sendMessage({ conversationId: activeId, content }));
-        setContent('');
-    };
+    // On déclare nos states locaux
+    const [text, setText] = useState("");
 
-    const handleKeyDown = (e) => {
-        if (e.key === 'Enter') handleSend();
+    // Méthode de soumission
+    const handleSubmit = (e) => {
+        //le fameux eheh
+        e.preventDefault();
+        if (!text.trim()) return;
+
+        //méthode du slice
+        dispatch(sendMessage({
+            conversationId: activeId,
+            content: text.trim()
+        }));
+
+        setText("");
     };
 
     return (
-        <div className="p-6 shrink-0 bg-black">
-            <div className="w-full bg-[#f4f4f4] flex items-center pr-4">
-                <input
-                    type="text"
-                    value={content}
-                    onChange={(e) => setContent(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    placeholder="Écrivez votre message."
-                    className="flex-1 bg-transparent text-[#737373] font-inter text-sm p-4 outline-none placeholder:text-[#a0a0a0]"
-                />
-                <button
-                    onClick={handleSend}
-                    className="shrink-0 flex items-center justify-center transition-opacity hover:opacity-75"
-                >
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF0000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <line x1="22" y1="2" x2="11" y2="13"></line>
-                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                    </svg>
-                </button>
-            </div>
-        </div>
+        <form onSubmit={handleSubmit} className="flex items-center gap-3 p-4 border-t border-gray-dark bg-black shrink-0">
+            {/* Text input */}
+            <input
+                type="text"
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                placeholder="Écrire un message..."
+                className="flex-1 bg-gray-dark text-white text-sm px-4 py-2.5 rounded-xl border border-gray-mid/50 placeholder:text-gray focus:outline-none focus:border-red/40 transition-colors font-body"
+            />
+
+            {/* Send */}
+            <button
+                type="submit"
+                disabled={!text.trim()}
+                className="shrink-0 w-10 h-10 rounded-xl bg-red flex items-center justify-center text-white hover:bg-red/90 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+            >
+                <Send className="w-4 h-4" />
+            </button>
+        </form>
     );
 }

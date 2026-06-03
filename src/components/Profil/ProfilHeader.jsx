@@ -60,7 +60,7 @@ export default function ProfilHeader({ activeTab, setActiveTab, targetUserId, is
           <div className="flex flex-col md:flex-row gap-12 items-start mt-12">
             <div className="flex flex-col items-start w-65 shrink-0">
               <img
-                src={displayUser.avatarUrl ? `http://localhost:3000${displayUser.avatarUrl}` : "/images/jerome.png"}
+                src={displayUser.avatarUrl ? `${API_ROOT}${displayUser.avatarUrl}` : "/images/jerome.png"}
                 alt={`${displayUser.name} ${displayUser.lastname}`}
                 className="w-65 h-80 object-cover grayscale border border-white/10 bg-[#1a1a1a]"
               />

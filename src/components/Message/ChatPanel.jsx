@@ -1,17 +1,34 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchConversationById } from '@store/conversation/conversationSlice';
 import { markMessagesAsRead } from '@store/message/messageSlice';
 import ChatHeader from './ChatHeader';
 import MessageList from './MessageList';
 import ChatInput from './ChatInput';
-import { useAuthContext } from '@contexts/AuthContext';
+import ModaleOffer from './ModaleOffer';
 
-export default function ChatPanel({ activeId }) {
+import { useAuthContext } from '@contexts/AuthContext';
+import ModalePayment from '@components/Product/ModalePayment';
+
+export default function ChatPanel({ activeId, initialOfferModalState }) {
+    // On récupère les hooks
     const dispatch = useDispatch();
-    const { currentConversation, loading } = useSelector((state) => state.conversations);
     const { userId } = useAuthContext();
 
+    // On déclare nos states locaux et store
+    const { currentConversation, loading } = useSelector((state) => state.conversations);
+    const [isOfferModalOpen, setIsOfferModalOpen] = useState(false);
+    const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+    const [paymentProduct, setPaymentProduct] = useState(null);
+
+    // Ouverture conditionnelle de la modale d'offre transmise par le routeur
+    useEffect(() => {
+        if (initialOfferModalState && currentConversation && currentConversation.id === activeId) {
+            setIsOfferModalOpen(true);
+        }
+    }, [initialOfferModalState, currentConversation, activeId]);
+
+    // Méthode pour charger la conversation et marquer comme lu
     useEffect(() => {
         if (activeId) {
             dispatch(fetchConversationById(activeId));
@@ -22,7 +39,7 @@ export default function ChatPanel({ activeId }) {
     if (!activeId) {
         return (
             <div className="flex-1 bg-black flex items-center justify-center">
-                <span className="text-[#737373] font-inter">Sélectionnez une conversation</span>
+                <span className="text-gray font-inter">Sélectionnez une conversation</span>
             </div>
         );
     }
@@ -30,19 +47,57 @@ export default function ChatPanel({ activeId }) {
     if (loading || !currentConversation || currentConversation.id !== activeId) {
         return (
             <div className="flex-1 bg-black flex items-center justify-center">
-                <span className="text-[#737373] font-inter">Chargement de la discussion...</span>
+                <span className="text-gray font-inter">Chargement de la discussion...</span>
             </div>
         );
     }
 
+    // On déclare nos constantes
     const isBuyer = currentConversation.buyerId === userId;
     const interlocutor = isBuyer ? currentConversation.product?.seller : currentConversation.buyer;
 
+    // Méthode pour ouvrir le paiement avec le prix négocié et une structure compatible avec ModalePayment
+    const handleOpenPayment = (offerPrice) => {
+        const rawProduct = currentConversation.product;
+
+        const productToPay = {
+            ...rawProduct,
+            price: offerPrice,
+            media: rawProduct?.medias?.length > 0 ? [{ url: rawProduct.medias[0].path }] : []
+        };
+
+        setPaymentProduct(productToPay);
+        setIsPaymentModalOpen(true);
+    };
+
     return (
         <section className="flex-1 flex flex-col bg-black relative min-w-0">
-            <ChatHeader conversation={currentConversation} interlocutor={interlocutor} />
-            <MessageList activeId={activeId} initialMessages={currentConversation.messages} />
+            <ChatHeader
+                conversation={currentConversation}
+                interlocutor={interlocutor}
+                isBuyer={isBuyer}
+                onOpenOfferModal={() => setIsOfferModalOpen(true)}
+            />
+            <MessageList
+                activeId={activeId}
+                conversation={currentConversation}
+                initialMessages={currentConversation.messages || []}
+                initialOffers={currentConversation.offers || []}
+                onPaymentRequest={handleOpenPayment}
+            />
             <ChatInput activeId={activeId} />
+
+            <ModaleOffer
+                isOpen={isOfferModalOpen}
+                onClose={() => setIsOfferModalOpen(false)}
+                conversation={currentConversation}
+            />
+
+            <ModalePayment
+                isOpen={isPaymentModalOpen}
+                onClose={() => setIsPaymentModalOpen(false)}
+                product={paymentProduct}
+            />
         </section>
     );
 }

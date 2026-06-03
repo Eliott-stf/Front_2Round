@@ -4,6 +4,7 @@ import { updateProduct, fetchProductById } from '@store/product/productSlice';
 import { fetchCategories } from '@store/category/categorySlice';
 import { uploadProductImages, deleteProductImage } from '@store/media/mediaSlice';
 import { PRODUCT_CONDITIONS } from '@constants/appConstant';
+import { API_ROOT } from '@constants/apiConstant';
 
 export default function ModaleUpdate({ isOpen, onClose, product }) {
     //On récup le hook
@@ -156,7 +157,7 @@ export default function ModaleUpdate({ isOpen, onClose, product }) {
                             {/* Images déjà en ligne */}
                             {existingMedias.map((media) => (
                                 <div key={media.id} className="relative w-24 h-24 shrink-0 rounded-xl overflow-hidden bg-black">
-                                    <img src={`http://localhost:3000${media.path}`} alt="Produit" className="w-full h-full object-cover opacity-80" />
+                                    <img src={`${API_ROOT}${media.path}`} alt="Produit" className="w-full h-full object-cover opacity-80" />
                                     <button
                                         type="button"
                                         onClick={() => handleRemoveExistingMedia(media.id)}

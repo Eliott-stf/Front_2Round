@@ -1,3 +1,4 @@
+import { API_ROOT } from '@constants/apiConstant';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -18,7 +19,7 @@ export default function ProductCard({ product }) {
     const subtitle = product?.condition || product?.description || 'Bon état';
     const imagePath = product?.medias?.[0]?.path || product?.imageUrl || null;
     const imageUrl = imagePath
-        ? (imagePath.startsWith('http') ? imagePath : `http://localhost:3000${imagePath}`)
+        ? (imagePath.startsWith('http') ? imagePath : `${API_ROOT}${imagePath}`)
         : '/images/placeholder.jpg';
     const isArchived = product?.status === 'ARCHIVED';
 

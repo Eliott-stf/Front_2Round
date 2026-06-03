@@ -2,8 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import ConversationItem from './ConversationItem';
 import { useAuthContext } from '@contexts/AuthContext';
-
-const BACKEND_URL = 'http://localhost:3000';
+import { API_ROOT } from '@constants/apiConstant';
 
 export default function ConversationSidebar({ activeId, setActiveId }) {
     const { items: conversations, loading } = useSelector((state) => state.conversations);
@@ -22,17 +21,16 @@ export default function ConversationSidebar({ activeId, setActiveId }) {
             {conversations && conversations.map((conv) => {
                 if (!conv) return null;
 
+                //On déclare nos const de confort et flag
                 const isBuyer = conv.buyerId === userId;
                 const interlocutor = isBuyer ? conv.product?.seller : conv.buyer;
                 const interlocutorName = interlocutor ? `${interlocutor.name || ''} ${interlocutor.lastname || ''}`.trim() : 'Utilisateur';
+                const rawAvatar = interlocutor?.avatarUrl;
+                const finalAvatar = rawAvatar ? `${API_ROOT}${rawAvatar}` : '/images/default-avatar.png';
 
                 const hasUnread = Array.isArray(conv.messages) && conv.messages.some(
                     (msg) => msg && !msg.isRead && msg.senderId !== userId
                 );
-
-                // Ciblage de l'avatar de l'interlocuteur réel
-                const rawAvatar = interlocutor?.avatarUrl;
-                const finalAvatar = rawAvatar ? `${BACKEND_URL}${rawAvatar}` : '/images/default-avatar.png';
 
                 return (
                     <ConversationItem

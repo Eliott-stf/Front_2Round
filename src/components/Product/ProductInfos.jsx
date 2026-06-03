@@ -46,17 +46,22 @@ export default function ProductInfos({ product, isOwner }) {
     ? (reviews.reduce((acc, curr) => acc + curr.rating, 0) / reviews.length).toFixed(1)
     : 0;
 
-  // Nouvelle méthode pour déclencher l'ouverture de la modale
+  // méthode pour déclencher l'ouverture de la modale
   const handleBuy = () => {
     setIsPaymentOpen(true);
   };
 
   // Méthode de création/récupération de la conversation
-  const handleContactSeller = async () => {
+  const handleContactSeller = async (withOffer = false) => {
     if (!product?.id) return;
     try {
       const conversation = await dispatch(createConversation({ productId: product.id })).unwrap();
-      navigate('/messages', { state: { activeConversationId: conversation.id } });
+      navigate('/messages', {
+        state: {
+          activeConversationId: conversation.id,
+          openOfferModal: withOffer 
+        }
+      });
     } catch (error) {
       console.error("Erreur d'initialisation de la conversation :", error);
     }
@@ -136,7 +141,10 @@ export default function ProductInfos({ product, isOwner }) {
                 >
                   Acheter
                 </button>
-                <button className="rounded-2xl w-full h-17 border border-[#333333] bg-transparent text-white font-inter font-semibold text-[15px] uppercase tracking-[0.15em] hover:border-white transition-colors">
+                <button
+                  onClick={() => handleContactSeller(true)}
+                  className="rounded-2xl w-full h-17 border border-[#333333] bg-transparent text-white font-inter font-semibold text-[15px] uppercase tracking-[0.15em] hover:border-white transition-colors"
+                >
                   Faire une offre
                 </button>
               </>
@@ -189,7 +197,7 @@ export default function ProductInfos({ product, isOwner }) {
 
           {!isOwner && !isArchived && (
             <button
-              onClick={handleContactSeller}
+              onClick={() => handleContactSeller(false)}
               className="w-full h-13 bg-[#111111] text-white font-inter font-medium text-[13px] uppercase tracking-widest hover:bg-[#1a1a1a] transition-colors flex items-center justify-center gap-3"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor">
