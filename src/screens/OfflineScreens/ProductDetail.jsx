@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchProductById, fetchMyProducts, fetchProducts } from '@store/product/productSlice';
 import ProductInfos from '@components/Product/ProductInfos';
 import { useAuthContext } from '@contexts/AuthContext';
+import HeaderView from '@components/UI/HeaderView';
 
 export default function ProductDetail() {
 
@@ -73,18 +74,15 @@ export default function ProductDetail() {
   }
 
   return (
-    <main className="w-full min-h-screen bg-black relative py-12 px-8">
+    <main className="w-full min-h-screen bg-black relative pb-12">
+      
+      <HeaderView 
+        title="DÉTAIL DE L'ARTICLE" 
+        subtitle="Consulte les informations de ce produit avant de l'ajouter à ton sac."
+        heightClass="h-[200px]"
+      />
 
-      <button
-        onClick={() => navigate(-1)}
-        className="absolute top-12 left-[183px] text-white hover:text-red transition-colors z-20"
-      >
-        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15 19l-7-7 7-7" />
-        </svg>
-      </button>
-
-      <div className="max-w-[1300px] mx-auto flex flex-col lg:flex-row gap-[93px] justify-center items-start mt-[100px]">
+      <div className="max-w-[1300px] mx-auto flex flex-col lg:flex-row gap-[93px] justify-center items-start mt-12 px-8">
 
         <div className="flex flex-col w-full max-w-[595px]">
           <ProductImg product={product} />

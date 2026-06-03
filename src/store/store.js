@@ -8,6 +8,8 @@ import mediaReducer from './media/mediaSlice';
 import walletReducer from './wallet/walletSlice';
 import stripeReducer from './stripe/stripeSlice';
 import addressReducer from './address/addressSlice';
+import conversationReducer from './conversation/conversationSlice';
+import messageReducer from './message/messageSlice';
 
 
 export const store = configureStore({
@@ -22,5 +24,7 @@ export const store = configureStore({
         wallets: walletReducer,
         stripe: stripeReducer,
         addresses: addressReducer,
+        conversations: conversationReducer,
+        messages: messageReducer,
     }
 });

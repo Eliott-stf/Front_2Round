@@ -3,6 +3,8 @@ import Home from '@screens/OfflineScreens/Home';
 import ErrorPage from '@screens/ErrorScreens/ErrorPage';
 import App from '../App';
 import Profil from '@screens/OnlineScreens/Profil';
+import MessageView from '@screens/OnlineScreens/MessageView';
+
 
 
 const OnlineRouter = createBrowserRouter([
@@ -15,7 +17,11 @@ const OnlineRouter = createBrowserRouter([
       {
         path: "profil/:id",
         element: <Profil />,
-      }
+      },
+      // {
+      //   path: "message",
+      //   element: < MessageView/>,
+      // }
     ],
   },
 ]);

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchReviewsByUser } from '@store/review/reviewSlice';
+import { createConversation } from '@store/conversation/conversationSlice';
 import StarRating from '@components/UI/StarRating';
 import { formatDistanceToNow } from 'date-fns';
 import { fr } from 'date-fns/locale';
@@ -13,6 +14,7 @@ import { API_ROOT } from '@constants/apiConstant';
 export default function ProductInfos({ product, isOwner }) {
   // On récupère les hooks
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // On déclare nos states locaux et store
   const { items: reviews = [] } = useSelector(state => state.reviews);
@@ -47,6 +49,17 @@ export default function ProductInfos({ product, isOwner }) {
   // Nouvelle méthode pour déclencher l'ouverture de la modale
   const handleBuy = () => {
     setIsPaymentOpen(true);
+  };
+
+  // Méthode de création/récupération de la conversation
+  const handleContactSeller = async () => {
+    if (!product?.id) return;
+    try {
+      const conversation = await dispatch(createConversation({ productId: product.id })).unwrap();
+      navigate('/messages', { state: { activeConversationId: conversation.id } });
+    } catch (error) {
+      console.error("Erreur d'initialisation de la conversation :", error);
+    }
   };
 
   // Méthode pour récupérer les évaluations du vendeur
@@ -175,7 +188,10 @@ export default function ProductInfos({ product, isOwner }) {
           </div>
 
           {!isOwner && !isArchived && (
-            <button className="w-full h-13 bg-[#111111] text-white font-inter font-medium text-[13px] uppercase tracking-widest hover:bg-[#1a1a1a] transition-colors flex items-center justify-center gap-3">
+            <button
+              onClick={handleContactSeller}
+              className="w-full h-13 bg-[#111111] text-white font-inter font-medium text-[13px] uppercase tracking-widest hover:bg-[#1a1a1a] transition-colors flex items-center justify-center gap-3"
+            >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
               </svg>
