@@ -7,6 +7,7 @@ import categoryReducer from './category/categorySlice';
 import mediaReducer from './media/mediaSlice';
 import walletReducer from './wallet/walletSlice';
 import stripeReducer from './stripe/stripeSlice';
+import addressReducer from './address/addressSlice';
 
 
 export const store = configureStore({
@@ -20,5 +21,6 @@ export const store = configureStore({
         medias: mediaReducer,
         wallets: walletReducer,
         stripe: stripeReducer,
+        addresses: addressReducer,
     }
 });

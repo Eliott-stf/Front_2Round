@@ -103,7 +103,7 @@ export const PRODUCT_CONDITIONS = [
     { value: 'FAIR', label: 'État correct' }
 ];
 
-//Const d'aniamtion sur la modale de paiment
+//Const d'aniamtion 
 export const slideVariants = {
     enter: (direction) => ({
         x: direction > 0 ? "100%" : "-100%",
@@ -129,5 +129,7 @@ export const stripeAppearance = {
         colorDanger: '#eb001b',
         colorText: '#ffffff',
         colorPrimary: '#ffffff',
+        borderRadius: '12px',
+        colorBorder: '#222222',
     },
 };

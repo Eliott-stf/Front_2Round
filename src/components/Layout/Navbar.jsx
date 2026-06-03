@@ -20,7 +20,11 @@ const Navbar = () => {
   };
 
   return (
-    <header className="w-full bg-black flex items-center justify-between px-4 md:px-12 lg:px-25.5 py-4 lg:py-8">
+    <header className="w-full bg-black flex items-center justify-between px-4 md:px-12 lg:px-25.5 py-4 lg:py-8 relative">
+      <div
+        className="absolute bottom-0 left-0 w-full h-px bg-linear-to-r from-transparent via-white/50 to-transparent pointer-events-none"
+      />
+
       <div className="w-25 md:w-30 lg:w-38.25 shrink-0">
         <Link to="/">
           <Logo className="w-full h-auto" fill="white" />

@@ -33,9 +33,9 @@ export default function ProductDetail() {
   //Flag de confort pour savoir si c'est le Owner
   const isOwner = userId === product?.sellerId;
 
-  //On exclu le produit actuel 
-  const dressingProducts = (myItems || []).filter(p => p.id !== id);
-  const suggestionsProducts = (items || []).filter(p => p.id !== id);
+  //On exclu le produit actuel ET on filtre uniquement les produits disponibles
+  const dressingProducts = (myItems || []).filter(p => p.id !== id && p.status === 'AVAILABLE');
+  const suggestionsProducts = (items || []).filter(p => p.id !== id && p.status === 'AVAILABLE');
 
   // Méthode appel API du produit par son ID
   useEffect(() => {
@@ -49,10 +49,11 @@ export default function ProductDetail() {
     // Exécution conditionnée par l'existence de l'ID produit uniquement
     if (product?.id) {
       if (product.sellerId) {
+        // Optionnel : tu pourrais aussi filtrer directement côté API ici en ajoutant { status: 'AVAILABLE' }
         dispatch(fetchMyProducts(product.sellerId));
       }
       if (product.categoryId) {
-        dispatch(fetchProducts({ categoryId: product.categoryId }));
+        dispatch(fetchProducts({ categoryId: product.categoryId, status: 'AVAILABLE' }));
       }
     }
   }, [product?.id, product?.sellerId, product?.categoryId, dispatch]);

@@ -3,52 +3,60 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchMyWallet } from "../../store/wallet/walletSlice";
 import { createOrder } from "../../store/order/orderSlice";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Wallet, CheckCircle, AlertCircle } from "lucide-react";
+import { X, Wallet, CheckCircle, AlertCircle, ChevronLeft } from "lucide-react";
 import { API_ROOT } from "@constants/apiConstant";
 import { slideVariants } from "@constants/appConstant";
 import TopupWrapper from "@components/Checkout/TopupWrapper";
+
+// Importations corrigées selon les alias spécifiés
+import AddressManager from "@components/Checkout/Address/AddressManager";
 import SuccessView from "@components/Checkout/SuccesView";
 import ErrorView from "@components/Checkout/ErrorView";
-
 
 export default function ModalePayment({ isOpen, onClose, product }) {
     // On récupère les hooks
     const dispatch = useDispatch();
 
-    // On récupère l'état global depuis le store
+    // On récupère l'état global (correction de l'état vers addresses)
     const { current: wallet, loading: isWalletLoading } = useSelector((state) => state.wallets);
+    const { selectedShippingId, selectedBillingId } = useSelector((state) => state.addresses);
 
     // On déclare nos states locaux
     const [processing, setProcessing] = useState(false);
     const [paymentDone, setPaymentDone] = useState(false);
+    // Initialisation de la vue sur "summary" pour afficher le panier en premier
     const [view, setView] = useState("summary");
     const [direction, setDirection] = useState(1);
     const [errorMsg, setErrorMsg] = useState(null);
+    // State pour mémoriser la méthode choisie avant l'étape de saisie d'adresse
+    const [chosenMethod, setChosenMethod] = useState(null);
 
-    // Initialisation au montage ou à l'ouverture
+    // Cycle de vie : Initialisation au montage ou à l'ouverture
     useEffect(() => {
         if (isOpen) {
             dispatch(fetchMyWallet());
             setView("summary");
             setDirection(1);
             setErrorMsg(null);
+            setChosenMethod(null);
         }
     }, [isOpen, dispatch]);
 
-    // Sécurité blocage du rendu si propriétés manquantes
+    // Sécurité : Blocage du rendu si propriétés manquantes
     if (!isOpen || !product) return null;
 
-    // On déclare nos constantes de conforts
+    // On déclare nos constantes dérivées
     const walletBalance = wallet?.balance || 0;
     const cartTotal = product.price;
     const missingAmount = cartTotal - walletBalance;
     const canPayWithBalance = missingAmount <= 0;
     const amountToPay = !canPayWithBalance ? missingAmount : cartTotal;
 
-    // TODO: FAIRE DE VRAIES ADRESSES
+    // Payload de commande dynamique avec les adresses du store
     const orderDto = {
         items: [{ productId: product.id, quantity: 1 }],
-        addressId: "address-mike-1",
+        shippingAddressId: selectedShippingId,
+        billingAddressId: selectedBillingId,
     };
 
     const productImageUrl = product?.media?.[0]?.url
@@ -57,7 +65,6 @@ export default function ModalePayment({ isOpen, onClose, product }) {
 
     // Méthode de validation du paiement intégral par portefeuille
     const handlePayWithBalance = async () => {
-        if (!canPayWithBalance) return;
         try {
             setProcessing(true);
             await dispatch(createOrder(orderDto)).unwrap();
@@ -71,16 +78,41 @@ export default function ModalePayment({ isOpen, onClose, product }) {
         }
     };
 
-    // Méthode de transition vers l'interface Stripe
-    const handleStripeClick = () => {
+    // Sélection de l'option de paiement par solde : bascule vers la gestion d'adresse
+    const handleWalletSelect = () => {
+        if (!canPayWithBalance) return;
+        setChosenMethod("wallet");
         setDirection(1);
-        setView("stripe");
+        setView("address");
     };
 
-    // Méthode de retour à la vue principale
-    const handleBackClick = () => {
+    // Sélection de l'option de paiement par carte : bascule vers la gestion d'adresse
+    const handleStripeSelect = () => {
+        setChosenMethod("stripe");
+        setDirection(1);
+        setView("address");
+    };
+
+    // Validation de l'adresse et routage final vers le mode de paiement choisi
+    const handleAddressNext = () => {
+        if (chosenMethod === "wallet") {
+            handlePayWithBalance();
+        } else {
+            setDirection(1);
+            setView("stripe");
+        }
+    };
+
+    // Méthode de retour à la vue résumé
+    const handleBackSummary = () => {
         setDirection(-1);
         setView("summary");
+    };
+
+    // Méthode de retour à la vue adresse
+    const handleBackToAddress = () => {
+        setDirection(-1);
+        setView("address");
     };
 
     // Méthode de fermeture et rafraîchissement
@@ -128,7 +160,7 @@ export default function ModalePayment({ isOpen, onClose, product }) {
 
                         <div className="relative w-full h-full overflow-hidden">
                             <AnimatePresence custom={direction} mode="wait">
-                                {isWalletLoading ? (
+                                {isWalletLoading || processing ? (
                                     <motion.div
                                         key="loading"
                                         className="absolute inset-0 flex items-center justify-center"
@@ -136,7 +168,7 @@ export default function ModalePayment({ isOpen, onClose, product }) {
                                         animate={{ opacity: 1 }}
                                         exit={{ opacity: 0 }}
                                     >
-                                        <span className="font-inter text-sm text-gray-500">Chargement du portefeuille sécurisé...</span>
+                                        <span className="font-inter text-sm text-gray-500">Traitement sécurisé...</span>
                                     </motion.div>
                                 ) : paymentDone ? (
                                     <motion.div
@@ -158,7 +190,7 @@ export default function ModalePayment({ isOpen, onClose, product }) {
                                     >
                                         <ErrorView onClose={handleClose} errorMessage={errorMsg} />
                                     </motion.div>
-                                ) : view === "summary" ? (
+                                ) : view === "summary" ? ( // PREMIÈRE ÉTAPE : Résumé du panier
                                     <motion.div
                                         key="summary"
                                         custom={direction}
@@ -218,8 +250,8 @@ export default function ModalePayment({ isOpen, onClose, product }) {
 
                                         <div className="p-6 space-y-4">
                                             <motion.button
-                                                onClick={handlePayWithBalance}
-                                                disabled={!canPayWithBalance || processing}
+                                                onClick={handleWalletSelect}
+                                                disabled={!canPayWithBalance}
                                                 className={`w-full flex items-center justify-center gap-3 py-4 rounded-xl font-bebas text-xl tracking-wider transition-all duration-200 ${canPayWithBalance
                                                     ? "border border-[#333333] text-white hover:border-white"
                                                     : "bg-white/5 text-gray-500 cursor-not-allowed border border-[#222222]"
@@ -228,14 +260,7 @@ export default function ModalePayment({ isOpen, onClose, product }) {
                                                 whileTap={canPayWithBalance ? { scale: 0.98 } : {}}
                                             >
                                                 <Wallet className="w-5 h-5" />
-                                                {processing ? (
-                                                    <span className="flex items-center gap-2">
-                                                        <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
-                                                        Traitement...
-                                                    </span>
-                                                ) : (
-                                                    "Payer avec mon solde"
-                                                )}
+                                                Payer avec mon solde
                                             </motion.button>
 
                                             <div className="flex items-center gap-3 py-2">
@@ -245,9 +270,8 @@ export default function ModalePayment({ isOpen, onClose, product }) {
                                             </div>
 
                                             <motion.button
-                                                onClick={handleStripeClick}
-                                                disabled={processing}
-                                                className={`w-full h-14 flex items-center justify-center gap-3 rounded-xl font-inter font-semibold text-[13px] uppercase tracking-[0.15em] transition-all duration-200 bg-white text-black hover:bg-[#e5e5e5] disabled:opacity-50`}
+                                                onClick={handleStripeSelect}
+                                                className="w-full h-14 flex items-center justify-center gap-3 rounded-xl font-inter font-semibold text-[13px] uppercase tracking-[0.15em] transition-all duration-200 bg-white text-black hover:bg-[#e5e5e5]"
                                                 whileHover={{ scale: 1.02 }}
                                                 whileTap={{ scale: 0.98 }}
                                             >
@@ -260,7 +284,22 @@ export default function ModalePayment({ isOpen, onClose, product }) {
                                             </motion.button>
                                         </div>
                                     </motion.div>
-                                ) : (
+                                ) : view === "address" ? ( // DEUXIÈME ÉTAPE : Gestion et sélection des adresses
+                                    <motion.div
+                                        key="address"
+                                        custom={direction}
+                                        variants={slideVariants}
+                                        initial="enter"
+                                        animate="center"
+                                        exit="exit"
+                                        className="absolute inset-0 h-full overflow-hidden"
+                                    >
+                                        <AddressManager 
+                                            onNext={handleAddressNext} 
+                                            onBack={handleBackSummary} 
+                                        />
+                                    </motion.div>
+                                ) : ( // TROISIÈME ÉTAPE : Chargement du formulaire bancaire Stripe (si choisi)
                                     <motion.div
                                         key="stripe"
                                         custom={direction}
@@ -273,7 +312,7 @@ export default function ModalePayment({ isOpen, onClose, product }) {
                                         <TopupWrapper
                                             missingAmount={amountToPay}
                                             orderDto={orderDto}
-                                            onBack={handleBackClick}
+                                            onBack={handleBackToAddress}
                                             onSuccess={() => setPaymentDone(true)}
                                         />
                                     </motion.div>

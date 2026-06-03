@@ -30,15 +30,42 @@
 }
 
 @font-face {
-    font-family: 'Bebas Neue';
-    src: url('/fonts/BebasNeue-Regular.ttf') format('truetype');
-    font-weight: 400;
-    font-style: normal;
+  font-family: 'Bebas Neue';
+  src: url('/fonts/BebasNeue-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'Bebas Neue';
-    src: url('/fonts/BebasNeue-Bold.ttf') format('truetype');
-    font-weight: 700;
-    font-style: normal;
+  font-family: 'Bebas Neue';
+  src: url('/fonts/BebasNeue-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@layer base {
+  /* Configuration pour Chrome, Safari et Opera */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #000000; /* Fond noir */
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #2f2f2f; /* Ta couleur gray-dark */
+    border-radius: 4px;
+    border: 1px solid #454444; /* Un peu de relief avec gray-middle */
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555555; /* Ta couleur gray-light au survol */
+  }
+
+  /* Configuration pour Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #2f2f2f #000000;
+  }
 }
