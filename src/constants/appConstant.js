@@ -165,3 +165,51 @@ export const ORDER_STATUS_MAP = {
     DELIVERED: { label: 'Livrée', color: 'text-emerald-500 border-emerald-500' },
     CANCELLED: { label: 'Annulée', color: 'text-red border-red' },
 };
+
+// ====================
+// CATALOGUE FILTRES
+// ====================
+// ====================
+// CATALOGUE FILTRES
+// ====================
+export const CATALOGUE_CATEGORIES = [
+    { value: '91d0ce58-e4b3-4d3a-b6f6-51e8ffdefc45', label: 'Casque' },
+    { value: '36e4659a-93d3-48bd-83d9-330d2b6df458', label: 'Gant' },
+    { value: '20ce6c2a-d9fe-431a-896b-472c376d6c35', label: 'Chaussure' },
+    { value: '32d98ce1-0373-4f07-b50d-d2f8d753d512', label: 'Haut' },
+    { value: '12818b8d-2a53-492b-b96e-fc0032859231', label: 'Short' },
+    { value: '36267ad6-99af-4b37-b1b7-3653f31e109b', label: 'Protection' }
+];
+export const SIZES_CLOTHING = [
+    { value: 'XS', label: 'XS' },
+    { value: 'S', label: 'S' },
+    { value: 'M', label: 'M' },
+    { value: 'L', label: 'L' },
+    { value: 'XL', label: 'XL' }
+];
+
+export const SIZES_GLOVES = [
+    { value: '8oz', label: '8oz' },
+    { value: '10oz', label: '10oz' },
+    { value: '12oz', label: '12oz' },
+    { value: '14oz', label: '14oz' },
+    { value: '16oz', label: '16oz' }
+];
+
+export const SIZES_SHOES = [
+    { value: '38', label: '38' },
+    { value: '39', label: '39' },
+    { value: '40', label: '40' },
+    { value: '41', label: '41' },
+    { value: '42', label: '42' },
+    { value: '43', label: '43' },
+    { value: '44', label: '44' },
+    { value: '45', label: '45' }
+];
+
+export const CATALOGUE_PRICES = [
+    { value: '1-20', label: '0€ - 20€', minPrice: 1, maxPrice: 20 },
+    { value: '20-50', label: '20€ - 50€', minPrice: 20, maxPrice: 50 },
+    { value: '50-100', label: '50€ - 100€', minPrice: 50, maxPrice: 100 },
+    { value: '100+', label: '100€ et plus', minPrice: 100, maxPrice: '' }
+];

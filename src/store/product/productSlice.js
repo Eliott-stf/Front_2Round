@@ -2,7 +2,8 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '@lib/api';
 
 export const fetchProducts = createAsyncThunk('products/fetchAll', (filters = {}, { rejectWithValue }) => {
-    const cleanFilters = Object.fromEntries(Object.entries(filters).filter(([_, v]) => v !== ''));
+    const { price, ...apiFilters } = filters;
+    const cleanFilters = Object.fromEntries(Object.entries(apiFilters).filter(([_, v]) => v !== ''));
     const queryString = new URLSearchParams(cleanFilters).toString();
     const url = queryString ? `/products?${queryString}` : '/products';
 
