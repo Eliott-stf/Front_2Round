@@ -1,3 +1,4 @@
+import { ORDER_STATUS_MAP } from '@constants/appConstant';
 import React from 'react';
 
 export default function OrderSummary({ order }) {
@@ -5,15 +6,7 @@ export default function OrderSummary({ order }) {
         day: 'numeric', month: 'long', year: 'numeric'
     }) : 'Date inconnue';
 
-    const statusMap = {
-        PENDING: { label: 'En attente', color: 'text-[#737373] border-[#737373]' },
-        PAID: { label: 'Payée', color: 'text-emerald-500 border-emerald-500' },
-        SHIPPED: { label: 'Expédiée', color: 'text-blue-500 border-blue-500' },
-        DELIVERED: { label: 'Livrée', color: 'text-emerald-500 border-emerald-500' },
-        CANCELLED: { label: 'Annulée', color: 'text-red border-red' },
-    };
-
-    const statusObj = statusMap[order?.status] || { label: order?.status || 'Inconnu', color: 'text-[#737373] border-[#737373]' };
+    const statusObj = ORDER_STATUS_MAP[order?.status] || { label: order?.status || 'Inconnu', color: 'text-[#737373] border-[#737373]' };
 
     return (
         <div className="w-full bg-[#111111] border border-[#2f2f2f] rounded-xl p-6 flex flex-wrap justify-between items-center gap-6">

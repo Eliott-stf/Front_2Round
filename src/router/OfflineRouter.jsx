@@ -12,6 +12,7 @@ import GuideView from '@screens/OfflineScreens/GuideView';
 import CatalogueView from '@screens/OfflineScreens/CatalogueView';
 import OrderView from '@screens/OnlineScreens/OrderView';
 import OrderDetail from '@screens/OnlineScreens/OrderDetail';
+import WalletView from '@screens/OnlineScreens/WalletView';
 
 const OfflineRouter = createBrowserRouter([
   {
@@ -29,6 +30,7 @@ const OfflineRouter = createBrowserRouter([
       { path: 'catalogue', element: <CatalogueView /> },
       { path: 'order', element: <OrderView /> },
       { path: 'order/:id', element: <OrderDetail /> },
+      { path: 'wallet', element: <WalletView /> },
       {
         path: "messages",
         element: < MessageView />,

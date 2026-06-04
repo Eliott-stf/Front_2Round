@@ -11,6 +11,8 @@ import addressReducer from './address/addressSlice';
 import conversationReducer from './conversation/conversationSlice';
 import messageReducer from './message/messageSlice';
 import orderReducer from './order/orderSlice';
+import txReducer from './tx/txSlice';
+import bankAccountReducer from './bankAccount/bankAccountSlice';
 
 
 export const store = configureStore({
@@ -28,5 +30,7 @@ export const store = configureStore({
         conversations: conversationReducer,
         messages: messageReducer,
         orders: orderReducer,
+        tx: txReducer,
+        bankAccounts: bankAccountReducer
     }
 });
