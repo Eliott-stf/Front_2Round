@@ -1,14 +1,17 @@
 //on récup le hook
 import React from 'react';
 
-const UserCard = ({ user, handleToggleBan }) => {
+const UserCard = ({ user, handleToggleBan, handleOpenDetail }) => {
     //on déclare nos const de confort
     const userIdShort = user.id.substring(0, 8) + '...';
     const initialName = user.name.charAt(0) + user.lastname.charAt(0);
     const isAdmin = user.role === 'ADMIN';
 
     return (
-        <tr className="hover:bg-[#1a1a1a] transition-colors">
+        <tr 
+            onClick={() => handleOpenDetail(user.id)}
+            className="hover:bg-[#1a1a1a] transition-colors cursor-pointer"
+        >
             <td className="px-6 py-4 font-inter text-sm text-[#888888]">
                 {userIdShort}
             </td>
@@ -42,7 +45,10 @@ const UserCard = ({ user, handleToggleBan }) => {
             </td>
             <td className="px-6 py-4 text-right">
                 <button 
-                    onClick={() => handleToggleBan(user.id)}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        handleToggleBan(user.id);
+                    }}
                     className="font-inter text-sm text-white hover:text-[#888888] underline transition-colors"
                 >
                     {user.isActive ? 'Bannir' : 'Débannir'}

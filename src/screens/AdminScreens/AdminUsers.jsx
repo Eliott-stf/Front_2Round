@@ -1,16 +1,18 @@
 //on récup le hook
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchAllUsers, toggleUserBan } from '@store/admin/adminSlice';
+import { fetchAllUsers, toggleUserBan, fetchAdminUserDetail } from '@store/admin/adminSlice';
 import PageLoader from '@components/Loader/PageLoader';
 import UserList from '@components/Admin/User/UserList';
+import ModaleUserDetail from '@components/Admin/User/ModaleUserDetail';
 
 const AdminUsers = () => {
     //on récup le hook
     const dispatch = useDispatch();
     
     //on déclare nos state
-    const { users, loading } = useSelector((state) => state.admin);
+    const { users, userDetail, loading } = useSelector((state) => state.admin);
+    const [isDetailOpen, setIsDetailOpen] = useState(false);
 
     //Méthode pour récup les donne de L'API
     useEffect(() => {
@@ -20,6 +22,15 @@ const AdminUsers = () => {
     //Méthode pour bannir
     const handleToggleBan = (userId) => {
         dispatch(toggleUserBan(userId));
+    };
+
+    const handleOpenDetail = (userId) => {
+        setIsDetailOpen(true);
+        dispatch(fetchAdminUserDetail(userId));
+    };
+
+    const handleCloseDetail = () => {
+        setIsDetailOpen(false);
     };
 
     //loading et erreur
@@ -44,6 +55,15 @@ const AdminUsers = () => {
                 users={users} 
                 loading={loading} 
                 handleToggleBan={handleToggleBan} 
+                handleOpenDetail={handleOpenDetail}
+            />
+
+            {/* Modale de Détail Utilisateur */}
+            <ModaleUserDetail
+                isOpen={isDetailOpen}
+                onClose={handleCloseDetail}
+                userDetail={userDetail}
+                loading={loading}
             />
         </div>
     );

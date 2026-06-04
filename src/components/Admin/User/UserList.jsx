@@ -1,7 +1,7 @@
 import React from 'react';
 import UserCard from './UserCard';
 
-const UserList = ({ users, loading, handleToggleBan }) => {
+const UserList = ({ users, loading, handleToggleBan, handleOpenDetail }) => {
     return (
         <div className="bg-[#111111] border border-[#222222] rounded-lg overflow-hidden">
             <div className="overflow-x-auto">
@@ -22,6 +22,7 @@ const UserList = ({ users, loading, handleToggleBan }) => {
                                 key={user.id} 
                                 user={user} 
                                 handleToggleBan={handleToggleBan} 
+                                handleOpenDetail={handleOpenDetail} 
                             />
                         ))}
                         {users.length === 0 && !loading && (

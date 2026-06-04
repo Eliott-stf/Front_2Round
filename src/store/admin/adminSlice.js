@@ -51,6 +51,18 @@ export const toggleAdminProductArchive = createAsyncThunk(
     }
 );
 
+// Récupérer le détail complet d'un utilisateur pour le BackOffice
+export const fetchAdminUserDetail = createAsyncThunk(
+    'admin/fetchAdminUserDetail',
+    async (userId, { rejectWithValue }) => {
+        try {
+            return await api.url(`/users/admin/${userId}`).get().json();
+        } catch (error) {
+            return rejectWithValue('Erreur lors du chargement des détails de l\'utilisateur');
+        }
+    }
+);
+
 // --- SLICE ---
 
 const adminSlice = createSlice({
@@ -58,6 +70,7 @@ const adminSlice = createSlice({
     initialState: {
         users: [],
         products: [],
+        userDetail: null,
         loading: false,
         error: null,
     },
@@ -116,6 +129,21 @@ const adminSlice = createSlice({
                         state.products[index] = { ...state.products[index], ...updatedProduct };
                     }
                 }
+            })
+            
+            // FETCH USER DETAIL
+            .addCase(fetchAdminUserDetail.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+                state.userDetail = null;
+            })
+            .addCase(fetchAdminUserDetail.fulfilled, (state, action) => {
+                state.loading = false;
+                state.userDetail = action.payload?.data || action.payload;
+            })
+            .addCase(fetchAdminUserDetail.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
             });
     }
 });
