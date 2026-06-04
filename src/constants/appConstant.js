@@ -181,17 +181,6 @@ export const ORDER_STATUS_MAP = {
 // ====================
 // CATALOGUE FILTRES
 // ====================
-// ====================
-// CATALOGUE FILTRES
-// ====================
-export const CATALOGUE_CATEGORIES = [
-    { value: '91d0ce58-e4b3-4d3a-b6f6-51e8ffdefc45', label: 'Casque' },
-    { value: '36e4659a-93d3-48bd-83d9-330d2b6df458', label: 'Gant' },
-    { value: '20ce6c2a-d9fe-431a-896b-472c376d6c35', label: 'Chaussure' },
-    { value: '32d98ce1-0373-4f07-b50d-d2f8d753d512', label: 'Haut' },
-    { value: '12818b8d-2a53-492b-b96e-fc0032859231', label: 'Short' },
-    { value: '36267ad6-99af-4b37-b1b7-3653f31e109b', label: 'Protection' }
-];
 export const SIZES_CLOTHING = [
     { value: 'XS', label: 'XS' },
     { value: 'S', label: 'S' },

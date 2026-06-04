@@ -1,9 +1,9 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setFilters, resetFilters } from '@store/product/productSlice';
+import { fetchCategories } from '@store/category/categorySlice';
 import { ChevronDown } from 'lucide-react';
 import {
-    CATALOGUE_CATEGORIES,
     CATALOGUE_PRICES,
     PRODUCT_CONDITIONS,
     SIZES_CLOTHING,
@@ -18,6 +18,14 @@ export default function CatalogueFilters() {
 
     // On récupère nos datas Redux
     const { filters } = useSelector((state) => state.products);
+    const { items: categories = [] } = useSelector((state) => state.categories || { items: [] });
+
+    // Charger les catégories au montage si elles sont vides
+    useEffect(() => {
+        if (categories.length === 0) {
+            dispatch(fetchCategories());
+        }
+    }, [dispatch, categories.length]);
 
     // On déclare nos méthodes
     const handleFilterChange = (e) => {
@@ -46,19 +54,26 @@ export default function CatalogueFilters() {
         dispatch(resetFilters());
     };
 
+    const categoryOptions = useMemo(() => {
+        return categories.map((cat) => ({
+            value: cat.id,
+            label: cat.name
+        }));
+    }, [categories]);
+
     const sizeOptions = useMemo(() => {
         if (!filters.categoryId) return [];
 
-        const selectedCategory = CATALOGUE_CATEGORIES.find(cat => cat.value === filters.categoryId);
+        const selectedCategory = categories.find(cat => cat.id === filters.categoryId);
         if (!selectedCategory) return SIZES_CLOTHING;
 
-        const categoryLabel = selectedCategory.label.toLowerCase();
+        const categoryName = selectedCategory.name.toLowerCase();
 
-        if (categoryLabel.includes('gant')) return SIZES_GLOVES;
-        if (categoryLabel.includes('chaussure')) return SIZES_SHOES;
+        if (categoryName.includes('gant')) return SIZES_GLOVES;
+        if (categoryName.includes('chaussure')) return SIZES_SHOES;
         
         return SIZES_CLOTHING;
-    }, [filters.categoryId]);
+    }, [filters.categoryId, categories]);
 
     const FilterSelect = ({ label, name, options, value, disabled = false }) => (
         <div className={`relative group ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}>
@@ -91,7 +106,7 @@ export default function CatalogueFilters() {
                         label="CATÉGORIE"
                         name="categoryId"
                         value={filters.categoryId}
-                        options={CATALOGUE_CATEGORIES}
+                        options={categoryOptions}
                     />
 
                     <FilterSelect

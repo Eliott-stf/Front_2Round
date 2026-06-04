@@ -6,6 +6,8 @@ import Profil from '@screens/OnlineScreens/Profil';
 import MessageView from '@screens/OnlineScreens/MessageView';
 import AdminLayout from '@components/Admin/AdminLayout';
 import AdminDashboard from '@screens/AdminScreens/AdminDashboard';
+import AdminUsers from '@screens/AdminScreens/AdminUsers';
+import AdminProducts from '@screens/AdminScreens/AdminProducts';
 
 
 
@@ -32,6 +34,8 @@ const OnlineRouter = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       { index: true, element: <AdminDashboard /> },
+      { path: 'users', element: <AdminUsers /> },
+      { path: 'products', element: <AdminProducts /> },
     ],
   },
 ]);

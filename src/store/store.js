@@ -13,7 +13,7 @@ import messageReducer from './message/messageSlice';
 import orderReducer from './order/orderSlice';
 import txReducer from './tx/txSlice';
 import bankAccountReducer from './bankAccount/bankAccountSlice';
-
+import adminReducer from './admin/adminSlice';
 
 export const store = configureStore({
     reducer: {
@@ -31,6 +31,7 @@ export const store = configureStore({
         messages: messageReducer,
         orders: orderReducer,
         tx: txReducer,
-        bankAccounts: bankAccountReducer
+        bankAccounts: bankAccountReducer,
+        admin: adminReducer
     }
 });
