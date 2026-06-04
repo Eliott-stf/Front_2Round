@@ -1,4 +1,4 @@
-import { LogIn, LogInIcon, LogOut, Mail, MapPin, Menu, Package, Paperclip, Phone, Send, Settings, ShoppingBag, User, UserPlus, Wallet } from "lucide-react";
+import { Heart, LogIn, LogInIcon, LogOut, Mail, MapPin, Menu, Package, Paperclip, Phone, Send, Settings, ShoppingBag, User, UserPlus, Wallet } from "lucide-react";
 
 // ====================
 // CLE DU LOCAL STORAGE
@@ -21,6 +21,7 @@ export const dataNavbarAuth = [
             { title: "Mon vestiaire", path: "/profil", icon: Settings },
             { title: "Mon portefeuille", path: "/wallet", icon: Wallet },
             { title: "Mes commandes", path: "/order", icon: Package },
+            { title: "Mes favoris", path: "/favorite", icon: Heart },
         ]
     },
     {
