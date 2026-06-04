@@ -7,6 +7,11 @@ import Home from '@screens/OfflineScreens/Home';
 import Profil from '@screens/OnlineScreens/Profil';
 import ProductDetail from '@screens/OfflineScreens/ProductDetail';
 import MessageView from '@screens/OnlineScreens/MessageView';
+import ResellView from '@screens/OfflineScreens/ResellView';
+import GuideView from '@screens/OfflineScreens/GuideView';
+import CatalogueView from '@screens/OfflineScreens/CatalogueView';
+import OrderView from '@screens/OnlineScreens/OrderView';
+import OrderDetail from '@screens/OnlineScreens/OrderDetail';
 
 const OfflineRouter = createBrowserRouter([
   {
@@ -19,6 +24,11 @@ const OfflineRouter = createBrowserRouter([
       { path: 'register', element: <Register /> },
       { path: 'profil', element: <Profil /> },
       { path: 'product/:id', element: <ProductDetail /> },
+      { path: 'resell', element: <ResellView /> },
+      { path: 'guide', element: <GuideView /> },
+      { path: 'catalogue', element: <CatalogueView /> },
+      { path: 'order', element: <OrderView /> },
+      { path: 'order/:id', element: <OrderDetail /> },
       {
         path: "messages",
         element: < MessageView />,

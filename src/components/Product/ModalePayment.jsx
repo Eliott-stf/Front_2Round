@@ -7,8 +7,6 @@ import { X, Wallet, CheckCircle, AlertCircle, ChevronLeft } from "lucide-react";
 import { API_ROOT } from "@constants/apiConstant";
 import { slideVariants } from "@constants/appConstant";
 import TopupWrapper from "@components/Checkout/TopupWrapper";
-
-// Importations corrigées selon les alias spécifiés
 import AddressManager from "@components/Checkout/Address/AddressManager";
 import SuccessView from "@components/Checkout/SuccesView";
 import ErrorView from "@components/Checkout/ErrorView";

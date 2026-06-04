@@ -16,7 +16,13 @@ export default function ProductCard({ product }) {
     // On déclare nos constante pour le confort 
     const title = product?.title || 'Article';
     const price = product?.price || 0;
-    const subtitle = product?.condition || product?.description || 'Bon état';
+    
+    // Construction du sous-titre : "Taille - Condition"
+    const size = product?.size;
+    const condition = product?.condition;
+    const details = [size, condition].filter(Boolean);
+    const subtitle = details.length > 0 ? details.join(' - ') : (product?.description || 'Bon état');
+
     const imagePath = product?.medias?.[0]?.path || product?.imageUrl || null;
     const imageUrl = imagePath
         ? (imagePath.startsWith('http') ? imagePath : `${API_ROOT}${imagePath}`)

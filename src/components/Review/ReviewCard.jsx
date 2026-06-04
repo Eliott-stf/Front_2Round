@@ -3,6 +3,7 @@ import { formatDistanceToNow } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import { Link } from 'react-router-dom';
 import StarRating from '@components/UI/StarRating';
+import { API_ROOT } from '@constants/apiConstant';
 
 export default function ReviewCard({ review }) {
 

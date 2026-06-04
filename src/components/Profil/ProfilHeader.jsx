@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ProfileModal from './ProfilModal';
 import StarRating from '@components/UI/StarRating';
+import { API_ROOT } from '@constants/apiConstant';
 
 export default function ProfilHeader({ activeTab, setActiveTab, targetUserId, isOwnProfile }) {
 

@@ -1,9 +1,18 @@
-import React from 'react'
+import React from 'react';
+import HeroSection from '@components/Home/HeroSection';
 
-const Home = () => {
+import SelectionSection from '@components/Home/SelectionSection';
+import GuidesSection from '@components/Home/GuidesSection';
+
+export default function Home() {
   return (
-    <div>Home</div>
-  )
-}
+    <div className="w-full min-h-screen bg-black flex flex-col overflow-x-hidden">
 
-export default Home
+      {/* Sections structurelles de la page d'accueil */}
+      <HeroSection />
+      <SelectionSection />
+      <GuidesSection />
+
+    </div>
+  );
+}

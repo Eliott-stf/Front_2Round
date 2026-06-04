@@ -1,4 +1,4 @@
-import { LogIn, LogInIcon, LogOut, Mail, MapPin, Menu, Paperclip, Phone, Send, Settings, ShoppingBag, User, UserPlus, Wallet } from "lucide-react";
+import { LogIn, LogInIcon, LogOut, Mail, MapPin, Menu, Package, Paperclip, Phone, Send, Settings, ShoppingBag, User, UserPlus, Wallet } from "lucide-react";
 
 // ====================
 // CLE DU LOCAL STORAGE
@@ -19,7 +19,8 @@ export const dataNavbarAuth = [
         options: [
             { title: "Mon round personnalisé", path: "/round", icon: ShoppingBag },
             { title: "Mon vestiaire", path: "/profil", icon: Settings },
-            { title: "Mon portefeuille", path: "/wallet", icon: Wallet }
+            { title: "Mon portefeuille", path: "/wallet", icon: Wallet },
+            { title: "Mes commandes", path: "/order", icon: Package },
         ]
     },
     {
@@ -132,4 +133,35 @@ export const stripeAppearance = {
         borderRadius: '12px',
         colorBorder: '#222222',
     },
+};
+
+//const page home guidesSection
+export const HOME_GUIDES = [
+    {
+        id: 1,
+        title: "LES TAILLES",
+        desc: "Trouver la bonne taille selon son corps.",
+        img: "/images/taille.png"
+    },
+    {
+        id: 2,
+        title: "LES ÉQUIPEMENTS",
+        desc: "Comprendre chaque équipement et à quoi il sert.",
+        img: "/images/altere.png"
+    },
+    {
+        id: 3,
+        title: "BIEN DÉBUTER",
+        desc: "Conseil sécurité et entrainement.",
+        img: "/images/coeur.png"
+    }
+];
+
+// Définition globale des statuts de commande
+export const ORDER_STATUS_MAP = {
+    PENDING: { label: 'En attente', color: 'text-[#737373] border-[#737373]' },
+    PAID: { label: 'Payée', color: 'text-emerald-500 border-emerald-500' },
+    SHIPPED: { label: 'Expédiée', color: 'text-blue-500 border-blue-500' },
+    DELIVERED: { label: 'Livrée', color: 'text-emerald-500 border-emerald-500' },
+    CANCELLED: { label: 'Annulée', color: 'text-red border-red' },
 };
