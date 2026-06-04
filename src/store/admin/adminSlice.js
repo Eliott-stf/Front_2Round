@@ -63,6 +63,18 @@ export const fetchAdminUserDetail = createAsyncThunk(
     }
 );
 
+// Récupérer toutes les commandes pour le BackOffice
+export const fetchAdminOrders = createAsyncThunk(
+    'admin/fetchAdminOrders',
+    async (_, { rejectWithValue }) => {
+        try {
+            return await api.url('/orders/all').get().json();
+        } catch (error) {
+            return rejectWithValue('Erreur lors du chargement des commandes');
+        }
+    }
+);
+
 // --- SLICE ---
 
 const adminSlice = createSlice({
@@ -70,6 +82,7 @@ const adminSlice = createSlice({
     initialState: {
         users: [],
         products: [],
+        orders: [],
         userDetail: null,
         loading: false,
         error: null,
@@ -142,6 +155,20 @@ const adminSlice = createSlice({
                 state.userDetail = action.payload?.data || action.payload;
             })
             .addCase(fetchAdminUserDetail.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+            
+            // FETCH ALL ORDERS
+            .addCase(fetchAdminOrders.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchAdminOrders.fulfilled, (state, action) => {
+                state.loading = false;
+                state.orders = action.payload?.data || action.payload || [];
+            })
+            .addCase(fetchAdminOrders.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             });

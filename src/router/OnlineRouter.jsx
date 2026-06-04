@@ -8,6 +8,7 @@ import AdminLayout from '@components/Admin/AdminLayout';
 import AdminDashboard from '@screens/AdminScreens/AdminDashboard';
 import AdminUsers from '@screens/AdminScreens/AdminUsers';
 import AdminProducts from '@screens/AdminScreens/AdminProducts';
+import AdminOrders from '@screens/AdminScreens/AdminOrders';
 
 
 
@@ -36,6 +37,7 @@ const OnlineRouter = createBrowserRouter([
       { index: true, element: <AdminDashboard /> },
       { path: 'users', element: <AdminUsers /> },
       { path: 'products', element: <AdminProducts /> },
+      { path: 'orders', element: <AdminOrders /> },
     ],
   },
 ]);

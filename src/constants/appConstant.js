@@ -66,6 +66,7 @@ export const dataAdminSidebar = [
     { title: "Dashboard", path: "/admin", icon: LayoutDashboard },
     { title: "Utilisateurs", path: "/admin/users", icon: Users },
     { title: "Produits", path: "/admin/products", icon: Package },
+    { title: "Commandes", path: "/admin/orders", icon: ShoppingBag },
     { title: "Signalements", path: "/admin/reports", icon: AlertTriangle },
     { title: "Retour au site", path: "/", icon: Home }
 ];
@@ -171,11 +172,12 @@ export const HOME_GUIDES = [
 
 // Définition globale des statuts de commande
 export const ORDER_STATUS_MAP = {
-    PENDING: { label: 'En attente', color: 'text-[#737373] border-[#737373]' },
+    PENDING_PAYMENT: { label: 'Paiement en attente', color: 'text-[#737373] border-[#737373]' },
     PAID: { label: 'Payée', color: 'text-emerald-500 border-emerald-500' },
     SHIPPED: { label: 'Expédiée', color: 'text-blue-500 border-blue-500' },
     DELIVERED: { label: 'Livrée', color: 'text-emerald-500 border-emerald-500' },
     CANCELLED: { label: 'Annulée', color: 'text-red border-red' },
+    REFUNDED: { label: 'Remboursée', color: 'text-orange-500 border-orange-500' },
 };
 
 // ====================
