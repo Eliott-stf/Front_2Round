@@ -4,6 +4,8 @@ import ErrorPage from '@screens/ErrorScreens/ErrorPage';
 import App from '../App';
 import Profil from '@screens/OnlineScreens/Profil';
 import MessageView from '@screens/OnlineScreens/MessageView';
+import AdminLayout from '@components/Admin/AdminLayout';
+import AdminDashboard from '@screens/AdminScreens/AdminDashboard';
 
 
 
@@ -22,6 +24,14 @@ const OnlineRouter = createBrowserRouter([
       //   path: "message",
       //   element: < MessageView/>,
       // }
+    ],
+  },
+  {
+    path: '/admin',
+    element: <AdminLayout />,
+    errorElement: <ErrorPage />,
+    children: [
+      { index: true, element: <AdminDashboard /> },
     ],
   },
 ]);

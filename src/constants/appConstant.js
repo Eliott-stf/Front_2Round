@@ -1,4 +1,4 @@
-import { Heart, LogIn, LogInIcon, LogOut, Mail, MapPin, Menu, Package, Paperclip, Phone, Send, Settings, ShoppingBag, User, UserPlus, Wallet } from "lucide-react";
+import { AlertTriangle, Heart, Home, LayoutDashboard, LogIn, LogInIcon, LogOut, Mail, MapPin, Menu, Package, Paperclip, Phone, Send, Settings, ShoppingBag, User, UserPlus, Users, Wallet } from "lucide-react";
 
 // ====================
 // CLE DU LOCAL STORAGE
@@ -57,6 +57,17 @@ export const dataNavbarGuest = [
             { title: "Contact", path: "#contact-footer" },
         ]
     },
+];
+
+// ====================
+// ADMIN SIDEBAR
+// ====================
+export const dataAdminSidebar = [
+    { title: "Dashboard", path: "/admin", icon: LayoutDashboard },
+    { title: "Utilisateurs", path: "/admin/users", icon: Users },
+    { title: "Produits", path: "/admin/products", icon: Package },
+    { title: "Signalements", path: "/admin/reports", icon: AlertTriangle },
+    { title: "Retour au site", path: "/", icon: Home }
 ];
 
 export const footerStaticLinks = [
