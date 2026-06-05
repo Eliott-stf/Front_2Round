@@ -1,4 +1,4 @@
-import { AlertTriangle, Heart, Home, LayoutDashboard, LogIn, LogInIcon, LogOut, Mail, MapPin, Menu, Package, Paperclip, Phone, Send, Settings, ShoppingBag, User, UserPlus, Users, Wallet } from "lucide-react";
+import { AlertTriangle, FolderOpen, Heart, Home, LayoutDashboard, LogIn, LogInIcon, LogOut, Mail, MapPin, Menu, Package, Paperclip, Phone, Send, Settings, ShoppingBag, User, UserPlus, Users, Wallet } from "lucide-react";
 
 // ====================
 // CLE DU LOCAL STORAGE
@@ -66,6 +66,7 @@ export const dataAdminSidebar = [
     { title: "Dashboard", path: "/admin", icon: LayoutDashboard },
     { title: "Utilisateurs", path: "/admin/users", icon: Users },
     { title: "Produits", path: "/admin/products", icon: Package },
+    { title: "Catégories", path: "/admin/categories", icon: FolderOpen },
     { title: "Commandes", path: "/admin/orders", icon: ShoppingBag },
     { title: "Signalements", path: "/admin/reports", icon: AlertTriangle },
     { title: "Retour au site", path: "/", icon: Home }
