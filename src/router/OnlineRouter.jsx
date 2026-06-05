@@ -9,6 +9,7 @@ import AdminDashboard from '@screens/AdminScreens/AdminDashboard';
 import AdminUsers from '@screens/AdminScreens/AdminUsers';
 import AdminProducts from '@screens/AdminScreens/AdminProducts';
 import AdminOrders from '@screens/AdminScreens/AdminOrders';
+import AdminReports from '@screens/AdminScreens/AdminReports';
 
 
 
@@ -38,6 +39,7 @@ const OnlineRouter = createBrowserRouter([
       { path: 'users', element: <AdminUsers /> },
       { path: 'products', element: <AdminProducts /> },
       { path: 'orders', element: <AdminOrders /> },
+      { path: 'reports', element: <AdminReports /> },
     ],
   },
 ]);

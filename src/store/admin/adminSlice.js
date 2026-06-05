@@ -75,14 +75,53 @@ export const fetchAdminOrders = createAsyncThunk(
     }
 );
 
+// Récupérer tous les signalements pour le BackOffice
+export const fetchAdminReports = createAsyncThunk(
+    'admin/fetchAdminReports',
+    async (_, { rejectWithValue }) => {
+        try {
+            return await api.url('/reports').get().json();
+        } catch (error) {
+            return rejectWithValue('Erreur lors du chargement des signalements');
+        }
+    }
+);
+
+// Récupérer le détail d'un signalement
+export const fetchAdminReportById = createAsyncThunk(
+    'admin/fetchAdminReportById',
+    async (reportId, { rejectWithValue }) => {
+        try {
+            return await api.url(`/reports/${reportId}`).get().json();
+        } catch (error) {
+            return rejectWithValue('Erreur lors du chargement des détails du signalement');
+        }
+    }
+);
+
+// Marquer un signalement comme résolu
+export const resolveAdminReport = createAsyncThunk(
+    'admin/resolveAdminReport',
+    async (reportId, { rejectWithValue }) => {
+        try {
+            return await api.url(`/reports/${reportId}/resolve`).patch().json();
+        } catch (error) {
+            return rejectWithValue('Erreur lors de la résolution du signalement');
+        }
+    }
+);
+
 // --- SLICE ---
 
 const adminSlice = createSlice({
     name: 'admin',
+    //on déclare nos state
     initialState: {
         users: [],
         products: [],
         orders: [],
+        reports: [],
+        reportDetail: null,
         userDetail: null,
         loading: false,
         error: null,
@@ -116,6 +155,23 @@ const adminSlice = createSlice({
                         // On met à jour l'utilisateur dans la liste sans recharger toute la page
                         state.users[index] = { ...state.users[index], ...updatedUser };
                     }
+                    // On met à jour l'utilisateur dans le signalement en cours si nécessaire
+                    if (state.reportDetail) {
+                        if (state.reportDetail.user?.id === updatedUser.id) {
+                            state.reportDetail.user = { ...state.reportDetail.user, ...updatedUser };
+                        }
+                        if (state.reportDetail.product?.seller?.id === updatedUser.id) {
+                            state.reportDetail.product.seller = { ...state.reportDetail.product.seller, ...updatedUser };
+                        }
+                        if (state.reportDetail.conversation) {
+                            if (state.reportDetail.conversation.buyer?.id === updatedUser.id) {
+                                state.reportDetail.conversation.buyer = { ...state.reportDetail.conversation.buyer, ...updatedUser };
+                            }
+                            if (state.reportDetail.conversation.product?.seller?.id === updatedUser.id) {
+                                state.reportDetail.conversation.product.seller = { ...state.reportDetail.conversation.product.seller, ...updatedUser };
+                            }
+                        }
+                    }
                 }
             })
             
@@ -140,6 +196,15 @@ const adminSlice = createSlice({
                     const index = state.products.findIndex(p => p.id === updatedProduct.id);
                     if (index !== -1) {
                         state.products[index] = { ...state.products[index], ...updatedProduct };
+                    }
+                    // On met à jour le produit dans le signalement en cours si nécessaire
+                    if (state.reportDetail) {
+                        if (state.reportDetail.productId === updatedProduct.id && state.reportDetail.product) {
+                            state.reportDetail.product = { ...state.reportDetail.product, ...updatedProduct };
+                        }
+                        if (state.reportDetail.conversation?.product?.id === updatedProduct.id) {
+                            state.reportDetail.conversation.product = { ...state.reportDetail.conversation.product, ...updatedProduct };
+                        }
                     }
                 }
             })
@@ -171,6 +236,55 @@ const adminSlice = createSlice({
             .addCase(fetchAdminOrders.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
+            })
+            
+            // FETCH ALL REPORTS
+            .addCase(fetchAdminReports.pending, (state) => {
+                //loading et erreur
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchAdminReports.fulfilled, (state, action) => {
+                //loading et erreur
+                state.loading = false;
+                state.reports = action.payload?.data || action.payload || [];
+            })
+            .addCase(fetchAdminReports.rejected, (state, action) => {
+                //loading et erreur
+                state.loading = false;
+                state.error = action.payload;
+            })
+
+            // FETCH REPORT BY ID
+            .addCase(fetchAdminReportById.pending, (state) => {
+                //loading et erreur
+                state.loading = true;
+                state.error = null;
+                state.reportDetail = null;
+            })
+            .addCase(fetchAdminReportById.fulfilled, (state, action) => {
+                //loading et erreur
+                state.loading = false;
+                state.reportDetail = action.payload?.data || action.payload;
+            })
+            .addCase(fetchAdminReportById.rejected, (state, action) => {
+                //loading et erreur
+                state.loading = false;
+                state.error = action.payload;
+            })
+
+            // RESOLVE REPORT
+            .addCase(resolveAdminReport.fulfilled, (state, action) => {
+                const updatedReport = action.payload?.data || action.payload;
+                if (updatedReport && updatedReport.id) {
+                    const index = state.reports.findIndex(r => r.id === updatedReport.id);
+                    if (index !== -1) {
+                        state.reports[index] = { ...state.reports[index], ...updatedReport };
+                    }
+                    if (state.reportDetail?.id === updatedReport.id) {
+                        state.reportDetail = { ...state.reportDetail, ...updatedReport };
+                    }
+                }
             });
     }
 });
