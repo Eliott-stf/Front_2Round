@@ -13,6 +13,12 @@ import AdminReports from '@screens/AdminScreens/AdminReports';
 import AdminCategories from '@screens/AdminScreens/AdminCategories';
 import CatalogueView from '@screens/OfflineScreens/CatalogueView';
 import ProductDetail from '@screens/OfflineScreens/ProductDetail';
+import ResellView from '@screens/OfflineScreens/ResellView';
+import GuideView from '@screens/OfflineScreens/GuideView';
+import OrderView from '@screens/OnlineScreens/OrderView';
+import OrderDetail from '@screens/OnlineScreens/OrderDetail';
+import WalletView from '@screens/OnlineScreens/WalletView';
+import FavoriteView from '@screens/OnlineScreens/FavoriteView';
 
 
 
@@ -23,6 +29,7 @@ const OnlineRouter = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       { index: true, element: <Home /> },
+      { path: 'profil', element: <Profil /> },
       {
         path: "profil/:id",
         element: <Profil />,
@@ -30,10 +37,13 @@ const OnlineRouter = createBrowserRouter([
       { path: 'catalogue', element: <CatalogueView /> },
       { path: 'catalogue/:categorySlug', element: <CatalogueView /> },
       { path: 'product/:slugAndId', element: <ProductDetail /> },
-      // {
-      //   path: "message",
-      //   element: < MessageView/>,
-      // }
+      { path: 'resell', element: <ResellView /> },
+      { path: 'guide', element: <GuideView /> },
+      { path: 'order', element: <OrderView /> },
+      { path: 'order/:id', element: <OrderDetail /> },
+      { path: 'wallet', element: <WalletView /> },
+      { path: 'favorite', element: <FavoriteView /> },
+      { path: 'messages', element: <MessageView /> }
     ],
   },
   {

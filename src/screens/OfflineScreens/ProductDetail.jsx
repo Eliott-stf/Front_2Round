@@ -61,7 +61,7 @@ export default function ProductDetail() {
   }, [product?.id, product?.sellerId, product?.categoryId, dispatch]);
 
   //Loading et erreur
-  if (loading && !product) return <PageLoader />;
+  if (loading || (!product && !error)) return <PageLoader />;
 
   if (error || !product) {
     return (
