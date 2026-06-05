@@ -1,7 +1,7 @@
-// src/components/Admin/User/UserDetailProductCard.jsx
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { API_ROOT } from '@constants/apiConstant';
+import { slugify } from '@/utils/slugify';
 
 export default function UserDetailProductCard({ product }) {
     //on déclare nos const de confort
@@ -12,7 +12,7 @@ export default function UserDetailProductCard({ product }) {
 
     return (
         <Link 
-            to={`/product/${product.id}`}
+            to={`/product/${slugify(product.title)}-${product.id}`}
             target="_blank"
             rel="noopener noreferrer"
             className="group flex flex-col w-[160px] bg-[#111111] border border-[#222222] rounded-xl overflow-hidden shrink-0 hover:border-[#444] transition-all"

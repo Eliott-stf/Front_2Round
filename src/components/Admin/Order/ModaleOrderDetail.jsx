@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { API_ROOT } from '@constants/apiConstant';
 import { ORDER_STATUS_MAP } from '@constants/appConstant';
 import { formatFullDate } from '@/utils/formateDate';
+import { slugify } from '@/utils/slugify';
 
 export default function ModaleOrderDetail({ isOpen, onClose, order }) {
     //Vérif....
@@ -125,7 +126,7 @@ export default function ModaleOrderDetail({ isOpen, onClose, order }) {
                                             </div>
                                             <div className="flex flex-col min-w-0">
                                                 <Link 
-                                                    to={`/product/${product.id}`}
+                                                    to={`/product/${slugify(product.title)}-${product.id}`}
                                                     target="_blank" 
                                                     rel="noopener noreferrer"
                                                     className="font-inter text-sm text-white font-semibold hover:text-red transition-colors truncate"

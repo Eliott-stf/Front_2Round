@@ -3,6 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Tag, ExternalLink } from 'lucide-react';
 import { API_ROOT } from '@constants/apiConstant';
+import { slugify } from '@/utils/slugify';
 
 export default function TargetElementCard({ 
     isProductReport, 
@@ -93,7 +94,7 @@ export default function TargetElementCard({
 
                     {/* Fiche article (Lien public) */}
                     <Link
-                        to={`/product/${targetProduct.id}`}
+                        to={`/product/${slugify(targetProduct.title)}-${targetProduct.id}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="h-8 px-3.5 bg-transparent border border-white/10 text-white/80 hover:text-white hover:border-white text-[11px] font-semibold uppercase tracking-wider rounded-lg flex items-center gap-1.5 transition-colors duration-200 shrink-0 cursor-pointer"
@@ -185,7 +186,7 @@ export default function TargetElementCard({
                                 Inspecter l'article
                             </button>
                             <Link
-                                to={`/product/${targetConversation.product.id}`}
+                                to={`/product/${slugify(targetConversation.product.title)}-${targetConversation.product.id}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="h-8 px-3.5 bg-transparent border border-white/10 text-white/80 hover:text-white hover:border-white text-[11px] font-semibold uppercase tracking-wider rounded-lg flex items-center gap-1.5 transition-colors duration-200 shrink-0 cursor-pointer"

@@ -6,15 +6,54 @@ import ProductCard from '@components/Product/ProductCard';
 import CatalogueFilters from '@components/Catalogue/CatalogueFilter';
 import CataloguePagination from '@components/Catalogue/CataloguePagination';
 
+import { useParams } from 'react-router-dom';
+import { setFilters } from '@store/product/productSlice';
+import { fetchCategories } from '@store/category/categorySlice';
+
 export default function CatalogueView() {
     
     // On récupère les hooks
     const dispatch = useDispatch();
+    const { categorySlug } = useParams();
 
     // On récupère nos datas Redux
     const { items: products, meta, filters, loading } = useSelector((state) => state.products);
+    const { items: categories = [] } = useSelector((state) => state.categories || { items: [] });
 
     // On gère le cycle de vie
+    useEffect(() => {
+        if (categories.length === 0) {
+            dispatch(fetchCategories());
+        }
+    }, [dispatch, categories.length]);
+
+    useEffect(() => {
+        if (categorySlug) {
+            if (categories.length > 0) {
+                let foundCat = null;
+                for (const parent of categories) {
+                    if (parent.slug === categorySlug) {
+                        foundCat = parent;
+                        break;
+                    }
+                    if (parent.children) {
+                        const child = parent.children.find(c => c.slug === categorySlug);
+                        if (child) {
+                            foundCat = child;
+                            break;
+                        }
+                    }
+                }
+                if (foundCat) {
+                    dispatch(setFilters({ categoryId: foundCat.id }));
+                }
+            }
+        } else {
+            // Si pas de slug dans l'URL, on vide le filtre de catégorie
+            dispatch(setFilters({ categoryId: '' }));
+        }
+    }, [categorySlug, categories, dispatch]);
+
     useEffect(() => {
         dispatch(fetchProducts(filters));
     }, [dispatch, filters]);

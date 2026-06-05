@@ -12,7 +12,8 @@ import HeaderView from '@components/UI/HeaderView';
 export default function ProductDetail() {
 
   //On récupr l'id passé en param
-  const { id } = useParams();
+  const { slugAndId } = useParams();
+  const id = slugAndId?.substring(slugAndId.length - 36);
 
   // On récupère les hooks
   const navigate = useNavigate();

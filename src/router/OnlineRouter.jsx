@@ -11,6 +11,8 @@ import AdminProducts from '@screens/AdminScreens/AdminProducts';
 import AdminOrders from '@screens/AdminScreens/AdminOrders';
 import AdminReports from '@screens/AdminScreens/AdminReports';
 import AdminCategories from '@screens/AdminScreens/AdminCategories';
+import CatalogueView from '@screens/OfflineScreens/CatalogueView';
+import ProductDetail from '@screens/OfflineScreens/ProductDetail';
 
 
 
@@ -25,6 +27,9 @@ const OnlineRouter = createBrowserRouter([
         path: "profil/:id",
         element: <Profil />,
       },
+      { path: 'catalogue', element: <CatalogueView /> },
+      { path: 'catalogue/:categorySlug', element: <CatalogueView /> },
+      { path: 'product/:slugAndId', element: <ProductDetail /> },
       // {
       //   path: "message",
       //   element: < MessageView/>,

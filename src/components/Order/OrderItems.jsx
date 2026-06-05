@@ -1,6 +1,7 @@
 import { API_ROOT } from '@constants/apiConstant';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { slugify } from '@/utils/slugify';
 
 export default function OrderItems({ items }) {
     if (!items || items.length === 0) return null;
@@ -23,7 +24,7 @@ export default function OrderItems({ items }) {
 
                     return (
                         <div key={item.id} className={`flex gap-6 p-6 ${index !== items.length - 1 ? 'border-b border-[#2f2f2f]' : ''}`}>
-                            <Link to={`/product/${product?.id}`} className="shrink-0">
+                            <Link to={`/product/${slugify(product?.title)}-${product?.id}`} className="shrink-0">
                                 <div className="w-24 h-24 bg-black rounded-lg overflow-hidden relative group">
                                     <img 
                                         src={imageUrl} 
@@ -34,7 +35,7 @@ export default function OrderItems({ items }) {
                             </Link>
 
                             <div className="flex flex-col flex-1 justify-center min-w-0">
-                                <Link to={`/product/${product?.id}`}>
+                                <Link to={`/product/${slugify(product?.title)}-${product?.id}`}>
                                     <h4 className="font-bebas text-white text-2xl uppercase tracking-wide truncate hover:text-red transition-colors">
                                         {product?.title}
                                     </h4>

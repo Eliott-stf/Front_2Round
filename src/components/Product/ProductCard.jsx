@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleFavorite } from '@store/product/productSlice';
 import { fetchMyFavorites } from '@store/user/userSlice';
+import { slugify } from '@/utils/slugify';
 
 //TODO: Badge temporaire 
 const VerifiedBadge = () => (
@@ -59,7 +60,7 @@ export default function ProductCard({ product }) {
     return (
         <article className="flex flex-col group w-fit cursor-pointer">
             <Link
-                to={`/product/${product?.id}`}
+                to={`/product/${slugify(title)}-${product?.id}`}
                 className="flex flex-col"
             >
                 <div className="relative w-55 h-55 bg-[#111111] mb-4 overflow-hidden rounded-sm">
