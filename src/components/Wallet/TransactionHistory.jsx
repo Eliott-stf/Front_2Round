@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowUpRight, ArrowDownRight } from 'lucide-react';
+import { formatTransactionDate } from '@/utils/formateDate';
 
 export default function TransactionHistory({ transactions }) {
 
@@ -28,9 +29,7 @@ export default function TransactionHistory({ transactions }) {
                 ) : (
                     transactions.map((tx, index) => {
                         const isCredit = tx.type === 'CREDIT';
-                        const date = new Date(tx.createdAt).toLocaleDateString('fr-FR', {
-                            day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
-                        });
+                        const date = formatTransactionDate(tx.createdAt);
 
                         return (
                             <div

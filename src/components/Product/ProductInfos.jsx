@@ -4,14 +4,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchReviewsByUser } from '@store/review/reviewSlice';
 import { createConversation } from '@store/conversation/conversationSlice';
 import StarRating from '@components/UI/StarRating';
-import { formatDistanceToNow } from 'date-fns';
-import { fr } from 'date-fns/locale';
 import ModaleUpdate from '@components/Product/ModaleUpdate';
 import ModaleDelete from '@components/Product/ModaleDelete';
 import ModalePayment from '@components/Product/ModalePayment';
 import ModaleReport from '@components/Report/ModaleReport';
 import { useAuthContext } from '@contexts/AuthContext';
 import { API_ROOT } from '@constants/apiConstant';
+import { getRelativeTime } from '@/utils/formateDate';
 
 export default function ProductInfos({ product, isOwner }) {
   // On récupère les hooks
@@ -44,9 +43,7 @@ export default function ProductInfos({ product, isOwner }) {
   const sellerAvatar = seller?.avatarUrl ? `${API_ROOT}${seller.avatarUrl}` : '/images/placeholder.jpg';
   const sellerId = seller?.id;
 
-  const dateStr = product?.createdAt
-    ? formatDistanceToNow(new Date(product.createdAt), { addSuffix: true, locale: fr })
-    : '';
+  const dateStr = getRelativeTime(product?.createdAt);
 
   const averageRating = reviews.length > 0
     ? (reviews.reduce((acc, curr) => acc + curr.rating, 0) / reviews.length).toFixed(1)

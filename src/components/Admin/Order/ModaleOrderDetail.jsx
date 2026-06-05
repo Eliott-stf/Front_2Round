@@ -3,19 +3,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { API_ROOT } from '@constants/apiConstant';
 import { ORDER_STATUS_MAP } from '@constants/appConstant';
+import { formatFullDate } from '@/utils/formateDate';
 
 export default function ModaleOrderDetail({ isOpen, onClose, order }) {
     //Vérif....
     if (!isOpen || !order) return null;
 
     //on déclare nos const de confort
-    const dateFormatted = new Date(order.createdAt).toLocaleDateString('fr-FR', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-    });
+    const dateFormatted = formatFullDate(order.createdAt);
 
     const buyerName = order.buyer
         ? `${order.buyer.name} ${order.buyer.lastname}`

@@ -1,9 +1,8 @@
 import React from 'react';
-import { formatDistanceToNow } from 'date-fns';
-import { fr } from 'date-fns/locale';
 import { Link } from 'react-router-dom';
 import StarRating from '@components/UI/StarRating';
 import { API_ROOT } from '@constants/apiConstant';
+import { getRelativeTime } from '@/utils/formateDate';
 
 export default function ReviewCard({ review }) {
 
@@ -17,9 +16,7 @@ export default function ReviewCard({ review }) {
   const productName = review?.order?.items?.[0]?.product?.title || 'Article';
 
   //Format de date 
-  const date = review?.createdAt
-    ? formatDistanceToNow(new Date(review.createdAt), { addSuffix: true, locale: fr })
-    : '';
+  const date = getRelativeTime(review?.createdAt);
 
   return (
     <article className="flex gap-8 py-8 border-b border-[#222222] last:border-b-0 w-full max-w-250">

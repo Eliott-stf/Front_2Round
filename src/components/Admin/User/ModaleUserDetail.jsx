@@ -1,6 +1,7 @@
 // src/components/Admin/User/ModaleUserDetail.jsx
 import React, { useState } from 'react';
 import UserDetailProductCard from './UserDetailProductCard';
+import { formatLongDate } from '@/utils/formateDate';
 
 export default function ModaleUserDetail({ isOpen, onClose, userDetail, loading }) {
     //on déclare nos state
@@ -13,13 +14,7 @@ export default function ModaleUserDetail({ isOpen, onClose, userDetail, loading 
     const initialName = userDetail
         ? userDetail.name.charAt(0) + userDetail.lastname.charAt(0)
         : '';
-    const registerDate = userDetail
-        ? new Date(userDetail.createdAt).toLocaleDateString('fr-FR', {
-              day: 'numeric',
-              month: 'long',
-              year: 'numeric',
-          })
-        : '';
+    const registerDate = userDetail ? formatLongDate(userDetail.createdAt) : '';
 
     const products = userDetail?.products || [];
     const favorites = userDetail?.favorites || [];

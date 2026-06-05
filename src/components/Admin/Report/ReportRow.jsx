@@ -1,4 +1,5 @@
 import React from 'react';
+import { formatDateTimeNumeric } from '@/utils/formateDate';
 
 export default function ReportRow({ report, handleOpenDetail }) {
     //on déclare nos const de confort
@@ -10,13 +11,7 @@ export default function ReportRow({ report, handleOpenDetail }) {
 
     const targetType = report.productId ? 'Produit' : 'Conversation';
 
-    const dateFormatted = new Date(report.createdAt).toLocaleDateString('fr-FR', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-    });
+    const dateFormatted = formatDateTimeNumeric(report.createdAt);
 
     const isResolved = report.status === 'RESOLVED';
 

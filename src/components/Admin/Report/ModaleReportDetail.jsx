@@ -7,6 +7,7 @@ import ModaleUserDetail from '@components/Admin/User/ModaleUserDetail';
 import UserCard from './UserCard';
 import TargetElementCard from './TargetElementCard';
 import { X, MessageSquare, AlertTriangle, ShieldAlert, CheckCircle, Calendar } from 'lucide-react';
+import { formatDateTimeNumeric } from '@/utils/formateDate';
 
 export default function ModaleReportDetail({ isOpen, onClose, reportId }) {
     //on récup le hook
@@ -66,23 +67,8 @@ export default function ModaleReportDetail({ isOpen, onClose, reportId }) {
     const report = reportDetail;
     const isResolved = report.status === 'RESOLVED';
     
-    const dateFormatted = new Date(report.createdAt).toLocaleDateString('fr-FR', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-    });
-
-    const resolvedDateFormatted = report.resolvedAt 
-        ? new Date(report.resolvedAt).toLocaleDateString('fr-FR', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-          })
-        : null;
+    const dateFormatted = formatDateTimeNumeric(report.createdAt);
+    const resolvedDateFormatted = report.resolvedAt ? formatDateTimeNumeric(report.resolvedAt) : null;
 
     //on déclare nos const de confort
     // Type de signalement

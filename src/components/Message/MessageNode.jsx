@@ -1,11 +1,9 @@
 import React from 'react';
-import { format } from 'date-fns';
+import { formatTimeHHMM } from '@/utils/formateDate';
 
 export default function MessageNode({ isSelf, data }) {
     // On déclare nos constantes 
-    const time = data.createdAt
-        ? format(new Date(data.createdAt), "HH:mm")
-        : "";
+    const time = formatTimeHHMM(data.createdAt);
 
     return (
         <div className={`flex w-full ${isSelf ? "justify-end" : "justify-start"} mb-2`}>

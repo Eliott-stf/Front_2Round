@@ -1,10 +1,9 @@
 import { ORDER_STATUS_MAP } from '@constants/appConstant';
 import React from 'react';
+import { formatLongDate } from '@/utils/formateDate';
 
 export default function OrderSummary({ order }) {
-    const date = order?.createdAt ? new Date(order.createdAt).toLocaleDateString('fr-FR', {
-        day: 'numeric', month: 'long', year: 'numeric'
-    }) : 'Date inconnue';
+    const date = formatLongDate(order?.createdAt) || 'Date inconnue';
 
     const statusObj = ORDER_STATUS_MAP[order?.status] || { label: order?.status || 'Inconnu', color: 'text-[#737373] border-[#737373]' };
 

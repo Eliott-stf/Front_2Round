@@ -3,6 +3,7 @@ import { API_ROOT } from '@constants/apiConstant';
 import { ORDER_STATUS_MAP } from '@constants/appConstant';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { formatDateLocaleFR } from '@/utils/formateDate';
 
 export default function OrderCard({ order }) {
 
@@ -16,7 +17,7 @@ export default function OrderCard({ order }) {
 
     const price = order?.totalAmount || 0;
     const reference = order?.reference || 'N/A';
-    const date = order?.createdAt ? new Date(order.createdAt).toLocaleDateString('fr-FR') : 'Date inconnue';
+    const date = formatDateLocaleFR(order?.createdAt);
 
     const imagePath = product?.medias?.[0]?.path || null;
     const imageUrl = imagePath

@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import ConversationItem from './ConversationItem';
 import { useAuthContext } from '@contexts/AuthContext';
 import { API_ROOT } from '@constants/apiConstant';
+import { formatDateLocaleFR } from '@/utils/formateDate';
 
 export default function ConversationSidebar({ activeId, setActiveId }) {
     const { items: conversations, loading } = useSelector((state) => state.conversations);
@@ -38,7 +39,7 @@ export default function ConversationSidebar({ activeId, setActiveId }) {
                         data={{
                             name: interlocutorName,
                             product: conv.product?.title || 'Produit indisponible',
-                            time: conv.updatedAt ? new Date(conv.updatedAt).toLocaleDateString() : '',
+                            time: conv.updatedAt ? formatDateLocaleFR(conv.updatedAt) : '',
                             avatar: finalAvatar
                         }}
                         isActive={activeId === conv.id}

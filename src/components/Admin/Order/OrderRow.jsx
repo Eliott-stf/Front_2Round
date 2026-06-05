@@ -1,16 +1,11 @@
 // src/components/Admin/Order/OrderRow.jsx
 import React from 'react';
 import { ORDER_STATUS_MAP } from '@constants/appConstant';
+import { formatDateTimeNumeric } from '@/utils/formateDate';
 
 export default function OrderRow({ order, handleOpenDetail }) {
     //on déclare nos const de confort
-    const dateFormatted = new Date(order.createdAt).toLocaleDateString('fr-FR', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-    });
+    const dateFormatted = formatDateTimeNumeric(order.createdAt);
 
     const buyerName = order.buyer
         ? `${order.buyer.name} ${order.buyer.lastname}`
