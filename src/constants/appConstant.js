@@ -250,3 +250,37 @@ export const ADMIN_DASHBOARD_CARD_VARIANTS = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' } }
 };
+
+export const REPORT_TYPE_FILTER_OPTIONS = [
+    { value: 'ALL', label: 'Tous les types' },
+    { value: 'PRODUCT', label: 'Produits' },
+    { value: 'CONVERSATION', label: 'Conversations' }
+];
+
+export const REPORT_STATUS_FILTER_OPTIONS = [
+    { value: 'ALL', label: 'Tous les statuts' },
+    { value: 'OPEN', label: 'En attente (OPEN)' },
+    { value: 'RESOLVED', label: 'Résolus (RESOLVED)' }
+];
+
+export const USER_STATUS_FILTER_OPTIONS = [
+    { value: 'ALL', label: 'Tous les membres' },
+    { value: 'ACTIVE', label: 'Actifs uniquement' },
+    { value: 'BANNED', label: 'Bannis uniquement' }
+];
+
+export const PRODUCT_STATUS_FILTER_OPTIONS = [
+    { value: 'ALL', label: 'Tous les statuts' },
+    { value: 'AVAILABLE', label: 'Disponibles' },
+    { value: 'ARCHIVED', label: 'Archivés' },
+    { value: 'PENDING', label: 'En attente' }
+];
+
+export const ORDER_STATUS_FILTER_OPTIONS = [
+    { value: 'PENDING_PAYMENT', label: 'Paiement en attente' },
+    { value: 'PAID', label: 'Payée' },
+    { value: 'SHIPPED', label: 'Expédiée' },
+    { value: 'DELIVERED', label: 'Livrée' },
+    { value: 'CANCELLED', label: 'Annulée' },
+    { value: 'REFUNDED', label: 'Remboursée' }
+];

@@ -10,7 +10,7 @@ import CategoryDistribution from '@components/Admin/Dashboard/CategoryDistributi
 import RecentOrdersTab from '@components/Admin/Dashboard/RecentOrdersTab';
 import RecentUsersTab from '@components/Admin/Dashboard/RecentUsersTab';
 import RecentReportsTab from '@components/Admin/Dashboard/RecentReportsTab';
-
+import HeaderAdmin from '@components/Admin/UI/HeaderAdmin';
 import { 
     Users, 
     ShoppingBag, 
@@ -83,16 +83,15 @@ const AdminDashboard = () => {
             animate="visible"
         >
             {/* Header */}
-            <header className="flex items-center justify-between">
-                <div>
-                    <h1 className="font-bebas text-4xl tracking-widest text-white">Tableau de bord</h1>
-                    <p className="font-inter text-[#888888] mt-2">Bienvenue sur le centre de contrôle et d'analyse 2ROUND.</p>
-                </div>
+            <HeaderAdmin 
+                title="Tableau de bord" 
+                subtitle="Bienvenue sur le centre de contrôle et d'analyse 2ROUND."
+            >
                 <div className="hidden sm:flex items-center gap-2 bg-[#111] px-4 py-2 rounded-full border border-[#222]">
                     <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                     <span className="font-inter text-xs text-[#888888]">Système opérationnel</span>
                 </div>
-            </header>
+            </HeaderAdmin>
 
             {/* KPI Cards Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

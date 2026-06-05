@@ -5,6 +5,12 @@ import { fetchAllUsers, toggleUserBan, fetchAdminUserDetail } from '@store/admin
 import PageLoader from '@components/Loader/PageLoader';
 import UserList from '@components/Admin/User/UserList';
 import ModaleUserDetail from '@components/Admin/User/ModaleUserDetail';
+import HeaderAdmin from '@components/Admin/UI/HeaderAdmin';
+import SearchBar from '@components/Admin/UI/SearchBar';
+import FilterSelect from '@components/Admin/UI/FilterSelect';
+import CounterBadge from '@components/Admin/UI/CounterBadge';
+import { USER_STATUS_FILTER_OPTIONS } from '@constants/appConstant';
+
 
 const AdminUsers = () => {
     //on récup le hook
@@ -14,6 +20,7 @@ const AdminUsers = () => {
     const { users, userDetail, loading } = useSelector((state) => state.admin);
     const [isDetailOpen, setIsDetailOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
+    const [statusFilter, setStatusFilter] = useState('ALL');
 
     //Méthode pour récup les donne de L'API
     useEffect(() => {
@@ -38,7 +45,13 @@ const AdminUsers = () => {
     const filteredUsers = users.filter((user) => {
         const fullName = `${user.name} ${user.lastname}`.toLowerCase();
         const search = searchQuery.toLowerCase();
-        return fullName.includes(search);
+        const matchesSearch = fullName.includes(search);
+        
+        const matchesStatus = statusFilter === 'ALL' ||
+            (statusFilter === 'ACTIVE' && user.isActive) ||
+            (statusFilter === 'BANNED' && !user.isActive);
+
+        return matchesSearch && matchesStatus;
     });
 
     //loading et erreur
@@ -48,33 +61,22 @@ const AdminUsers = () => {
 
     return (
         <div className="flex flex-col gap-8">
-            <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div>
-                    <h1 className="font-bebas text-4xl tracking-widest text-white">Utilisateurs</h1>
-                    <p className="font-inter text-[#888888] mt-2">Gestion des membres de la communauté.</p>
-                </div>
-                <div className="flex items-center gap-4">
-                    {/* Barre de Recherche */}
-                    <div className="relative">
-                        <input
-                            type="text"
-                            placeholder="Rechercher un membre..."
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            className="bg-[#111] border border-[#222] text-white font-inter text-sm rounded-full pl-5 pr-10 py-2 outline-none w-64 focus:border-[#444] transition-colors"
-                        />
-                        <div className="absolute right-4 top-1/2 -translate-y-1/2 text-white/50 pointer-events-none">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" />
-                            </svg>
-                        </div>
-                    </div>
-
-                    <div className="bg-[#111111] px-4 py-2 border border-[#222222] rounded-full shrink-0">
-                        <span className="font-inter text-sm text-white">{filteredUsers.length} Inscrits</span>
-                    </div>
-                </div>
-            </header>
+            <HeaderAdmin 
+                title="Utilisateurs" 
+                subtitle="Gestion des membres de la communauté."
+            >
+                <SearchBar 
+                    placeholder="Rechercher un membre..." 
+                    value={searchQuery} 
+                    onChange={(e) => setSearchQuery(e.target.value)} 
+                />
+                <FilterSelect 
+                    value={statusFilter}
+                    onChange={(e) => setStatusFilter(e.target.value)}
+                    options={USER_STATUS_FILTER_OPTIONS}
+                />
+                <CounterBadge count={filteredUsers.length} label="Inscrits" />
+            </HeaderAdmin>
 
             {/* Appel du composant enfant UserList */}
             <UserList 
