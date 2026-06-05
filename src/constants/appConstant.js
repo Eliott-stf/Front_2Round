@@ -216,3 +216,37 @@ export const CATALOGUE_PRICES = [
     { value: '50-100', label: '50€ - 100€', minPrice: 50, maxPrice: 100 },
     { value: '100+', label: '100€ et plus', minPrice: 100, maxPrice: '' }
 ];
+
+// ====================
+// ADMIN DASHBOARD
+// ====================
+export const ADMIN_DASHBOARD_TABS = [
+    { id: 'orders', label: 'Commandes récentes' },
+    { id: 'users', label: 'Inscriptions' },
+    { id: 'reports', label: 'Signalements ouverts' }
+];
+
+export const DEFAULT_DASHBOARD_METRICS = {
+    totalUsers: 0,
+    newUsersThisWeek: 0,
+    totalProducts: 0,
+    activeProducts: 0,
+    totalOrders: 0,
+    totalSalesVolume: 0,
+    pendingReports: 0
+};
+
+export const ADMIN_DASHBOARD_CONTAINER_VARIANTS = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.1
+        }
+    }
+};
+
+export const ADMIN_DASHBOARD_CARD_VARIANTS = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' } }
+};

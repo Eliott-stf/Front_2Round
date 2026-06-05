@@ -111,6 +111,18 @@ export const resolveAdminReport = createAsyncThunk(
     }
 );
 
+// Récupérer les statistiques du Dashboard d'administration
+export const fetchAdminDashboardStats = createAsyncThunk(
+    'admin/fetchAdminDashboardStats',
+    async (_, { rejectWithValue }) => {
+        try {
+            return await api.url('/users/admin/dashboard/stats').get().json();
+        } catch (error) {
+            return rejectWithValue('Erreur lors du chargement des statistiques du dashboard');
+        }
+    }
+);
+
 // --- SLICE ---
 
 const adminSlice = createSlice({
@@ -123,6 +135,7 @@ const adminSlice = createSlice({
         reports: [],
         reportDetail: null,
         userDetail: null,
+        dashboardStats: null,
         loading: false,
         error: null,
     },
@@ -285,6 +298,23 @@ const adminSlice = createSlice({
                         state.reportDetail = { ...state.reportDetail, ...updatedReport };
                     }
                 }
+            })
+            
+            // FETCH DASHBOARD STATS
+            .addCase(fetchAdminDashboardStats.pending, (state) => {
+                //loading et erreur
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchAdminDashboardStats.fulfilled, (state, action) => {
+                //loading et erreur
+                state.loading = false;
+                state.dashboardStats = action.payload?.data || action.payload || null;
+            })
+            .addCase(fetchAdminDashboardStats.rejected, (state, action) => {
+                //loading et erreur
+                state.loading = false;
+                state.error = action.payload;
             });
     }
 });
