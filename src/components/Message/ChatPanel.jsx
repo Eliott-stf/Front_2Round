@@ -6,6 +6,7 @@ import ChatHeader from './ChatHeader';
 import MessageList from './MessageList';
 import ChatInput from './ChatInput';
 import ModaleOffer from './ModaleOffer';
+import ModaleReport from '@components/Report/ModaleReport';
 
 import { useAuthContext } from '@contexts/AuthContext';
 import ModalePayment from '@components/Product/ModalePayment';
@@ -20,6 +21,7 @@ export default function ChatPanel({ activeId, initialOfferModalState }) {
     const [isOfferModalOpen, setIsOfferModalOpen] = useState(false);
     const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
     const [paymentProduct, setPaymentProduct] = useState(null);
+    const [isReportModalOpen, setIsReportModalOpen] = useState(false);
 
     // Ouverture conditionnelle de la modale d'offre transmise par le routeur
     useEffect(() => {
@@ -77,6 +79,7 @@ export default function ChatPanel({ activeId, initialOfferModalState }) {
                 interlocutor={interlocutor}
                 isBuyer={isBuyer}
                 onOpenOfferModal={() => setIsOfferModalOpen(true)}
+                onOpenReportModal={() => setIsReportModalOpen(true)}
             />
             <MessageList
                 activeId={activeId}
@@ -97,6 +100,12 @@ export default function ChatPanel({ activeId, initialOfferModalState }) {
                 isOpen={isPaymentModalOpen}
                 onClose={() => setIsPaymentModalOpen(false)}
                 product={paymentProduct}
+            />
+
+            <ModaleReport
+                isOpen={isReportModalOpen}
+                onClose={() => setIsReportModalOpen(false)}
+                conversationId={activeId}
             />
         </section>
     );

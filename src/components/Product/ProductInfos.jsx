@@ -9,6 +9,8 @@ import { fr } from 'date-fns/locale';
 import ModaleUpdate from '@components/Product/ModaleUpdate';
 import ModaleDelete from '@components/Product/ModaleDelete';
 import ModalePayment from '@components/Product/ModalePayment';
+import ModaleReport from '@components/Report/ModaleReport';
+import { useAuthContext } from '@contexts/AuthContext';
 import { API_ROOT } from '@constants/apiConstant';
 
 export default function ProductInfos({ product, isOwner }) {
@@ -16,12 +18,16 @@ export default function ProductInfos({ product, isOwner }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  //on récup le hook
+  const { userId } = useAuthContext();
+
   // On déclare nos states locaux et store
   const { items: reviews = [] } = useSelector(state => state.reviews);
   const [isUpdateOpen, setIsUpdateOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   // Ajout de l'état pour contrôler l'ouverture de la modale de paiement
   const [isPaymentOpen, setIsPaymentOpen] = useState(false);
+  const [isReportOpen, setIsReportOpen] = useState(false);
 
   // On déclare nos constantes
   const title = product?.title || "Article inconnu";
@@ -49,6 +55,16 @@ export default function ProductInfos({ product, isOwner }) {
   // méthode pour déclencher l'ouverture de la modale
   const handleBuy = () => {
     setIsPaymentOpen(true);
+  };
+
+  // Méthode pour ouvrir le signalement
+  const handleOpenReport = () => {
+    //Vérif que l'utilisateur est bien connecté
+    if (!userId) {
+      navigate('/login');
+      return;
+    }
+    setIsReportOpen(true);
   };
 
   // Méthode de création/récupération de la conversation
@@ -207,6 +223,19 @@ export default function ProductInfos({ product, isOwner }) {
             </button>
           )}
         </div>
+
+        {!isOwner && (
+          <button
+            onClick={handleOpenReport}
+            className="mt-6 flex items-center justify-center gap-2 mx-auto text-xs font-inter text-gray hover:text-red transition-colors uppercase tracking-widest"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />
+              <line x1="4" y1="22" x2="4" y2="15" />
+            </svg>
+            Signaler cet article
+          </button>
+        )}
       </div>
 
       <ModaleUpdate
@@ -226,6 +255,12 @@ export default function ProductInfos({ product, isOwner }) {
         isOpen={isPaymentOpen}
         onClose={() => setIsPaymentOpen(false)}
         product={product}
+      />
+
+      <ModaleReport
+        isOpen={isReportOpen}
+        onClose={() => setIsReportOpen(false)}
+        productId={product?.id}
       />
     </>
   );

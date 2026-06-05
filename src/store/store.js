@@ -14,6 +14,7 @@ import orderReducer from './order/orderSlice';
 import txReducer from './tx/txSlice';
 import bankAccountReducer from './bankAccount/bankAccountSlice';
 import adminReducer from './admin/adminSlice';
+import reportReducer from './report/reportSlice';
 
 export const store = configureStore({
     reducer: {
@@ -32,6 +33,7 @@ export const store = configureStore({
         orders: orderReducer,
         tx: txReducer,
         bankAccounts: bankAccountReducer,
-        admin: adminReducer
+        admin: adminReducer,
+        reports: reportReducer
     }
 });

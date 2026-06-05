@@ -1,8 +1,9 @@
 import { API_ROOT } from '@constants/apiConstant';
 import React from 'react';
+import { AlertTriangle } from 'lucide-react';
 
 
-export default function ChatHeader({ conversation, interlocutor, isBuyer, onOpenOfferModal }) {
+export default function ChatHeader({ conversation, interlocutor, isBuyer, onOpenOfferModal, onOpenReportModal }) {
     // On déclare nos constantes de confort
     const product = conversation.product;
     const interlocutorName = interlocutor ? `${interlocutor.name || ''} ${interlocutor.lastname || ''}`.trim() : 'Utilisateur';
@@ -32,14 +33,23 @@ export default function ChatHeader({ conversation, interlocutor, isBuyer, onOpen
                 </p>
             </div>
 
-            {isBuyer && (
+            <div className="ml-auto flex items-center gap-4 shrink-0">
+                {isBuyer && (
+                    <button
+                        onClick={onOpenOfferModal}
+                        className="px-6 h-10 border border-[#333333] text-white font-inter text-xs font-semibold uppercase tracking-widest hover:border-white transition-colors rounded-xl"
+                    >
+                        Faire une offre
+                    </button>
+                )}
                 <button
-                    onClick={onOpenOfferModal}
-                    className="ml-auto px-6 h-10 border border-[#333333] text-white font-inter text-xs font-semibold uppercase tracking-widest hover:border-white transition-colors shrink-0 rounded-xl"
+                    onClick={onOpenReportModal}
+                    title="Signaler la conversation"
+                    className="p-2.5 text-gray hover:text-red hover:bg-[#1a1a1a] transition-all rounded-xl border border-white/5 flex items-center justify-center cursor-pointer"
                 >
-                    Faire une offre
+                    <AlertTriangle size={18} />
                 </button>
-            )}
+            </div>
         </header>
     );
 }
