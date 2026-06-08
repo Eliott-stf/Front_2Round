@@ -20,13 +20,13 @@ export const downloadFacture = createAsyncThunk(
     'facture/downloadFacture',
     async ({ orderId, reference }, { rejectWithValue }) => {
         try {
-            // 1. Récupérer d'abord les métadonnées pour obtenir l'ID de facture
+            // recup id de la facture
             const facture = await api.url(`/factures/${orderId}`).get().json();
             
-            // 2. Récupérer le blob binaire du fichier PDF
+            // recup le blob binaire du fichier PDF
             const blob = await api.url(`/factures/${facture.id}/download`).get().blob();
             
-            // 3. Simuler le clic de téléchargement navigateur
+            // simuler le clic de téléchargement
             const downloadUrl = window.URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.href = downloadUrl;

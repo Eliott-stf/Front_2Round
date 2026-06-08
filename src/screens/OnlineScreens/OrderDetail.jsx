@@ -55,9 +55,6 @@ export default function OrderDetail() {
     // On déclare nos constantes pour le confort
     const canReview = ['PAID', 'SHIPPED', 'DELIVERED'].includes(order.status) && order.buyerId === userId;
     const mainProductTitle = order?.items?.[0]?.product?.title || 'Article de la commande';
-
-    // CORRECTION ICI : On enrichit la review locale avec les données de la commande qu'on a déjà fetchée
-    // Cela permet d'avoir la photo et le nom immédiatement après la création sans re-fetcher le backend.
     const enrichedReview = currentOrderReview ? {
         ...currentOrderReview,
         order: currentOrderReview.order || order

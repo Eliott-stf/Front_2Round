@@ -106,7 +106,7 @@ export default function TutoSection() {
                     </h2>
 
                     <Link
-                        to="/vendre/formulaire"
+                        to="/vendre/new"
                         className="flex items-center justify-center gap-3 bg-red hover:bg-[#cc0000] text-white font-inter font-bold text-[22px] rounded-full w-[350px] h-[64px] transition-colors shrink-0"
                     >
                         {BUTTON} <ArrowRight className="w-6 h-6 stroke-[2.5px]" />

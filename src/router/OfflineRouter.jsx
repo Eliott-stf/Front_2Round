@@ -14,6 +14,7 @@ import OrderView from '@screens/OnlineScreens/OrderView';
 import OrderDetail from '@screens/OnlineScreens/OrderDetail';
 import WalletView from '@screens/OnlineScreens/WalletView';
 import FavoriteView from '@screens/OnlineScreens/FavoriteView';
+import ProductCreateView from '@screens/OnlineScreens/ProductCreateView';
 
 const OfflineRouter = createBrowserRouter([
   {
@@ -25,8 +26,10 @@ const OfflineRouter = createBrowserRouter([
       { path: 'login', element: <Login /> },
       { path: 'register', element: <Register /> },
       { path: 'profil', element: <Profil /> },
+      { path: 'profil/:id', element: <Profil /> },
       { path: 'product/:slugAndId', element: <ProductDetail /> },
       { path: 'resell', element: <ResellView /> },
+      { path: 'vendre/new', element: <ProductCreateView /> },
       { path: 'guide', element: <GuideView /> },
       { path: 'catalogue', element: <CatalogueView /> },
       { path: 'catalogue/:categorySlug', element: <CatalogueView /> },

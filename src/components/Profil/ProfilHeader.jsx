@@ -3,6 +3,8 @@ import { fetchMe, fetchUserById } from '@store/user/userSlice';
 import { fetchReviewsByUser } from '@store/review/reviewSlice';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { Plus } from 'lucide-react';
 import ProfileModal from './ProfilModal';
 import StarRating from '@components/UI/StarRating';
 import { API_ROOT } from '@constants/apiConstant';
@@ -99,21 +101,31 @@ export default function ProfilHeader({ activeTab, setActiveTab, targetUserId, is
             </div>
           </div>
 
-          <div className="flex gap-10 mt-16 border-b border-[#222222]">
-            <button
-              onClick={() => setActiveTab('articles')}
-              className={`font-inter text-base uppercase pb-3 border-b-2 tracking-widest transition-all ${activeTab === 'articles' ? 'border-red text-white' : 'border-transparent text-gray'
-                }`}
-            >
-              Articles
-            </button>
-            <button
-              onClick={() => setActiveTab('reviews')}
-              className={`font-inter text-base uppercase pb-3 border-b-2 tracking-widest transition-all ${activeTab === 'reviews' ? 'border-red text-white' : 'border-transparent text-gray'
-                }`}
-            >
-              Évaluations
-            </button>
+          <div className="flex justify-between items-end mt-16 border-b border-[#222222]">
+            <div className="flex gap-10">
+              <button
+                onClick={() => setActiveTab('articles')}
+                className={`font-inter text-base uppercase pb-3 border-b-2 tracking-widest transition-all ${activeTab === 'articles' ? 'border-red text-white' : 'border-transparent text-gray'
+                  }`}
+              >
+                Articles
+              </button>
+              <button
+                onClick={() => setActiveTab('reviews')}
+                className={`font-inter text-base uppercase pb-3 border-b-2 tracking-widest transition-all ${activeTab === 'reviews' ? 'border-red text-white' : 'border-transparent text-gray'
+                  }`}
+              >
+                Évaluations
+              </button>
+            </div>
+            {isOwnProfile && (
+              <Link
+                to="/vendre/new"
+                className="mb-3 bg-red hover:bg-[#cc0000] text-white px-6 py-2.5 rounded-xl font-bebas text-xl tracking-wider transition-all uppercase flex items-center gap-2 hover:scale-[1.02]"
+              >
+                <Plus size={18} /> Vendre un article
+              </Link>
+            )}
           </div>
         </div>
       </section>

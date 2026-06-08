@@ -19,6 +19,7 @@ import OrderView from '@screens/OnlineScreens/OrderView';
 import OrderDetail from '@screens/OnlineScreens/OrderDetail';
 import WalletView from '@screens/OnlineScreens/WalletView';
 import FavoriteView from '@screens/OnlineScreens/FavoriteView';
+import ProductCreateView from '@screens/OnlineScreens/ProductCreateView';
 
 
 
@@ -38,6 +39,7 @@ const OnlineRouter = createBrowserRouter([
       { path: 'catalogue/:categorySlug', element: <CatalogueView /> },
       { path: 'product/:slugAndId', element: <ProductDetail /> },
       { path: 'resell', element: <ResellView /> },
+      { path: 'vendre/new', element: <ProductCreateView /> },
       { path: 'guide', element: <GuideView /> },
       { path: 'order', element: <OrderView /> },
       { path: 'order/:id', element: <OrderDetail /> },
