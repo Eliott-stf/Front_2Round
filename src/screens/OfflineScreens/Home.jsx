@@ -1,8 +1,8 @@
 import React from 'react';
 import HeroSection from '@components/Home/HeroSection';
-
 import SelectionSection from '@components/Home/SelectionSection';
 import GuidesSection from '@components/Home/GuidesSection';
+import ResellSection from '@components/Home/ResellSection';
 
 export default function Home() {
   return (
@@ -12,6 +12,7 @@ export default function Home() {
       <HeroSection />
       <SelectionSection />
       <GuidesSection />
+      <ResellSection />
 
     </div>
   );

@@ -1,9 +1,24 @@
-import React from 'react'
+import CitationSection from '@components/Guide/CitationSection';
+import GuideSection from '@components/Guide/GuideSection';
+import HeaderView from '@components/UI/HeaderView';
+import React from 'react';
 
-const GuideView = () => {
+
+export default function GuideView() {
   return (
-    <div>GuideView</div>
-  )
-}
+    <main className="w-full min-h-screen bg-black flex flex-col overflow-hidden">
 
-export default GuideView
+      <HeaderView
+        title="UN COUP DE POING ?"
+        subtitle="Des guides pour mieux comprendre la boxe et ses équipements."
+        showBackButton={true}
+        heightClass="h-[200px]"
+      />
+
+      <GuideSection />
+
+      <CitationSection /> 
+
+    </main>
+  );
+}

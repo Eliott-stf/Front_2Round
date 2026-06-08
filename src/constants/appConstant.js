@@ -1,4 +1,4 @@
-import { AlertTriangle, FolderOpen, Heart, Home, LayoutDashboard, LogIn, LogInIcon, LogOut, Mail, MapPin, Menu, Package, Paperclip, Phone, Send, Settings, ShoppingBag, User, UserPlus, Users, Wallet } from "lucide-react";
+import { AlertTriangle, Banknote, FolderOpen, Heart, Home, LayoutDashboard, LogIn, LogInIcon, LogOut, Mail, MapPin, Menu, Package, Paperclip, Phone, Recycle, Send, Settings, ShoppingBag, User, UserPlus, Users, Wallet } from "lucide-react";
 
 // ====================
 // CLE DU LOCAL STORAGE
@@ -284,4 +284,164 @@ export const ORDER_STATUS_FILTER_OPTIONS = [
     { value: 'DELIVERED', label: 'Livrée' },
     { value: 'CANCELLED', label: 'Annulée' },
     { value: 'REFUNDED', label: 'Remboursée' }
+];
+
+//Const de ResellSection 
+export const TAGS = [
+    "GAGNE DE L'ARGENT",
+    "AIDE UN BOXEUR",
+    "ÉVITE LE GASPILLAGE",
+    "VENTE SIMPLE ET RAPIDE"
+];
+
+//Const de InfoSection de Resell
+export const FEATURES = [
+    {
+        icon: Banknote,
+        title: "GAGNE DE L'ARGENT",
+        description: "Ton ancien matériel devient un nouveau budget."
+    },
+    {
+        icon: Users,
+        title: "AIDE",
+        description: "Un boxeur peut s'équiper à moindre coût."
+    },
+    {
+        icon: Recycle,
+        title: "ÉVITE LE GASPILLAGE",
+        description: "Moins de déchets, plus d'impact."
+    }
+];
+
+//Const de TutoSection de Resell
+export const RESELL_TUTO = {
+    TITLE: "LEÇON DE TECHNIQUE",
+    STEPS: {
+        STEP_1: {
+            TITLE: "ÉTAPE 1 : LA GARDE",
+            SUBTITLE: "Choisis ton équipement",
+            DESC: "Gants, casque, vêtements, sac..."
+        },
+        STEP_2: {
+            TITLE: "ÉTAPE 2 : GAUCHE",
+            SUBTITLE: "Décris son état",
+            DESC: "Taille, usage, état général."
+        },
+        STEP_3: {
+            TITLE: "ÉTAPE 3 : DROITE",
+            SUBTITLE: "Ajoute des photos",
+            DESC: "Pour rassurer l'acheteur."
+        },
+        STEP_4: {
+            TITLE: "ÉTAPE 4 : UPERCUT",
+            SUBTITLE: "Mets en ligne",
+            DESC: "Ton équipement est visible immédiatement."
+        }
+    },
+    CONCLUSION: "UN ENCHAÎNEMENT FACILE, SIMPLE ET EFFICACE",
+    BUTTON: "COMMENCER À VENDRE"
+};
+
+export const GUIDE_DATA = [
+    {
+        title: "GUIDE DES TAILLES",
+        modalId: "taille"
+    },
+    {
+        title: "GUIDE DES ÉQUIPEMENTS",
+        modalId: "equipement"
+    },
+    {
+        title: "GUIDE DÉMARRER LA BOXE",
+        modalId: "boxe"
+    }
+];
+
+export const GUIDE_SIZES = {
+    GANTS: {
+        label: "GANTS DE BOXE",
+        type: 'table',
+        columns: ['Poids (kg)', 'Entraînement', 'Sparring'],
+        data: {
+            HOMME: [
+                { col1: "< 50 kg", col2: "8 oz", col3: "10 oz" },
+                { col1: "51 - 63 kg", col2: "10 oz", col3: "12 oz" },
+                { col1: "64 - 74 kg", col2: "12 oz", col3: "14 oz" },
+                { col1: "75 - 90 kg", col2: "14 oz", col3: "16 oz" },
+                { col1: "> 90 kg", col2: "16 oz", col3: "18 oz" }
+            ],
+            FEMME: [
+                { col1: "< 50 kg", col2: "8 oz", col3: "10 oz" },
+                { col1: "51 - 63 kg", col2: "10 oz", col3: "12 oz" },
+                { col1: "64 - 74 kg", col2: "10 oz", col3: "14 oz" },
+                { col1: "75 - 90 kg", col2: "12 oz", col3: "14 oz" },
+                { col1: "> 90 kg", col2: "14 oz", col3: "16 oz" }
+            ]
+        }
+    },
+    CHAUSSURES: {
+        label: "CHAUSSURES",
+        type: 'table',
+        columns: ['Pointure EU', 'Longueur Pied (cm)', 'Pointure US'],
+        data: {
+            HOMME: [
+                { col1: "39", col2: "24.5 cm", col3: "6.5" },
+                { col1: "40", col2: "25 cm", col3: "7" },
+                { col1: "41", col2: "26 cm", col3: "8" },
+                { col1: "42", col2: "26.5 cm", col3: "8.5" },
+                { col1: "43", col2: "27.5 cm", col3: "9.5" },
+                { col1: "44", col2: "28 cm", col3: "10" }
+            ],
+            FEMME: [
+                { col1: "36", col2: "22.5 cm", col3: "5.5" },
+                { col1: "37", col2: "23 cm", col3: "6" },
+                { col1: "38", col2: "24 cm", col3: "7" },
+                { col1: "39", col2: "24.5 cm", col3: "7.5" },
+                { col1: "40", col2: "25 cm", col3: "8" },
+                { col1: "41", col2: "26 cm", col3: "9" }
+            ]
+        }
+    },
+    CASQUE: {
+        label: "CASQUES",
+        type: 'table',
+        columns: ['Tour de Tête (cm)', 'Taille Casque', 'Poids indicatif'],
+        data: {
+            HOMME: [
+                { col1: "52 - 54 cm", col2: "S", col3: "< 55 kg" },
+                { col1: "55 - 57 cm", col2: "M", col3: "55 - 70 kg" },
+                { col1: "58 - 60 cm", col2: "L", col3: "70 - 85 kg" },
+                { col1: "> 60 cm", col2: "XL", col3: "> 85 kg" }
+            ],
+            FEMME: [
+                { col1: "52 - 54 cm", col2: "S", col3: "< 55 kg" },
+                { col1: "55 - 57 cm", col2: "M", col3: "55 - 70 kg" },
+                { col1: "58 - 60 cm", col2: "L", col3: "70 - 85 kg" },
+                { col1: "> 60 cm", col2: "XL", col3: "> 85 kg" }
+            ]
+        }
+    },
+    BANDES: {
+        label: "BANDES",
+        type: 'text',
+        content: [
+            { title: "2.5m à 3m", desc: "Idéal pour les petits gants, les entraînements légers (sac de frappe, pattes d'ours) ou pour les petites mains." },
+            { title: "4m à 4.5m", desc: "Recommandé pour le sparring. Offre une bien meilleure protection des articulations et un excellent maintien du poignet." }
+        ]
+    }
+};
+
+export const GUIDE_EQUIPMENTS_CONTENT = [
+    { title: "LES GANTS", desc: "Accessoire indispensable. Protègent vos mains et votre partenaire. Ils existent en plusieurs tailles (oz)." },
+    { title: "LES BANDES", desc: "Maintiennent les articulations de la main et du poignet, et absorbent la transpiration." },
+    { title: "LE CASQUE", desc: "Essentiel pour le sparring, il protège des chocs à la tête (pommettes, crâne, menton)." },
+    { title: "LES CHAUSSURES", desc: "Légères et montantes, elles offrent de bons appuis et maintiennent la cheville." },
+    { title: "LE PROTÈGE-DENTS", desc: "Obligatoire. Il protège les dents, les mâchoires et réduit le risque de commotion." }
+];
+
+export const GUIDE_BOXE_CONTENT = [
+    { title: "1. L'ÉQUIPEMENT DE BASE", desc: "Pas besoin de vous ruiner pour commencer. Gants, bandes et protège-dents suffisent pour les premiers cours." },
+    { title: "2. LA CONDITION PHYSIQUE", desc: "La boxe est cardio. N'hésitez pas à courir ou faire de la corde à sauter pour améliorer votre endurance." },
+    { title: "3. TROUVER UN CLUB", desc: "Choisissez une salle où vous vous sentez à l'aise, avec un coach qui prend le temps de vous corriger." },
+    { title: "4. LA RÉGULARITÉ", desc: "C'est la clé. 2 à 3 entraînements par semaine vous feront progresser rapidement sans vous épuiser." }
 ];
