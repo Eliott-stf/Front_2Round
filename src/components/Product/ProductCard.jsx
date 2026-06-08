@@ -58,7 +58,7 @@ export default function ProductCard({ product }) {
     };
 
     return (
-        <article className="flex flex-col group w-fit cursor-pointer">
+        <article className="flex flex-col group w-fit cursor-pointer flex-shrink-0">
             <Link
                 to={`/product/${slugify(title)}-${product?.id}`}
                 className="flex flex-col"

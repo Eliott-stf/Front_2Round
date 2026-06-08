@@ -65,7 +65,7 @@ export default function ProfilHeader({ activeTab, setActiveTab, targetUserId, is
               <img
                 src={displayUser.avatarUrl ? `${API_ROOT}${displayUser.avatarUrl}` : "/images/jerome.png"}
                 alt={`${displayUser.name} ${displayUser.lastname}`}
-                className="w-65 h-80 object-cover grayscale border border-white/10 bg-[#1a1a1a]"
+                className="w-65 h-80 object-cover border border-white/10 bg-[#1a1a1a]"
               />
               {isOwnProfile && (
                 <button

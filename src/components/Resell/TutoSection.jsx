@@ -19,11 +19,14 @@ export default function TutoSection() {
 
                     {/* Étape 1 */}
                     <div className="absolute top-0 left-0 flex items-start gap-2">
-                        <img
-                            src="/images/TutoSection/garde.png"
-                            alt={STEPS.STEP_1.TITLE}
-                            className="w-[350px] h-[528px] object-contain drop-shadow-[0px_10px_10px_rgba(0,0,0,0.5)]"
-                        />
+                        <div className="relative shrink-0">
+                            <img
+                                src="/images/TutoSection/garde.png"
+                                alt={STEPS.STEP_1.TITLE}
+                                className="w-[350px] h-[528px] object-contain"
+                            />
+                            <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black to-transparent pointer-events-none z-15" />
+                        </div>
                         <div className="flex flex-col max-w-[392px] mt-[350px] ml-[-80px] z-20">
                             <h3 className="font-bebas text-white hover:text-red transition-colors duration-300 text-[46px] md:text-[55px] leading-none uppercase mb-2">
                                 {STEPS.STEP_1.TITLE}
@@ -39,11 +42,14 @@ export default function TutoSection() {
 
                     {/* Étape 2 */}
                     <div className="absolute top-[350px] -right-[260px] flex items-center gap-4">
-                        <img
-                            src="/images/TutoSection/gauche.png"
-                            alt={STEPS.STEP_2.TITLE}
-                            className="w-[600px] h-[528px] object-contain drop-shadow-[0px_10px_10px_rgba(0,0,0,0.5)] z-10 relative"
-                        />
+                        <div className="relative z-10 shrink-0">
+                            <img
+                                src="/images/TutoSection/gauche.png"
+                                alt={STEPS.STEP_2.TITLE}
+                                className="w-[600px] h-[528px] object-contain"
+                            />
+                            <div className="absolute inset-x-0 bottom-0 h-30 bg-gradient-to-t from-black via-black to-transparent pointer-events-none z-15" />
+                        </div>
                         <div className="flex flex-col max-w-[392px] mt-[200px] ml-[-80px] -translate-x-[300px] z-20">
                             <h3 className="font-bebas text-white hover:text-red transition-colors duration-300 text-[46px] md:text-[55px] leading-none uppercase mb-2">
                                 {STEPS.STEP_2.TITLE}
@@ -70,11 +76,14 @@ export default function TutoSection() {
                                 {STEPS.STEP_3.DESC}
                             </p>
                         </div>
-                        <img
-                            src="/images/TutoSection/droite.png"
-                            alt={STEPS.STEP_3.TITLE}
-                            className="w-[750px] h-[528px] object-contain drop-shadow-[0px_10px_10px_rgba(0,0,0,0.5)] z-10 relative"
-                        />
+                        <div className="relative z-10 shrink-0">
+                            <img
+                                src="/images/TutoSection/droite.png"
+                                alt={STEPS.STEP_3.TITLE}
+                                className="w-[750px] h-[528px] object-contain"
+                            />
+                            <div className="absolute inset-x-0 bottom-0 h-15 bg-gradient-to-t from-black via-black to-transparent pointer-events-none z-15" />
+                        </div>
                     </div>
 
                     {/* Étape 4 */}
@@ -90,11 +99,14 @@ export default function TutoSection() {
                                 {STEPS.STEP_4.DESC}
                             </p>
                         </div>
-                        <img
-                            src="/images/TutoSection/upercut.png"
-                            alt={STEPS.STEP_4.TITLE}
-                            className="w-[550px] h-[540px] object-contain drop-shadow-[0px_10px_10px_rgba(0,0,0,0.5)] z-10 relative -scale-x-100"
-                        />
+                        <div className="relative z-10 shrink-0">
+                            <img
+                                src="/images/TutoSection/upercut.png"
+                                alt={STEPS.STEP_4.TITLE}
+                                className="w-[550px] h-[540px] object-contain -scale-x-100"
+                            />
+                            <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black to-transparent pointer-events-none z-15" />
+                        </div>
                     </div>
 
                 </div>
