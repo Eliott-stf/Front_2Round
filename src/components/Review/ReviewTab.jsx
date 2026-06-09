@@ -36,16 +36,16 @@ export default function ReviewTab({ targetUserId }) {
 
   return (
     <div className="flex flex-col w-full">
-      <div className="flex flex-col mb-12">
-        <div className="flex items-center gap-6">
-          <span className="font-bebas text-7xl text-white tracking-wide">{averageRating}</span>
+      <div className="flex flex-col mb-8 sm:mb-12 items-center sm:items-start">
+        <div className="flex items-center gap-4 sm:gap-6">
+          <span className="font-bebas text-5xl sm:text-7xl text-white tracking-wide">{averageRating}</span>
           <StarRating
             rating={averageRating}
-            sizeClass="w-10 h-10"
+            sizeClass="w-8 h-8 sm:w-10 sm:h-10"
             emptyColor="text-white"
           />
         </div>
-        <p className="font-inter text-gray-light text-lg uppercase mt-2 tracking-widest">
+        <p className="font-inter text-gray-light text-sm sm:text-lg uppercase mt-2 tracking-widest text-center sm:text-left">
           {reviews.length} {reviews.length > 1 ? 'Évaluations' : 'Évaluation'}
         </p>
       </div>

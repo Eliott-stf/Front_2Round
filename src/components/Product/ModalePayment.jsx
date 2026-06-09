@@ -140,8 +140,7 @@ export default function ModalePayment({ isOpen, onClose, product }) {
                     />
 
                     <motion.div
-                        className="relative w-full max-w-md bg-[#111111] border border-[#222222] rounded-2xl overflow-hidden z-10"
-                        style={{ height: "550px" }}
+                        className="relative w-full max-w-md bg-[#111111] border border-[#222222] rounded-2xl overflow-hidden z-10 h-[90vh] sm:h-[550px] max-h-[550px] flex flex-col"
                         initial={{ opacity: 0, scale: 0.9, y: 40 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.9, y: 40 }}
@@ -149,14 +148,14 @@ export default function ModalePayment({ isOpen, onClose, product }) {
                     >
                         <motion.button
                             onClick={handleClose}
-                            className="absolute top-4 right-4 z-20 p-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors"
+                            className="absolute top-3 right-3 md:top-4 md:right-4 z-20 p-1.5 md:p-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors"
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
                         >
                             <X className="w-4 h-4 text-white" />
                         </motion.button>
 
-                        <div className="relative w-full h-full overflow-hidden">
+                        <div className="relative w-full flex-1 overflow-hidden">
                             <AnimatePresence custom={direction} mode="wait">
                                 {isWalletLoading || processing ? (
                                     <motion.div
@@ -198,47 +197,47 @@ export default function ModalePayment({ isOpen, onClose, product }) {
                                         exit="exit"
                                         className="absolute inset-0 h-full overflow-y-auto"
                                     >
-                                        <div className="p-6 pb-0 pt-10">
-                                            <h2 className="font-bebas text-3xl text-white tracking-wide mb-5">
+                                        <div className="p-4 md:p-6 pb-0 pt-8 md:pt-10">
+                                            <h2 className="font-bebas text-3xl text-white tracking-wide mb-4 md:mb-5">
                                                 Confirmer l'achat
                                             </h2>
 
-                                            <div className="flex items-center gap-4 bg-black rounded-xl p-4 border border-[#222222]">
+                                            <div className="flex items-center gap-3 md:gap-4 bg-black rounded-xl p-3 md:p-4 border border-[#222222]">
                                                 <img
                                                     src={productImageUrl}
                                                     alt={product.title}
-                                                    className="w-16 h-16 rounded-lg object-cover bg-[#111111]"
+                                                    className="w-12 h-12 md:w-16 md:h-16 rounded-lg object-cover bg-[#111111]"
                                                 />
                                                 <div className="flex-1 min-w-0">
-                                                    <p className="font-inter text-sm text-white font-medium truncate">
+                                                    <p className="font-inter text-xs md:text-sm text-white font-medium truncate">
                                                         {product.title}
                                                     </p>
-                                                    <p className="font-inter text-xs text-gray-500 mt-1">
+                                                    <p className="font-inter text-[10px] md:text-xs text-gray-500 mt-0.5 md:mt-1">
                                                         {product.condition || "État non spécifié"} · {product.size || "Taille non spécifiée"}
                                                     </p>
                                                 </div>
-                                                <p className="font-bebas text-3xl text-white">{cartTotal.toFixed(2)}€</p>
+                                                <p className="font-bebas text-2xl md:text-3xl text-white">{cartTotal.toFixed(2)}€</p>
                                             </div>
                                         </div>
 
-                                        <div className="px-6 pt-5">
-                                            <div className="flex items-center justify-between bg-black rounded-xl p-4 border border-[#222222]">
+                                        <div className="px-4 md:px-6 pt-4 md:pt-5">
+                                            <div className="flex items-center justify-between bg-black rounded-xl p-3 md:p-4 border border-[#222222]">
                                                 <div className="flex items-center gap-3">
                                                     <div className="p-2 rounded-lg bg-emerald-500/10">
                                                         <Wallet className="w-4 h-4 text-emerald-400" />
                                                     </div>
                                                     <div>
-                                                        <p className="font-inter text-xs text-gray-500">Mon solde</p>
-                                                        <p className="font-bebas text-2xl text-white">{walletBalance.toFixed(2)}€</p>
+                                                        <p className="font-inter text-[10px] md:text-xs text-gray-500">Mon solde</p>
+                                                        <p className="font-bebas text-xl md:text-2xl text-white">{walletBalance.toFixed(2)}€</p>
                                                     </div>
                                                 </div>
                                                 {canPayWithBalance ? (
-                                                    <span className="flex items-center gap-1.5 text-emerald-400 text-xs font-inter font-medium">
+                                                    <span className="flex items-center gap-1.5 text-emerald-400 text-[10px] md:text-xs font-inter font-medium">
                                                         <CheckCircle className="w-3.5 h-3.5" />
                                                         Suffisant
                                                     </span>
                                                 ) : (
-                                                    <span className="flex items-center gap-1.5 text-red text-xs font-inter font-medium">
+                                                    <span className="flex items-center gap-1.5 text-red text-[10px] md:text-xs font-inter font-medium">
                                                         <AlertCircle className="w-3.5 h-3.5" />
                                                         Insuffisant
                                                     </span>
@@ -246,11 +245,11 @@ export default function ModalePayment({ isOpen, onClose, product }) {
                                             </div>
                                         </div>
 
-                                        <div className="p-6 space-y-4">
+                                        <div className="p-4 md:p-6 space-y-3 md:space-y-4">
                                             <motion.button
                                                 onClick={handleWalletSelect}
                                                 disabled={!canPayWithBalance}
-                                                className={`w-full flex items-center justify-center gap-3 py-4 rounded-xl font-bebas text-xl tracking-wider transition-all duration-200 ${canPayWithBalance
+                                                className={`w-full flex items-center justify-center gap-3 py-3 md:py-4 rounded-xl font-bebas text-xl tracking-wider transition-all duration-200 ${canPayWithBalance
                                                     ? "border border-[#333333] text-white hover:border-white"
                                                     : "bg-white/5 text-gray-500 cursor-not-allowed border border-[#222222]"
                                                     }`}
@@ -261,19 +260,19 @@ export default function ModalePayment({ isOpen, onClose, product }) {
                                                 Payer avec mon solde
                                             </motion.button>
 
-                                            <div className="flex items-center gap-3 py-2">
+                                            <div className="flex items-center gap-3 py-1.5 md:py-2">
                                                 <div className="flex-1 h-px bg-[#222222]" />
-                                                <span className="font-inter text-[11px] text-gray-500 uppercase tracking-widest">ou</span>
+                                                <span className="font-inter text-[10px] md:text-[11px] text-gray-500 uppercase tracking-widest">ou</span>
                                                 <div className="flex-1 h-px bg-[#222222]" />
                                             </div>
 
                                             <motion.button
                                                 onClick={handleStripeSelect}
-                                                className="w-full h-14 flex items-center justify-center gap-3 rounded-xl font-inter font-semibold text-[13px] uppercase tracking-[0.15em] transition-all duration-200 bg-white text-black hover:bg-[#e5e5e5]"
+                                                className="w-full h-12 md:h-14 flex items-center justify-center gap-3 rounded-xl font-inter font-semibold text-xs md:text-[13px] uppercase tracking-[0.15em] transition-all duration-200 bg-white text-black hover:bg-[#e5e5e5]"
                                                 whileHover={{ scale: 1.02 }}
                                                 whileTap={{ scale: 0.98 }}
                                             >
-                                                <img src="/images/stripe-4.svg" alt="Stripe" className="h-[18px] opacity-90" />
+                                                <img src="/images/stripe-4.svg" alt="Stripe" className="h-4 md:h-[18px] opacity-90" />
                                                 <span>
                                                     {!canPayWithBalance
                                                         ? `Compléter par carte (${missingAmount.toFixed(2)} €)`

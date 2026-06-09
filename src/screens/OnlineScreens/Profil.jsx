@@ -28,7 +28,7 @@ export default function Profil() {
       />
 
       <section className="w-full grow bg-black py-12">
-        <div className="max-w-300 mx-auto px-8">
+        <div className="max-w-[1200px] mx-auto px-4 md:px-8">
           {activeTab === 'articles' ? (
             <ProductTab targetUserId={targetUserId} />
           ) : (

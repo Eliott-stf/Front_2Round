@@ -11,14 +11,14 @@ export default function ConversationSidebar({ activeId, setActiveId }) {
 
     if (loading && (!conversations || conversations.length === 0)) {
         return (
-            <aside className="w-[300px] md:w-[350px] shrink-0 border-r border-[#2f2f2f] bg-black p-5 text-[#737373] font-inter">
+            <aside className="w-full h-full border-r border-[#2f2f2f] bg-[#000000] p-5 text-[#737373] font-inter">
                 Chargement...
             </aside>
         );
     }
 
     return (
-        <aside className="w-[300px] md:w-[350px] shrink-0 border-r border-[#2f2f2f] flex flex-col bg-black overflow-y-auto custom-scrollbar">
+        <aside className="w-full h-full border-r border-[#2f2f2f] flex flex-col bg-[#000000] overflow-y-auto custom-scrollbar">
             {conversations && conversations.map((conv) => {
                 if (!conv) return null;
 

@@ -77,67 +77,77 @@ export default function ProductDetail() {
   }
 
   return (
-    <main className="w-full min-h-screen bg-black relative pb-12">
+    <main className="w-full min-h-screen bg-black relative pb-12 overflow-x-hidden">
 
       <HeaderView
         title="DÉTAIL DE L'ARTICLE"
         subtitle="Consulte les informations de ce produit avant de l'ajouter à ton sac."
-        heightClass="h-[200px]"
+        heightClass="h-[120px] md:h-[200px]"
       />
 
-      <div className="max-w-[1300px] mx-auto flex flex-col lg:flex-row gap-[93px] justify-center items-start mt-12 px-8">
+      <div className="max-w-[1300px] mx-auto flex flex-col gap-12 mt-6 md:mt-12 px-4 md:px-8">
 
-        <div className="flex flex-col w-full max-w-[595px]">
-          <ProductImg product={product} />
+        {/* Top Section: Image and Details */}
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-[93px] justify-center items-center lg:items-start w-full">
 
-          {product.isPack && product.subProducts?.length > 0 && (
-            <div className="mt-10 bg-[#111] border border-[#222] p-6 rounded-2xl flex flex-col gap-5">
-              <h3 className="font-bebas text-2xl text-white tracking-wider uppercase">
-                Articles inclus dans ce lot
-              </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {product.subProducts.map(subProd => {
-                  const subImg = subProd.medias?.[0]?.path;
-                  const subUrl = subImg
-                    ? (subImg.startsWith('http') ? subImg : `${API_ROOT}${subImg}`)
-                    : '/images/placeholder.jpg';
-                  return (
-                    <Link
-                      key={subProd.id}
-                      to={`/product/${slugify(subProd.title)}-${subProd.id}`}
-                      className="flex items-center gap-4 bg-black border border-[#222] p-3 hover:border-white transition-all rounded-xl hover:scale-[1.02]"
-                    >
-                      <img
-                        src={subUrl}
-                        alt={subProd.title}
-                        className="w-14 h-14 object-cover bg-[#111] rounded"
-                      />
-                      <div className="flex flex-col min-w-0 font-inter">
-                        <span className="text-white text-xs font-bold truncate uppercase">{subProd.title}</span>
-                        <span className="text-[10px] text-gray-light uppercase mt-0.5">{subProd.size} - {subProd.condition}</span>
-                        <span className="text-white text-xs font-semibold mt-1">{subProd.price}€</span>
-                      </div>
-                    </Link>
-                  );
-                })}
+          {/* Left Column: Image and Pack Info */}
+          <div className="flex flex-col w-full max-w-[595px] mx-auto lg:mx-0">
+            <ProductImg product={product} />
+
+            {product.isPack && product.subProducts?.length > 0 && (
+              <div className="mt-6 md:mt-10 bg-[#111] border border-[#222] p-4 md:p-6 rounded-2xl flex flex-col gap-4 md:gap-5">
+                <h3 className="font-bebas text-xl md:text-2xl text-white tracking-wider uppercase">
+                  Articles inclus dans ce lot
+                </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {product.subProducts.map(subProd => {
+                    const subImg = subProd.medias?.[0]?.path;
+                    const subUrl = subImg
+                      ? (subImg.startsWith('http') ? subImg : `${API_ROOT}${subImg}`)
+                      : '/images/placeholder.jpg';
+                    return (
+                      <Link
+                        key={subProd.id}
+                        to={`/product/${slugify(subProd.title)}-${subProd.id}`}
+                        className="flex items-center gap-4 bg-black border border-[#222] p-3 hover:border-white transition-all rounded-xl hover:scale-[1.02]"
+                      >
+                        <img
+                          src={subUrl}
+                          alt={subProd.title}
+                          className="w-14 h-14 object-cover bg-[#111] rounded"
+                        />
+                        <div className="flex flex-col min-w-0 font-inter">
+                          <span className="text-white text-xs font-bold truncate uppercase">{subProd.title}</span>
+                          <span className="text-[10px] text-gray-light uppercase mt-0.5">{subProd.size} - {subProd.condition}</span>
+                          <span className="text-white text-xs font-semibold mt-1">{subProd.price}€</span>
+                        </div>
+                      </Link>
+                    );
+                  })}
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
 
+          {/* Right Column: Info & CTA Panel */}
+          <div className="w-full max-w-[653px] mx-auto lg:mx-0 lg:sticky lg:top-12">
+            <ProductInfos product={product} isOwner={isOwner} />
+          </div>
+
+        </div>
+
+        {/* Bottom Section: Dressing and Suggestions */}
+        <div className="flex flex-col w-full max-w-full">
           <SimilarProduct
             title={isOwner ? "Vos autres articles en ligne" : "Dressing du membre"}
             products={dressingProducts}
-            limit={2}
+            limit={10}
           />
           <SimilarProduct
             title="Suggestions"
             products={suggestionsProducts}
-            limit={4}
+            limit={10}
           />
-        </div>
-
-        <div className="w-full max-w-[653px] lg:sticky lg:top-12">
-          <ProductInfos product={product} isOwner={isOwner} />
         </div>
 
       </div>

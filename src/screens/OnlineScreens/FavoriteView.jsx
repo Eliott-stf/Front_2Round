@@ -24,7 +24,7 @@ const FavoriteView = () => {
             <HeaderView
                 title="MES FAVORIS"
                 showBackButton={true}
-                heightClass="h-[120px]"
+                heightClass="h-[90px] md:h-[120px]"
             />
 
             <section className="w-full max-w-[1440px] mx-auto px-6 py-8 flex flex-col flex-1">

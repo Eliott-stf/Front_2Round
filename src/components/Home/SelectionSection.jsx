@@ -103,7 +103,7 @@ export default function SelectionSection() {
         <section className="w-full bg-black py-20 border-b border-gray-dark flex justify-center">
             <div className="w-full max-w-[1240px] px-6">
 
-                <h2 className="font-bebas text-white text-[56px] uppercase mb-10 tracking-wider">
+                <h2 className="font-bebas text-white text-[40px] md:text-[56px] uppercase mb-8 md:mb-10 tracking-wider">
                     NOTRE SELECTION
                 </h2>
 
@@ -125,7 +125,7 @@ export default function SelectionSection() {
                             onMouseUp={handleMouseUp}
                             onMouseMove={handleMouseMove}
                             onClickCapture={handleContainerClick}
-                            className="flex overflow-x-auto flex-nowrap gap-8 pb-4 no-scrollbar cursor-grab active:cursor-grabbing select-none"
+                            className="flex overflow-x-auto flex-nowrap gap-4 md:gap-8 pb-4 no-scrollbar cursor-grab active:cursor-grabbing select-none"
                         >
                             {selection.map((product) => (
                                 <ProductCard key={product.id} product={product} />

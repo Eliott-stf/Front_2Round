@@ -82,7 +82,7 @@ export default function CatalogueFilters() {
                 value={value || ''}
                 onChange={handleFilterChange}
                 disabled={disabled}
-                className={`appearance-none bg-transparent border border-[#555555] text-white font-bebas text-lg tracking-widest rounded-full pl-6 pr-10 py-1.5 outline-none transition-colors ${disabled ? 'pointer-events-none' : 'cursor-pointer hover:border-white'}`}
+                className={`appearance-none bg-transparent border border-[#555555] text-white font-bebas text-sm sm:text-lg tracking-widest rounded-full pl-4 pr-8 sm:pl-6 sm:pr-10 py-1 sm:py-1.5 outline-none transition-colors ${disabled ? 'pointer-events-none' : 'cursor-pointer hover:border-white'}`}
             >
                 <option value="" className="bg-[#111] text-white">{label}</option>
                 {options.map((opt) => (
@@ -91,7 +91,7 @@ export default function CatalogueFilters() {
                     </option>
                 ))}
             </select>
-            <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white pointer-events-none group-hover:text-red transition-colors" />
+            <ChevronDown className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white pointer-events-none group-hover:text-red transition-colors" />
         </div>
     );
 

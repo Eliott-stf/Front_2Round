@@ -8,7 +8,7 @@ export default function ResellView() {
         <main className="w-full min-h-screen bg-black flex flex-col overflow-hidden">
             <ResellHeaderSection />
             <InfoSection />
-             <TutoSection />
+            <TutoSection />
         </main>
     );
 }

@@ -35,12 +35,17 @@ export default function MessageList({ activeId, conversation, initialMessages = 
         );
     }, [initialMessages, storeMessages, initialOffers]);
 
-    // Référence pour le scroll automatique
-    const bottomRef = useRef(null);
+    // Référence pour le conteneur de défilement automatique
+    const containerRef = useRef(null);
 
     // UseEffect pour scroller vers le bas lors de chaque mise à jour de la timeline
     useEffect(() => {
-        bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+        if (containerRef.current) {
+            containerRef.current.scrollTo({
+                top: containerRef.current.scrollHeight,
+                behavior: 'smooth'
+            });
+        }
     }, [timeline]);
 
     // Charger les détails des produits mentionnés dans les tags techniques
@@ -86,7 +91,7 @@ export default function MessageList({ activeId, conversation, initialMessages = 
     const isBuyer = conversation.buyerId === userId;
 
     return (
-        <div className="flex-1 overflow-y-auto custom-scrollbar p-6 flex flex-col gap-4">
+        <div ref={containerRef} className="flex-1 overflow-y-auto custom-scrollbar p-6 flex flex-col gap-4">
             {timeline.map((item) => {
                 if (item.type === 'message') {
                     // 1. Détection de la demande de lot
@@ -99,7 +104,7 @@ export default function MessageList({ activeId, conversation, initialMessages = 
                         const ids = match ? match[1].split(',').map(id => id.trim()).filter(Boolean) : [];
                         const suggestedPrice = match ? match[2] : null;
                         const cleanText = item.content.replace(/\[REQUEST_LOT:[^\]]+\]/, '').trim();
-                        
+
                         const resolvedProducts = ids.map(id => loadedProducts[id]).filter(Boolean);
                         const totalPrice = resolvedProducts.reduce((sum, p) => sum + p.price, 0);
 
@@ -189,7 +194,7 @@ export default function MessageList({ activeId, conversation, initialMessages = 
                         const match = item.content.match(/\[PACK_CREATED:([^\]]+)\]/);
                         const packId = match ? match[1].trim() : null;
                         const cleanText = item.content.replace(/\[PACK_CREATED:[^\]]+\]/, '').trim();
-                        
+
                         const packProduct = loadedProducts[packId];
 
                         return (
@@ -276,7 +281,6 @@ export default function MessageList({ activeId, conversation, initialMessages = 
 
                 return null;
             })}
-            <div ref={bottomRef} />
         </div>
     );
 }

@@ -36,7 +36,7 @@ const FavoriteList = () => {
     }
 
     return (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 md:gap-x-6 gap-y-6 md:gap-y-10">
             {favoriteProducts.map((product) => (
                 <div key={product.id} className="flex justify-center">
                     <ProductCard product={product} />

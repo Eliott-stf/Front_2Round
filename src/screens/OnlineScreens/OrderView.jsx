@@ -7,8 +7,8 @@ export default function OrderView() {
         <main className="w-full min-h-screen bg-black flex flex-col">
             <HeaderView
                 title="MES COMMANDES"
-                subtitle="Historique de vos achats"
-                heightClass="h-[200px]"
+                subtitle="Historique des achats"
+                heightClass="h-[120px] md:h-[200px]"
             />
 
             <section className="flex-1 w-full max-w-[1200px] mx-auto px-6 py-12">

@@ -89,59 +89,59 @@ export default function ProductInfos({ product, isOwner }) {
 
   return (
     <>
-      <div className="w-full max-w-130 flex flex-col shrink-0">
+      <div className="w-full flex flex-col shrink-0">
 
-        <div className="flex flex-col pb-10 border-b border-[#222222]">
+        <div className="flex flex-col pb-6 md:pb-10 border-b border-[#222222]">
           {dateStr && (
-            <span className="font-inter text-[13px] text-gray uppercase tracking-[0.2em] mb-4">
+            <span className="font-inter text-[11px] md:text-[13px] text-gray uppercase tracking-[0.2em] mb-2 md:mb-4">
               Mis en ligne {dateStr}
             </span>
           )}
-          <h1 className="font-bebas text-[64px] uppercase leading-[0.85] text-white tracking-wide">{title}</h1>
-          <span className="font-bebas text-[48px] text-red mt-5 leading-none">{price}€</span>
+          <h1 className="font-bebas text-[40px] md:text-[64px] uppercase leading-[0.9] md:leading-[0.85] text-white tracking-wide">{title}</h1>
+          <span className="font-bebas text-[36px] md:text-[48px] text-red mt-3 md:mt-5 leading-none">{price}€</span>
         </div>
 
-        <div className="grid grid-cols-2 gap-x-8 gap-y-10 py-10 border-b border-[#222222]">
+        <div className="grid grid-cols-2 gap-x-4 md:gap-x-8 gap-y-6 md:gap-y-10 py-6 md:py-10 border-b border-[#222222]">
 
           <div className="flex flex-col">
-            <span className="font-inter text-[12px] text-gray uppercase tracking-[0.15em] mb-2">Catégorie</span>
-            <span className="font-inter font-medium text-white text-[22px] tracking-tight truncate">{categoryName}</span>
+            <span className="font-inter text-[11px] md:text-[12px] text-gray uppercase tracking-[0.15em] mb-1.5 md:mb-2">Catégorie</span>
+            <span className="font-inter font-medium text-white text-[18px] md:text-[22px] tracking-tight truncate">{categoryName}</span>
           </div>
 
           <div className="flex flex-col">
-            <span className="font-inter text-[12px] text-gray uppercase tracking-[0.15em] mb-2">État</span>
-            <span className="font-inter font-medium text-white text-[22px] tracking-tight truncate">{condition}</span>
+            <span className="font-inter text-[11px] md:text-[12px] text-gray uppercase tracking-[0.15em] mb-1.5 md:mb-2">État</span>
+            <span className="font-inter font-medium text-white text-[18px] md:text-[22px] tracking-tight truncate">{condition}</span>
           </div>
 
           <div className="flex flex-col">
-            <div className="flex justify-between items-center mb-2">
-              <span className="font-inter text-[12px] text-gray uppercase tracking-[0.15em]">Taille</span>
-              <button className="text-[11px] font-normal text-gray-light hover:text-white transition-colors underline decoration-[#333] underline-offset-4">Guide</button>
+            <div className="flex justify-between items-center mb-1.5 md:mb-2">
+              <span className="font-inter text-[11px] md:text-[12px] text-gray uppercase tracking-[0.15em]">Taille</span>
+              <button className="text-[10px] md:text-[11px] font-normal text-gray-light hover:text-white transition-colors underline decoration-[#333] underline-offset-4">Guide</button>
             </div>
-            <span className="font-inter font-medium text-white text-[22px] tracking-tight truncate">{size}</span>
+            <span className="font-inter font-medium text-white text-[18px] md:text-[22px] tracking-tight truncate">{size}</span>
           </div>
         </div>
 
-        <div className="py-12 border-b border-[#222222]">
-          <h3 className="font-inter text-[13px] text-white uppercase tracking-[0.15em] mb-6 font-medium">À propos de cet article</h3>
-          <p className="font-inter font-light text-[17px] leading-[1.8] text-gray-light whitespace-pre-wrap">
+        <div className="py-6 md:py-12 border-b border-[#222222]">
+          <h3 className="font-inter text-[11px] md:text-[13px] text-white uppercase tracking-[0.15em] mb-4 md:mb-6 font-medium">À propos de cet article</h3>
+          <p className="font-inter font-light text-[15px] md:text-[17px] leading-[1.7] md:leading-[1.8] text-gray-light whitespace-pre-wrap">
             {description}
           </p>
         </div>
 
         {!isArchived && (
-          <div className="flex flex-col gap-4 w-full py-10">
+          <div className="flex flex-col gap-3 md:gap-4 w-full py-6 md:py-10">
             {isOwner ? (
               <>
                 <button
                   onClick={() => setIsUpdateOpen(true)}
-                  className="rounded-2xl w-full h-17 bg-white text-black font-inter font-semibold text-[15px] uppercase tracking-[0.15em] hover:bg-[#e5e5e5] transition-colors"
+                  className="rounded-2xl w-full h-14 md:h-17 bg-white text-black font-inter font-semibold text-[13px] md:text-[15px] uppercase tracking-[0.15em] hover:bg-[#e5e5e5] transition-colors"
                 >
                   Modifier l'annonce
                 </button>
                 <button
                   onClick={() => setIsDeleteOpen(true)}
-                  className="rounded-2xl w-full h-17 border border-red bg-transparent text-red font-inter font-semibold text-[15px] uppercase tracking-[0.15em] hover:bg-red/10 transition-colors"
+                  className="rounded-2xl w-full h-14 md:h-17 border border-red bg-transparent text-red font-inter font-semibold text-[13px] md:text-[15px] uppercase tracking-[0.15em] hover:bg-red/10 transition-colors"
                 >
                   Supprimer l'annonce
                 </button>
@@ -150,13 +150,13 @@ export default function ProductInfos({ product, isOwner }) {
               <>
                 <button
                   onClick={handleBuy}
-                  className="rounded-2xl w-full h-17 bg-white text-black font-inter font-semibold text-[15px] uppercase tracking-[0.15em] hover:bg-[#e5e5e5] transition-colors"
+                  className="rounded-2xl w-full h-14 md:h-17 bg-white text-black font-inter font-semibold text-[13px] md:text-[15px] uppercase tracking-[0.15em] hover:bg-[#e5e5e5] transition-colors"
                 >
                   Acheter
                 </button>
                 <button
                   onClick={() => handleContactSeller(true)}
-                  className="rounded-2xl w-full h-17 border border-[#333333] bg-transparent text-white font-inter font-semibold text-[15px] uppercase tracking-[0.15em] hover:border-white transition-colors"
+                  className="rounded-2xl w-full h-14 md:h-17 border border-[#333333] bg-transparent text-white font-inter font-semibold text-[13px] md:text-[15px] uppercase tracking-[0.15em] hover:border-white transition-colors"
                 >
                   Faire une offre
                 </button>
@@ -165,36 +165,36 @@ export default function ProductInfos({ product, isOwner }) {
           </div>
         )}
 
-        <div className="p-8 border border-[#222222] flex flex-col gap-8 group mt-4">
+        <div className="p-4 md:p-8 border border-[#222222] flex flex-col gap-6 md:gap-8 group mt-4">
           <div className="flex items-center justify-between">
             {sellerId ? (
-              <Link to={`/profil/${sellerId}`} className="flex items-center gap-6">
+              <Link to={`/profil/${sellerId}`} className="flex items-center gap-4 md:gap-6">
                 <img
                   src={sellerAvatar}
                   alt={sellerName}
-                  className="w-18 h-18 rounded-full object-cover bg-[#111111] group-hover:opacity-80 transition-opacity"
+                  className="w-14 h-14 md:w-18 md:h-18 rounded-full object-cover bg-[#111111] group-hover:opacity-80 transition-opacity"
                 />
                 <div className="flex flex-col">
-                  <span className="font-bebas text-[28px] uppercase tracking-wide text-white group-hover:text-red transition-colors">
+                  <span className="font-bebas text-[22px] md:text-[28px] uppercase tracking-wide text-white group-hover:text-red transition-colors">
                     {sellerName}
                   </span>
-                  <div className="flex items-center gap-2 mt-1">
-                    <StarRating rating={averageRating} sizeClass="w-[14px] h-[14px]" emptyColor="text-[#333333]" />
+                  <div className="flex items-center gap-2 mt-0.5 md:mt-1">
+                    <StarRating rating={averageRating} sizeClass="w-[12px] h-[12px] md:w-[14px] md:h-[14px]" emptyColor="text-[#333333]" />
                   </div>
-                  <span className="font-inter text-[11px] text-gray tracking-[0.15em] uppercase mt-2">
+                  <span className="font-inter text-[10px] md:text-[11px] text-gray tracking-[0.15em] uppercase mt-1 md:mt-2">
                     {reviews.length} {reviews.length > 1 ? 'Évaluations' : 'Évaluation'}
                   </span>
                 </div>
               </Link>
             ) : (
-              <div className="flex items-center gap-6">
+              <div className="flex items-center gap-4 md:gap-6">
                 <img
                   src={sellerAvatar}
                   alt={sellerName}
-                  className="w-18 h-18 rounded-full object-cover bg-[#111111]"
+                  className="w-14 h-14 md:w-18 md:h-18 rounded-full object-cover bg-[#111111]"
                 />
                 <div className="flex flex-col">
-                  <span className="font-bebas text-[28px] uppercase tracking-wide text-white">{sellerName}</span>
+                  <span className="font-bebas text-[22px] md:text-[28px] uppercase tracking-wide text-white">{sellerName}</span>
                 </div>
               </div>
             )}
@@ -211,7 +211,7 @@ export default function ProductInfos({ product, isOwner }) {
           {!isOwner && !isArchived && (
             <button
               onClick={() => handleContactSeller(false)}
-              className="w-full h-13 bg-[#111111] text-white font-inter font-medium text-[13px] uppercase tracking-widest hover:bg-[#1a1a1a] transition-colors flex items-center justify-center gap-3"
+              className="w-full h-11 md:h-13 bg-[#111111] text-white font-inter font-medium text-[12px] md:text-[13px] uppercase tracking-widest hover:bg-[#1a1a1a] transition-colors flex items-center justify-center gap-3"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
@@ -224,7 +224,7 @@ export default function ProductInfos({ product, isOwner }) {
         {!isOwner && (
           <button
             onClick={handleOpenReport}
-            className="mt-6 flex items-center justify-center gap-2 mx-auto text-xs font-inter text-gray hover:text-red transition-colors uppercase tracking-widest"
+            className="mt-6 flex items-center justify-center gap-2 mx-auto text-[10px] md:text-xs font-inter text-gray hover:text-red transition-colors uppercase tracking-widest"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />

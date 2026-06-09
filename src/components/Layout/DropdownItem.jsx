@@ -18,7 +18,7 @@ export const DropdownItem = ({ item, className, onLogout }) => {
 
   return (
     <div className="relative" ref={dropdownRef}>
-      <button 
+      <button
         onClick={() => setIsOpen(!isOpen)}
         className={className}
       >
@@ -30,7 +30,7 @@ export const DropdownItem = ({ item, className, onLogout }) => {
         <div className="absolute right-0 mt-4 w-60 bg-black border border-gray-dark rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.8)] z-50 py-2 flex flex-col gap-1 origin-top-right animate-in fade-in zoom-in-95 duration-200">
           {item.options.map((option, index) => {
             const OptionIcon = option.icon;
-            
+
             // Condition : Si l'option est marquée comme "Déconnexion"
             if (option.isLogout) {
               return (

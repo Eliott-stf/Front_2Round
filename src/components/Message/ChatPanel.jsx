@@ -12,7 +12,7 @@ import { useAuthContext } from '@contexts/AuthContext';
 import ModalePayment from '@components/Product/ModalePayment';
 import ModaleCreatePack from '@components/Profil/ModaleCreatePack';
 
-export default function ChatPanel({ activeId, initialOfferModalState }) {
+export default function ChatPanel({ activeId, initialOfferModalState, onBack }) {
     // On récupère les hooks
     const dispatch = useDispatch();
     const { userId } = useAuthContext();
@@ -23,7 +23,7 @@ export default function ChatPanel({ activeId, initialOfferModalState }) {
     const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
     const [paymentProduct, setPaymentProduct] = useState(null);
     const [isReportModalOpen, setIsReportModalOpen] = useState(false);
-    
+
     // States pour la création de lot virtuel
     const [isCreatePackOpen, setIsCreatePackOpen] = useState(false);
     const [createPackProducts, setCreatePackProducts] = useState([]);
@@ -46,7 +46,7 @@ export default function ChatPanel({ activeId, initialOfferModalState }) {
 
     if (!activeId) {
         return (
-            <div className="flex-1 bg-black flex items-center justify-center">
+            <div className="flex-1 bg-[#000000] flex items-center justify-center">
                 <span className="text-gray font-inter">Sélectionnez une conversation</span>
             </div>
         );
@@ -54,7 +54,7 @@ export default function ChatPanel({ activeId, initialOfferModalState }) {
 
     if (loading || !currentConversation || currentConversation.id !== activeId) {
         return (
-            <div className="flex-1 bg-black flex items-center justify-center">
+            <div className="flex-1 bg-[#000000] flex items-center justify-center">
                 <span className="text-gray font-inter">Chargement de la discussion...</span>
             </div>
         );
@@ -86,13 +86,14 @@ export default function ChatPanel({ activeId, initialOfferModalState }) {
     };
 
     return (
-        <section className="flex-1 flex flex-col bg-black relative min-w-0">
+        <section className="flex-1 flex flex-col bg-[#000000] relative min-w-0">
             <ChatHeader
                 conversation={currentConversation}
                 interlocutor={interlocutor}
                 isBuyer={isBuyer}
                 onOpenOfferModal={() => setIsOfferModalOpen(true)}
                 onOpenReportModal={() => setIsReportModalOpen(true)}
+                onBack={onBack}
             />
             <MessageList
                 activeId={activeId}

@@ -14,7 +14,25 @@ export default function MessageView() {
 
     // On déclare nos states locaux et store
     const [activeConversationId, setActiveConversationId] = useState(location.state?.activeConversationId || null);
+    const [slideActive, setSlideActive] = useState(!!(location.state?.activeConversationId));
     const initialOfferModalState = location.state?.openOfferModal || false;
+
+    // Synchronisation de slideActive quand activeConversationId change
+    useEffect(() => {
+        if (activeConversationId) {
+            setSlideActive(true);
+        } else {
+            setSlideActive(false);
+        }
+    }, [activeConversationId]);
+
+    // Retour progressif vers la liste avec animation de glissement avant de vider activeConversationId
+    const handleBack = () => {
+        setSlideActive(false);
+        setTimeout(() => {
+            setActiveConversationId(null);
+        }, 300); // Même durée que la transition CSS (duration-300)
+    };
 
     // Nettoyage du state de navigation pour éviter la réouverture automatique au rafraîchissement
     useEffect(() => {
@@ -29,22 +47,32 @@ export default function MessageView() {
     }, [dispatch]);
 
     return (
-        <main className="w-full h-screen bg-black flex flex-col overflow-hidden">
+        <div className="w-full h-full bg-[#000000] flex flex-col overflow-hidden">
             <HeaderView
                 title="MESSAGERIE"
-                heightClass="h-[120px] shrink-0"
+                heightClass="h-[80px] md:h-[120px] shrink-0"
             />
 
-            <div className="flex-1 flex w-full max-w-[1440px] mx-auto border-t border-[#2f2f2f] overflow-hidden">
-                <ConversationSidebar
-                    activeId={activeConversationId}
-                    setActiveId={setActiveConversationId}
-                />
-                <ChatPanel
-                    activeId={activeConversationId}
-                    initialOfferModalState={initialOfferModalState}
-                />
+            <div className="flex-1 w-full max-w-[1440px] mx-auto border-t border-[#2f2f2f] overflow-hidden relative bg-[#000000]">
+                <div className={`message-track-container ${slideActive ? 'slide-active' : ''}`}>
+                    {/* Volet gauche : Liste des conversations */}
+                    <div className="message-panel-left">
+                        <ConversationSidebar
+                            activeId={activeConversationId}
+                            setActiveId={setActiveConversationId}
+                        />
+                    </div>
+                    
+                    {/* Volet droit : Discussion en cours */}
+                    <div className="message-panel-right min-w-0">
+                        <ChatPanel
+                            activeId={activeConversationId}
+                            initialOfferModalState={initialOfferModalState}
+                            onBack={handleBack}
+                        />
+                    </div>
+                </div>
             </div>
-        </main>
+        </div>
     );
 }

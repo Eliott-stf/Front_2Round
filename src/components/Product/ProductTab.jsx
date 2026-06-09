@@ -85,7 +85,7 @@ export default function ProductTab({ targetUserId }) {
         <div className="flex flex-col gap-6">
             {/* Bouton pour activer/désactiver le mode lot */}
             {!isOwnProfile && hasAvailableProducts && (
-                <div className="flex justify-end mb-4">
+                <div className="flex justify-center mb-4">
                     <button
                         onClick={() => {
                             setIsSelectionMode(!isSelectionMode);
@@ -104,7 +104,7 @@ export default function ProductTab({ targetUserId }) {
             )}
 
             {/* Grille de produits */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 md:gap-x-8 gap-y-6 md:gap-y-8">
                 {myItems.map(product => (
                     <ProductCard
                         key={product.id}

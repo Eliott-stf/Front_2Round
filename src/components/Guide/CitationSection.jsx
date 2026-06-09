@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function CitationSection() {
     return (
-        <section className="relative w-full h-[613px] bg-black overflow-hidden border-t border-[#1a1a1a]">
+        <section className="relative w-full h-[450px] md:h-[613px] bg-black overflow-hidden border-t border-[#1a1a1a]">
             {/* Arrière-plan avec opacité gérée pour le contraste */}
             <img
                 src="/images/Ali.png"
@@ -13,16 +13,16 @@ export default function CitationSection() {
             <div className="relative z-10 w-full max-w-[1440px] mx-auto h-full px-6 lg:px-[110px]">
 
                 {/* Bloc de citation aligné à gauche */}
-                <div className="pt-[100px] max-w-[568px]">
-                    <h2 className="font-inter font-bold text-[54px] leading-[71px] uppercase">
-                        <span className="text-white">"J'AI DÉTESTÉ CHAQUE MINUTE D'ENTRAÎNEMENT, <br /></span>
+                <div className="pt-16 md:pt-[100px] max-w-[95%] sm:max-w-[80%] md:max-w-[568px]">
+                    <h2 className="font-inter font-bold text-[24px] sm:text-[32px] md:text-[44px] lg:text-[54px] leading-[1.3] uppercase">
+                        <span className="text-white">"J'AI DÉTESTÉ CHAQUE MINUTE D'ENTRAÎNEMENT, <br className="hidden md:inline" /></span>
                         <span className="text-red">MAIS JE N'AI JAMAIS ABANDONNÉ."</span>
                     </h2>
                 </div>
 
                 {/* Auteur aligné en bas à droite */}
-                <div className="absolute bottom-[65px] right-6 lg:right-[110px]">
-                    <p className="font-bebas text-white text-[54px] leading-none uppercase tracking-wider drop-shadow-lg">
+                <div className="absolute bottom-[40px] md:bottom-[65px] right-6 lg:right-[110px]">
+                    <p className="font-bebas text-white text-[32px] md:text-[44px] lg:text-[54px] leading-none uppercase tracking-wider drop-shadow-lg">
                         MUHAMMAD ALI
                     </p>
                 </div>

@@ -13,23 +13,23 @@ export default function GuideSection() {
     const closeModal = () => setActiveModal(null);
 
     return (
-        <section className="w-full bg-black py-12">
+        <section className="w-full bg-black py-6 md:py-12">
             <div className="max-w-[1440px] mx-auto px-6 lg:px-[136px] flex flex-col">
                 
                 {GUIDE_DATA.map((guide, index) => (
                     <button 
                         key={index}
                         onClick={() => setActiveModal(guide.modalId)}
-                        className="group flex items-center justify-between py-12 border-b border-[#2f2f2f] hover:border-[#4a4a4a] transition-colors duration-300 w-full text-left"
+                        className="group flex items-center justify-between py-6 md:py-12 border-b border-[#2f2f2f] hover:border-[#4a4a4a] transition-colors duration-300 w-full text-left cursor-pointer"
                     >
-                        {/* Titre (96px - 15% = ~81px) */}
-                        <h2 className="font-bebas text-white text-5xl md:text-6xl leading-none uppercase group-hover:text-red transition-colors duration-300">
+                        {/* Titre */}
+                        <h2 className="font-bebas text-white text-3xl md:text-5xl lg:text-6xl leading-none uppercase group-hover:text-red transition-colors duration-300 pr-2">
                             {guide.title}
                         </h2>
 
                         {/* Flèche Rouge */}
-                        <div className="flex-shrink-0 ml-8 text-red group-hover:translate-x-4 transition-transform duration-300">
-                            <ArrowRight size={50} strokeWidth={2} />
+                        <div className="flex-shrink-0 ml-4 md:ml-8 text-red group-hover:translate-x-3 transition-transform duration-300">
+                            <ArrowRight className="w-8 h-8 md:w-[50px] md:h-[50px]" strokeWidth={2} />
                         </div>
                     </button>
                 ))}

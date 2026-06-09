@@ -67,7 +67,7 @@ export default function CatalogueView() {
             <HeaderView 
                 title="CATALOGUE" 
                 showBackButton={true}
-                heightClass="h-[120px]"
+                heightClass="h-[90px] md:h-[120px]"
             />
 
             <CatalogueFilters />
@@ -91,7 +91,7 @@ export default function CatalogueView() {
                         </span>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10">
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 md:gap-x-6 gap-y-6 md:gap-y-10">
                         {products.map((product) => (
                             <div key={product.id} className="flex justify-center">
                                 <ProductCard product={product} />

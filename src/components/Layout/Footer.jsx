@@ -14,11 +14,11 @@ export const Footer = ({ isAuthenticated = false }) => {
   const linkItemClass = "font-inter font-normal text-sm lg:text-[18px] text-gray hover:text-white transition-colors leading-none flex items-center justify-center sm:justify-start w-full";
 
   return (
-    <footer id="contact-footer"className="w-full bg-black border-t border-gray-dark text-white pt-10 lg:pt-16 pb-6 lg:pb-8 px-6 md:px-12 lg:px-25.5">
+    <footer id="contact-footer" className="w-full bg-black border-t border-gray-dark text-white pt-10 lg:pt-16 pb-6 lg:pb-8 px-6 md:px-12 xl:px-25.5">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8 mb-10 lg:mb-16">
 
         <div className="flex flex-col items-center sm:items-start text-center sm:text-left gap-4 lg:gap-6">
-          <Link to="/home" className="block w-40 lg:w-58.75 h-14 lg:h-20.25">
+          <Link to="/home" className="block w-40 lg:w-48 xl:w-58.75 h-auto">
             <Logo className="w-full h-full" fill="white" />
           </Link>
           <p className="font-inter font-normal text-sm text-gray max-w-xs leading-relaxed">

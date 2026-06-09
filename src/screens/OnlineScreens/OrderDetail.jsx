@@ -65,7 +65,7 @@ export default function OrderDetail() {
             <HeaderView
                 title="DÉTAILS DE LA COMMANDE"
                 subtitle={`Commande n° ${order.reference}`}
-                heightClass="h-[200px]"
+                heightClass="h-[120px] md:h-[200px]"
             />
 
             <section className="w-full max-w-[1200px] mx-auto px-6 py-10 flex flex-col gap-8">
@@ -73,11 +73,11 @@ export default function OrderDetail() {
                 <OrderSummary order={order} />
 
                 {['PAID', 'SHIPPED', 'DELIVERED'].includes(order.status) && (
-                    <div className="flex justify-end -mt-4">
+                    <div className="flex justify-center md:justify-end -mt-4 w-full">
                         <button
                             onClick={handleDownloadInvoice}
                             disabled={isDownloadingInvoice}
-                            className={`flex items-center gap-2 px-6 py-2.5 bg-[#111111] hover:bg-[#1a1a1a] border border-[#2f2f2f] text-white hover:text-red rounded-xl font-inter text-sm font-medium tracking-wide transition-all duration-200 ${isDownloadingInvoice ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            className={`w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-2.5 bg-[#111111] hover:bg-[#1a1a1a] border border-[#2f2f2f] text-white hover:text-red rounded-xl font-inter text-sm font-medium tracking-wide transition-all duration-200 ${isDownloadingInvoice ? 'opacity-50 cursor-not-allowed' : ''}`}
                         >
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
