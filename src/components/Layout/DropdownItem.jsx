@@ -40,7 +40,7 @@ export const DropdownItem = ({ item, className, onLogout }) => {
                     setIsOpen(false);
                     if (onLogout) onLogout();
                   }}
-                  className="group flex w-full items-center px-4 py-2.5 mx-2 font-inter text-sm text-gray hover:text-white hover:bg-gray-dark rounded-xl transition-all duration-200 text-left"
+                  className="group flex items-center px-4 py-2.5 mx-2 font-inter text-sm text-gray hover:text-white hover:bg-gray-dark rounded-xl transition-all duration-200 text-left"
                 >
                   {OptionIcon && <OptionIcon className="w-4 h-4 mr-3 text-gray group-hover:text-white transition-colors duration-200 shrink-0" />}
                   <span className="font-medium tracking-wide">{option.title}</span>

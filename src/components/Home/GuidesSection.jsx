@@ -12,54 +12,60 @@ export default function GuidesSection() {
   const closeModal = () => setActiveModal(null);
 
   return (
-    <section className="relative w-full min-h-[745px] lg:h-[745px] py-16 lg:py-0 bg-[#111111] flex justify-center items-center overflow-hidden border-b border-gray-dark">
+    <section className="relative w-full py-8 lg:py-12 bg-[#111111] flex justify-center items-center overflow-hidden border-b border-[#2f2f2f]">
 
+      {/* Background global de la section */}
       <div className="absolute inset-0 bg-pattern-overlay z-0" />
 
-      <div className="relative z-10 w-full max-w-[1382px] h-full flex flex-col justify-center items-center px-6">
+      <div className="relative z-10 w-full max-w-[1200px] flex flex-col justify-center items-center px-4 md:px-6">
 
-        <div className="w-full flex flex-col max-w-[1240px]">
+        <div className="w-full flex flex-col">
 
-          <h2 className="font-bebas text-white text-[40px] md:text-[56px] uppercase mb-8 md:mb-10 tracking-wider ml-3 mt-4 lg:mt-15">
+          {/* Titre de la section */}
+          <h2 className="font-bebas text-white text-[32px] md:text-[40px] lg:text-[56px] uppercase mb-6 md:mb-8 tracking-wider">
             UN COUP DE POING ?
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 w-full">
-          {HOME_GUIDES.map((guide) => (
-            <div
-              key={guide.id}
-              onClick={() => {
-                if (guide.id === 1) setActiveModal('taille');
-                else if (guide.id === 2) setActiveModal('equipement');
-                else if (guide.id === 3) setActiveModal('boxe');
-              }}
-              className="relative group w-full flex flex-row md:flex-col items-center justify-start h-auto md:h-[380px] lg:h-[450px] py-5 px-5 md:pt-10 lg:pt-16 md:px-6 lg:px-8 rounded-[24px] md:rounded-[32px] bg-gradient-to-b from-[#141414] to-[#0a0a0a] border border-[#222222] hover:border-red/40 overflow-hidden gap-5 md:gap-0 transition-all duration-500 hover:shadow-[0_0_40px_rgba(204,0,0,0.1)] cursor-pointer"
-            >
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[200px] h-[200px] bg-red/20 rounded-full blur-[80px] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
-
-              <img
-                src={guide.img}
-                alt={guide.title}
-                className="relative z-10 w-20 h-20 md:w-[130px] md:h-[130px] lg:w-[180px] lg:h-[180px] object-contain shrink-0 md:mb-6 lg:mb-10 group-hover:-translate-x-2 md:group-hover:translate-x-0 md:group-hover:-translate-y-4 group-hover:scale-105 md:group-hover:scale-110 transition-transform duration-500 drop-shadow-[0_10px_10px_rgba(0,0,0,0.6)] md:drop-shadow-[0_20px_20px_rgba(0,0,0,0.6)]"
-              />
-              
-              <div className="relative z-10 flex flex-col items-start text-left md:items-center md:text-center">
-                <h3 className="font-bebas text-[24px] md:text-[30px] lg:text-[36px] text-white leading-none uppercase mb-1 md:mb-3 lg:mb-4 tracking-wide group-hover:text-red transition-colors duration-300">
-                  {guide.title}
-                </h3>
+          {/* Nouvelle structure de grille pour les cartes (Style "ResourcesSection") */}
+          <div className="grid grid-cols-1 md:grid-cols-3 border border-[#2f2f2f] w-full">
+            {HOME_GUIDES.map((guide) => (
+              <button
+                key={guide.id}
+                onClick={() => {
+                  if (guide.id === 1) setActiveModal('taille');
+                  else if (guide.id === 2) setActiveModal('equipement');
+                  else if (guide.id === 3) setActiveModal('boxe');
+                }}
+                className="group relative h-[150px] md:h-auto md:min-h-[350px] overflow-hidden text-left border-b md:border-b-0 md:border-r border-[#2f2f2f] last:border-b-0 md:last:border-r-0 p-5 md:p-6 flex items-end cursor-pointer"
+              >
+                {/* Image d'arrière-plan de la carte */}
+                <img 
+                  src={guide.img} 
+                  alt={guide.title} 
+                  className="absolute inset-0 h-full w-full object-cover opacity-35 grayscale group-hover:scale-105 group-hover:opacity-55 transition-all duration-500" 
+                />
                 
-                <p className="font-inter font-light text-[14px] md:text-[15px] lg:text-[18px] leading-relaxed text-[#737373] max-w-[280px]">
-                  {guide.desc}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
+                {/* Overlays pour assurer le contraste et l'effet visuel */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent md:via-black/50" />
+                
+                {/* Contenu textuel */}
+                <div className="relative z-10 w-full">
+                  <span className="text-red font-inter font-bold uppercase tracking-[0.2em] md:tracking-[0.26em] text-[10px] md:text-xs block mb-1 md:mb-0">
+                    Ouvrir le guide
+                  </span>
+                  <h3 className="font-bebas text-white text-[28px] md:text-[40px] lg:text-[50px] leading-[1] md:leading-[0.9] mt-1 md:mt-3 uppercase">
+                    {guide.title}
+                  </h3>
+                </div>
+              </button>
+            ))}
+          </div>
         
-          <div className="flex justify-center md:justify-end w-full mt-8 md:mt-10 pr-3">
+          {/* Bouton de redirection */}
+          <div className="flex justify-center md:justify-end w-full mt-8 md:mt-10">
             <Link
               to="/guide"
-              className="flex items-center justify-center md:justify-start gap-3 font-inter font-bold text-[20px] md:text-[24px] text-red hover:text-white transition-colors uppercase w-[245px] h-[50px]"
+              className="flex items-center justify-center md:justify-start gap-3 font-inter font-bold text-[20px] md:text-[24px] text-red hover:text-white transition-colors uppercase h-[50px]"
             >
               Voir les guides
               <svg width="29" height="29" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">

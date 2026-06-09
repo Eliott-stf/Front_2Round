@@ -21,7 +21,34 @@ export default function RecentOrdersTab({ recentOrders = [], handleOpenOrderDeta
             transition={{ duration: 0.2 }}
             className="flex flex-col gap-3"
         >
-            <div className="overflow-x-auto">
+            {/* Mobile View: Cards */}
+            <div className="block md:hidden space-y-3">
+                {recentOrders.map((order) => (
+                    <div 
+                        key={order.id}
+                        onClick={() => handleOpenOrderDetail(order)}
+                        className="bg-[#111] p-4 rounded-lg border border-[#222] cursor-pointer hover:bg-[#1a1a1a] transition-colors flex flex-col gap-2 group"
+                    >
+                        <div className="flex justify-between items-center">
+                            <span className="font-medium text-white uppercase text-sm group-hover:text-amber-500 transition-colors">
+                                {order.reference.substring(0, 8)}...
+                            </span>
+                            <span className="text-white font-semibold text-sm">
+                                {order.totalAmount}€
+                            </span>
+                        </div>
+                        <div className="flex justify-between items-center text-xs text-[#888]">
+                            <span className="truncate max-w-[60%]">
+                                {order.buyer ? `${order.buyer.name} ${order.buyer.lastname}` : 'Client'}
+                            </span>
+                            <span>{formatDateLocaleFR(order.createdAt)}</span>
+                        </div>
+                    </div>
+                ))}
+            </div>
+
+            {/* Desktop View: Table */}
+            <div className="hidden md:block overflow-x-auto">
                 <table className="w-full text-left font-inter text-sm border-collapse">
                     <thead>
                         <tr className="border-b border-[#222] text-[#888] text-xs uppercase tracking-wider font-inter">

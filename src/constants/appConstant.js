@@ -17,7 +17,6 @@ export const dataNavbarAuth = [
     {
         icon: User,
         options: [
-            { title: "Mon round personnalisé", path: "/round", icon: ShoppingBag },
             { title: "Mon vestiaire", path: "/profil", icon: Settings },
             { title: "Mon portefeuille", path: "/wallet", icon: Wallet },
             { title: "Mes commandes", path: "/order", icon: Package },
@@ -155,19 +154,19 @@ export const HOME_GUIDES = [
         id: 1,
         title: "LES TAILLES",
         desc: "Trouver la bonne taille selon son corps.",
-        img: "/images/taille.png"
+        img: "/images/GuideHome/taille.png"
     },
     {
         id: 2,
         title: "LES ÉQUIPEMENTS",
         desc: "Comprendre chaque équipement et à quoi il sert.",
-        img: "/images/altere.png"
+        img: "/images/GuideHome/equipment.png"
     },
     {
         id: 3,
         title: "BIEN DÉBUTER",
         desc: "Conseil sécurité et entrainement.",
-        img: "/images/coeur.png"
+        img: "/images/GuideHome/boxe.png"
     }
 ];
 

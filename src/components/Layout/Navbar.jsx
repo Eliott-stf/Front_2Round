@@ -16,7 +16,7 @@ const Navbar = () => {
   //Méthode onLogout
   const handleLogout = async () => {
     await signOut();
-    navigate("/");
+    window.location.href = "/";
   };
 
   return (
@@ -25,13 +25,13 @@ const Navbar = () => {
         className="absolute bottom-0 left-0 w-full h-px bg-linear-to-r from-transparent via-white/50 to-transparent pointer-events-none"
       />
 
-      <div className="w-25 md:w-30 lg:w-38.25 shrink-0">
-        <Link to="/">
+      <div className="flex items-center shrink-0">
+        <Link to="/" className="w-25 md:w-30 lg:w-38.25 block">
           <Logo className="w-full h-auto" fill="white" />
         </Link>
       </div>
 
-      <div className="hidden md:flex flex-1 max-w-199.25 mx-4 lg:ml-27 lg:mr-auto h-11 lg:h-13.5 border border-white rounded-full px-4 lg:px-5.5 items-center">
+      <div className="hidden md:flex flex-1 max-w-199.25 mx-4 lg:mx-8 h-11 lg:h-13.5 border border-white rounded-full px-4 lg:px-5.5 items-center">
         <Search className="text-white w-4 h-4 lg:w-5 lg:h-5 mr-3 lg:mr-3.5 shrink-0" />
         <input
           type="text"
@@ -43,7 +43,7 @@ const Navbar = () => {
         </button>
       </div>
 
-      <div className="flex items-center gap-4 md:gap-6 lg:gap-10.5 lg:pr-8">
+      <div className="flex items-center justify-end shrink-0 gap-4 md:gap-6 lg:gap-10.5">
         {role === ROLES.ADMIN && (
           <NavLink
             to="/admin"
