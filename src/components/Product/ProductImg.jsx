@@ -15,7 +15,11 @@ export default function ProductImg({ product }) {
   const [isFavorite, setIsFavorite] = useState(false);
 
   //on déclare nos const de confort
-  const medias = product?.medias || [];
+  const isPack = product?.isPack || product?.description?.includes('[PACK:');
+  let medias = product?.medias || [];
+  if (medias.length === 0 && isPack && product?.subProducts?.length > 0) {
+    medias = product.subProducts.flatMap(p => p.medias || []);
+  }
 
   const images = medias.length > 0
     ? medias.map(m => m.path.startsWith('http') ? m.path : `${API_ROOT}${m.path}`)

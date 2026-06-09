@@ -8,7 +8,11 @@ export default function ModaleProductDetail({ isOpen, onClose, product }) {
     if (!isOpen || !product) return null;
 
     //on déclare nos const de confort
-    const medias = product.medias || [];
+    const isPack = product.isPack || product.description?.includes('[PACK:');
+    let medias = product.medias || [];
+    if (medias.length === 0 && isPack && product.subProducts?.length > 0) {
+        medias = product.subProducts.flatMap(p => p.medias || []);
+    }
     const images = medias.length > 0
         ? medias.map(m => m.path.startsWith('http') ? m.path : `${API_ROOT}${m.path}`)
         : ['/images/placeholder.jpg'];
@@ -38,7 +42,7 @@ export default function ModaleProductDetail({ isOpen, onClose, product }) {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md p-4 overflow-y-auto transition-all">
             {/* Conteneur principal de la modale */}
             <div className="relative w-full max-w-4xl bg-[#1c1c1e] border border-[#222222] rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row my-8">
-                
+
                 {/* Bouton fermer */}
                 <button
                     onClick={onClose}
@@ -91,9 +95,8 @@ export default function ModaleProductDetail({ isOpen, onClose, product }) {
                                             e.stopPropagation();
                                             setActiveIndex(index);
                                         }}
-                                        className={`h-1.5 rounded-full transition-all duration-300 outline-none ${
-                                            index === activeIndex ? 'w-6 bg-white' : 'w-1.5 bg-white/40'
-                                        }`}
+                                        className={`h-1.5 rounded-full transition-all duration-300 outline-none ${index === activeIndex ? 'w-6 bg-white' : 'w-1.5 bg-white/40'
+                                            }`}
                                     />
                                 ))}
                             </div>
@@ -104,15 +107,14 @@ export default function ModaleProductDetail({ isOpen, onClose, product }) {
                 {/* Section Droite : Détails du Produit */}
                 <div className="w-full md:w-1/2 p-8 flex flex-col justify-between overflow-y-auto max-h-[500px]">
                     <div className="flex flex-col gap-5">
-                        
+
                         {/* En-tête : Catégorie & Statut */}
                         <div className="flex items-center justify-between">
                             <span className="font-bebas text-md tracking-wider text-[#888888] uppercase">
                                 {product.category?.name || 'Catégorie inconnue'}
                             </span>
-                            <span className={`px-2.5 py-0.5 text-xs font-inter uppercase tracking-wider border rounded-md ${
-                                product.status === 'ARCHIVED' ? 'border-[#333333] text-[#555555]' : 'border-white text-white'
-                            }`}>
+                            <span className={`px-2.5 py-0.5 text-xs font-inter uppercase tracking-wider border rounded-md ${product.status === 'ARCHIVED' ? 'border-[#333333] text-[#555555]' : 'border-white text-white'
+                                }`}>
                                 {product.status}
                             </span>
                         </div>
@@ -161,6 +163,25 @@ export default function ModaleProductDetail({ isOpen, onClose, product }) {
                                 {product.description}
                             </p>
                         </div>
+
+                        {isPack && product.subProducts?.length > 0 && (
+                            <>
+                                <hr className="border-[#222222]" />
+                                <div>
+                                    <span className="font-inter text-xs text-[#555555] uppercase block mb-2">
+                                        Articles inclus dans le lot ({product.subProducts.length})
+                                    </span>
+                                    <div className="flex flex-col gap-2 max-h-40 overflow-y-auto custom-scrollbar">
+                                        {product.subProducts.map(subProd => (
+                                            <div key={subProd.id} className="flex justify-between items-center bg-[#111] p-3 rounded-xl border border-[#222] font-inter text-xs">
+                                                <span className="text-white font-medium">{subProd.title}</span>
+                                                <span className="text-gray-light font-semibold">{subProd.price} €</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </>
+                        )}
 
                     </div>
 

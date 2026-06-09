@@ -15,7 +15,7 @@ const VerifiedBadge = () => (
     </div>
 );
 
-export default function ProductCard({ product }) {
+export default function ProductCard({ product, selectable = false, selected = false, onSelect = null }) {
 
     //on récup le hook
     const dispatch = useDispatch();
@@ -27,14 +27,19 @@ export default function ProductCard({ product }) {
     // On déclare nos constante pour le confort 
     const title = product?.title || 'Article';
     const price = product?.price || 0;
-    
+
+    const isPack = product?.isPack || product?.description?.includes('[PACK:');
+
     // Construction du sous-titre : "Taille - Condition"
     const size = product?.size;
     const condition = product?.condition;
     const details = [size, condition].filter(Boolean);
     const subtitle = details.length > 0 ? details.join(' - ') : (product?.description || 'Bon état');
 
-    const imagePath = product?.medias?.[0]?.path || product?.imageUrl || null;
+    let imagePath = product?.medias?.[0]?.path || product?.imageUrl || null;
+    if (!imagePath && isPack && product?.subProducts?.[0]?.medias?.[0]?.path) {
+        imagePath = product.subProducts[0].medias[0].path;
+    }
     const imageUrl = imagePath
         ? (imagePath.startsWith('http') ? imagePath : `${API_ROOT}${imagePath}`)
         : '/images/placeholder.jpg';
@@ -57,24 +62,54 @@ export default function ProductCard({ product }) {
         dispatch(fetchMyFavorites());
     };
 
+    const handleCardClick = (e) => {
+        if (selectable) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (onSelect) onSelect(product.id);
+        }
+    };
+
     return (
-        <article className="flex flex-col group w-fit cursor-pointer flex-shrink-0">
+        <article 
+            className="flex flex-col group w-fit cursor-pointer flex-shrink-0"
+            onClick={handleCardClick}
+        >
             <Link
-                to={`/product/${slugify(title)}-${product?.id}`}
-                className="flex flex-col"
+                to={selectable ? '#' : `/product/${slugify(title)}-${product?.id}`}
+                className="flex flex-col relative"
             >
                 <div className="relative w-55 h-55 bg-[#111111] mb-4 overflow-hidden rounded-sm">
                     <img
                         src={imageUrl}
                         alt={title}
-                        className={`w-full h-full object-cover transition-transform duration-300 ${
-                            isArchived ? 'grayscale opacity-30' : 'group-hover:scale-105'
-                        }`}
+                        className={`w-full h-full object-cover transition-transform duration-300 ${isArchived ? 'grayscale opacity-30' : 'group-hover:scale-105'
+                            }`}
                     />
 
-                    {!isArchived && <VerifiedBadge />}
+                    {!isArchived && !selectable && <VerifiedBadge />}
+                    
+                    {isPack && (
+                        <div className="absolute top-2 left-2 px-2.5 py-0.5 rounded border border-red bg-red text-white text-[10px] font-bebas tracking-wider uppercase z-10">
+                            Lot
+                        </div>
+                    )}
 
-                    {!isArchived && (
+                    {selectable && !isArchived && (
+                        <div className="absolute top-2 right-2 z-20">
+                            <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all duration-200 ${
+                                selected 
+                                    ? "bg-red border-red text-white shadow-lg scale-110" 
+                                    : "bg-black/50 border-white/70 hover:border-white text-transparent"
+                            }`}>
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </div>
+                        </div>
+                    )}
+
+                    {!isArchived && !selectable && (
                         <button
                             onClick={handleToggleFavorite}
                             className="absolute z-10 bottom-3 right-3 transition-transform hover:scale-110 outline-none"
@@ -106,7 +141,7 @@ export default function ProductCard({ product }) {
                     <h3 className="text-white font-bold text-lg leading-tight uppercase truncate max-w-55">
                         {title}
                     </h3>
-                    <p className="text-gray text-sm mt-1 mb-2 font-light truncate max-w-55">
+                    <p className="text-gray text-sm mt-1 mb-2 font-light truncate max-w-55 bg-black/0">
                         {subtitle}
                     </p>
                     <span className="text-white font-bold text-lg">

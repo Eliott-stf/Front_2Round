@@ -10,6 +10,7 @@ import ModaleReport from '@components/Report/ModaleReport';
 
 import { useAuthContext } from '@contexts/AuthContext';
 import ModalePayment from '@components/Product/ModalePayment';
+import ModaleCreatePack from '@components/Profil/ModaleCreatePack';
 
 export default function ChatPanel({ activeId, initialOfferModalState }) {
     // On récupère les hooks
@@ -22,6 +23,11 @@ export default function ChatPanel({ activeId, initialOfferModalState }) {
     const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
     const [paymentProduct, setPaymentProduct] = useState(null);
     const [isReportModalOpen, setIsReportModalOpen] = useState(false);
+    
+    // States pour la création de lot virtuel
+    const [isCreatePackOpen, setIsCreatePackOpen] = useState(false);
+    const [createPackProducts, setCreatePackProducts] = useState([]);
+    const [suggestedLotPrice, setSuggestedLotPrice] = useState(null);
 
     // Ouverture conditionnelle de la modale d'offre transmise par le routeur
     useEffect(() => {
@@ -59,8 +65,8 @@ export default function ChatPanel({ activeId, initialOfferModalState }) {
     const interlocutor = isBuyer ? currentConversation.product?.seller : currentConversation.buyer;
 
     // Méthode pour ouvrir le paiement avec le prix négocié et une structure compatible avec ModalePayment
-    const handleOpenPayment = (offerPrice) => {
-        const rawProduct = currentConversation.product;
+    const handleOpenPayment = (offerPrice, customProduct = null) => {
+        const rawProduct = customProduct || currentConversation.product;
 
         const productToPay = {
             ...rawProduct,
@@ -70,6 +76,13 @@ export default function ChatPanel({ activeId, initialOfferModalState }) {
 
         setPaymentProduct(productToPay);
         setIsPaymentModalOpen(true);
+    };
+
+    // Callback pour ouvrir la modale de création de pack virtuel
+    const handleOpenCreatePack = (productsList, suggestedPrice = null) => {
+        setCreatePackProducts(productsList);
+        setSuggestedLotPrice(suggestedPrice);
+        setIsCreatePackOpen(true);
     };
 
     return (
@@ -87,6 +100,7 @@ export default function ChatPanel({ activeId, initialOfferModalState }) {
                 initialMessages={currentConversation.messages || []}
                 initialOffers={currentConversation.offers || []}
                 onPaymentRequest={handleOpenPayment}
+                onCreatePackRequest={handleOpenCreatePack}
             />
             <ChatInput activeId={activeId} />
 
@@ -106,6 +120,14 @@ export default function ChatPanel({ activeId, initialOfferModalState }) {
                 isOpen={isReportModalOpen}
                 onClose={() => setIsReportModalOpen(false)}
                 conversationId={activeId}
+            />
+
+            <ModaleCreatePack
+                isOpen={isCreatePackOpen}
+                onClose={() => setIsCreatePackOpen(false)}
+                conversationId={activeId}
+                products={createPackProducts}
+                initialPrice={suggestedLotPrice}
             />
         </section>
     );
