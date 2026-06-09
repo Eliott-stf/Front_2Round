@@ -10,7 +10,7 @@ export default function ReviewCard({ review }) {
   const buyer = review?.order?.buyer;
   const buyerId = buyer?.id;
   const username = buyer ? `${buyer.name} ${buyer.lastname}` : 'Utilisateur inconnu';
-  const avatar = buyer?.avatarUrl ? `${API_ROOT}${buyer.avatarUrl}` : '/images/placeholder.jpg';
+  const avatar = buyer?.avatarUrl ? `${API_ROOT}${buyer.avatarUrl}` :  '/images/pp/pp.png';
   const rating = review?.rating || 0;
   const content = review?.comment || 'Aucun commentaire.';
   const productName = review?.order?.items?.[0]?.product?.title || 'Article';

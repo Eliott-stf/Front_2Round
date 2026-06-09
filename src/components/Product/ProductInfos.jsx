@@ -40,7 +40,7 @@ export default function ProductInfos({ product, isOwner }) {
 
   const seller = product?.seller;
   const sellerName = seller ? `${seller.name} ${seller.lastname}` : 'Vendeur inconnu';
-  const sellerAvatar = seller?.avatarUrl ? `${API_ROOT}${seller.avatarUrl}` : '/images/placeholder.jpg';
+  const sellerAvatar = seller?.avatarUrl ? `${API_ROOT}${seller.avatarUrl}` : '/images/pp/pp.png';
   const sellerId = seller?.id;
 
   const dateStr = getRelativeTime(product?.createdAt);

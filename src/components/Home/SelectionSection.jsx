@@ -1,10 +1,8 @@
-import React, { useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchProducts } from '@store/product/productSlice';
+import React, { useEffect, useRef, useState } from 'react';
 import ProductCard from '@components/Product/ProductCard';
+import api from '@lib/api';
 
 export default function SelectionSection() {
-    const dispatch = useDispatch();
     const scrollContainerRef = useRef(null);
 
     // Références pour le défilement par clic-glisser (Drag to scroll)
@@ -13,15 +11,49 @@ export default function SelectionSection() {
     const scrollLeftVal = useRef(0);
     const dragDistance = useRef(0);
 
-    // Récupération globale des produits depuis le store
-    const { items = [], loading, error } = useSelector((state) => state.products);
+    // États locaux dédiés à la sélection aléatoire
+    const [selection, setSelection] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        dispatch(fetchProducts());
-    }, [dispatch]);
+        let isMounted = true;
+        const loadRandomProducts = async () => {
+            try {
+                setLoading(true);
+                // Charger 50 produits disponibles pour piocher de l'aléatoire
+                const response = await api.url('/products?limit=50').get().json();
+                const productsList = response?.data || response?.items || response || [];
+                const available = productsList.filter(p => p.status === 'AVAILABLE');
+                
+                // Fonction de mélange 
+                const shuffle = (array) => {
+                    const copy = [...array];
+                    for (let i = copy.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [copy[i], copy[j]] = [copy[j], copy[i]];
+                    }
+                    return copy;
+                };
 
-    // Limitation de l'affichage aux 8 premiers articles
-    const selection = items.slice(0, 8);
+                if (isMounted) {
+                    setSelection(shuffle(available).slice(0, 8));
+                    setLoading(false);
+                }
+            } catch (err) {
+                console.error("Erreur chargement SelectionSection :", err);
+                if (isMounted) {
+                    setError("Impossible de charger la sélection d'articles.");
+                    setLoading(false);
+                }
+            }
+        };
+
+        loadRandomProducts();
+        return () => {
+            isMounted = false;
+        };
+    }, []);
 
     // Événements de souris pour le défilement
     const handleMouseDown = (e) => {

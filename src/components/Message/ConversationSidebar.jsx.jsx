@@ -27,7 +27,7 @@ export default function ConversationSidebar({ activeId, setActiveId }) {
                 const interlocutor = isBuyer ? conv.product?.seller : conv.buyer;
                 const interlocutorName = interlocutor ? `${interlocutor.name || ''} ${interlocutor.lastname || ''}`.trim() : 'Utilisateur';
                 const rawAvatar = interlocutor?.avatarUrl;
-                const finalAvatar = rawAvatar ? `${API_ROOT}${rawAvatar}` : '/images/default-avatar.png';
+                const finalAvatar = rawAvatar ? `${API_ROOT}${rawAvatar}` : '/images/pp/pp.png';
 
                 const hasUnread = Array.isArray(conv.messages) && conv.messages.some(
                     (msg) => msg && !msg.isRead && msg.senderId !== userId
