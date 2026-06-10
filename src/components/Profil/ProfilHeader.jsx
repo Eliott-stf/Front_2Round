@@ -3,7 +3,7 @@ import { fetchMe, fetchUserById } from '@store/user/userSlice';
 import { fetchReviewsByUser } from '@store/review/reviewSlice';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Plus } from 'lucide-react';
 import ProfileModal from './ProfilModal';
 import StarRating from '@components/UI/StarRating';
@@ -13,6 +13,7 @@ export default function ProfilHeader({ activeTab, setActiveTab, targetUserId, is
 
   //On récupère le hook
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   //On déclare nos States locaux et Store
   const { me, currentProfile, loading } = useSelector(state => state.user);
@@ -51,7 +52,7 @@ export default function ProfilHeader({ activeTab, setActiveTab, targetUserId, is
         <div className="absolute inset-0 z-0 bg-pattern-overlay"></div>
 
         <div className="relative z-10 max-w-[1200px] mx-auto px-4 md:px-8">
-          <div className="flex items-center gap-3 md:gap-4 mb-6 md:mb-10 cursor-pointer group w-fit">
+          <div onClick={() => navigate(-1)} className="flex items-center gap-3 md:gap-4 mb-6 md:mb-10 cursor-pointer group w-fit">
             <svg className="w-8 h-8 md:w-12 md:h-12 text-white group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>

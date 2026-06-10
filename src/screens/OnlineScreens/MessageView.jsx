@@ -47,16 +47,16 @@ export default function MessageView() {
     }, [dispatch]);
 
     return (
-        <div className="w-full h-full bg-[#000000] flex flex-col overflow-hidden">
+        <div className="flex flex-col w-full bg-[#000000] overflow-hidden h-[calc(100vh-80px)] lg:h-[calc(100vh-120px)]">
             <HeaderView
                 title="MESSAGERIE"
                 heightClass="h-[80px] md:h-[120px] shrink-0"
             />
 
-            <div className="flex-1 w-full max-w-[1440px] mx-auto border-t border-[#2f2f2f] overflow-hidden relative bg-[#000000]">
-                <div className={`message-track-container ${slideActive ? 'slide-active' : ''}`}>
+            <div className="flex-1 flex flex-col min-h-0 w-full max-w-[1440px] mx-auto border-t border-[#2f2f2f] overflow-hidden relative bg-[#000000]">
+                <div className={`message-track-container flex-1 min-h-0 ${slideActive ? 'slide-active' : ''}`}>
                     {/* Volet gauche : Liste des conversations */}
-                    <div className="message-panel-left">
+                    <div className="message-panel-left min-h-0">
                         <ConversationSidebar
                             activeId={activeConversationId}
                             setActiveId={setActiveConversationId}
@@ -64,7 +64,7 @@ export default function MessageView() {
                     </div>
                     
                     {/* Volet droit : Discussion en cours */}
-                    <div className="message-panel-right min-w-0">
+                    <div className="message-panel-right min-w-0 min-h-0">
                         <ChatPanel
                             activeId={activeConversationId}
                             initialOfferModalState={initialOfferModalState}

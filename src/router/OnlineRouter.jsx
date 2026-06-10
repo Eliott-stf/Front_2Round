@@ -20,6 +20,7 @@ import OrderDetail from '@screens/OnlineScreens/OrderDetail';
 import WalletView from '@screens/OnlineScreens/WalletView';
 import FavoriteView from '@screens/OnlineScreens/FavoriteView';
 import ProductCreateView from '@screens/OnlineScreens/ProductCreateView';
+import DiscoverView from '@screens/OnlineScreens/DiscoverView';
 
 
 
@@ -45,6 +46,7 @@ const OnlineRouter = createBrowserRouter([
       { path: 'order/:id', element: <OrderDetail /> },
       { path: 'wallet', element: <WalletView /> },
       { path: 'favorite', element: <FavoriteView /> },
+      { path: 'discover', element: <DiscoverView /> },
       { path: 'messages', element: <MessageView /> }
     ],
   },

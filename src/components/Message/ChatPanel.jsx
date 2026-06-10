@@ -86,7 +86,7 @@ export default function ChatPanel({ activeId, initialOfferModalState, onBack }) 
     };
 
     return (
-        <section className="flex-1 flex flex-col bg-[#000000] relative min-w-0">
+        <section className="flex-1 flex flex-col bg-[#000000] relative min-w-0 min-h-0">
             <ChatHeader
                 conversation={currentConversation}
                 interlocutor={interlocutor}

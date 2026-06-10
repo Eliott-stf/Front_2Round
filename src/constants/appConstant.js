@@ -1,4 +1,4 @@
-import { AlertTriangle, Banknote, FolderOpen, Heart, Home, LayoutDashboard, LogIn, LogInIcon, LogOut, Mail, MapPin, Menu, Package, Paperclip, Phone, Recycle, Send, Settings, ShoppingBag, User, UserPlus, Users, Wallet } from "lucide-react";
+import { AlertTriangle, Banknote, FolderOpen, Heart, Home, LayoutDashboard, UserStar, LogInIcon, LogOut, Mail, MapPin, Menu, Package, Paperclip, Phone, Recycle, Send, Settings, ShoppingBag, User, UserPlus, Users, Wallet, Flame } from "lucide-react";
 
 // ====================
 // CLE DU LOCAL STORAGE
@@ -17,11 +17,15 @@ export const dataNavbarAuth = [
     {
         icon: User,
         options: [
-            { title: "Mon vestiaire", path: "/profil", icon: Settings },
+            { title: "Mon vestiaire", path: "/profil", icon: UserStar },
             { title: "Mon portefeuille", path: "/wallet", icon: Wallet },
             { title: "Mes commandes", path: "/order", icon: Package },
             { title: "Mes favoris", path: "/favorite", icon: Heart },
         ]
+    },
+    {
+        path: "/discover",
+        icon: Flame
     },
     {
         path: "/messages",
