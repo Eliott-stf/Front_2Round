@@ -80,34 +80,21 @@ export const dataAdminSidebar = [
 ];
 
 export const footerStaticLinks = [
-    { title: "Les Packs", path: "/packs" },
-    { title: "Les Guides", path: "/guides" },
-    { title: "Assistance & FAQ", path: "/support" }
+    { title: "Les Packs", path: "#" },
+    { title: "Les Guides", path: "/guide" },
+    { title: "Assistance & FAQ", path: "#" }
 ];
 
 export const footerGuestLinks = [
-    { title: "Créer mon profil", path: "/inscription" },
-    { title: "Se connecter", path: "/connexion" },
-    { title: "Commencer à vendre", path: "/vendre" }
+    { title: "Créer mon profil", path: "/register" },
+    { title: "Se connecter", path: "/login" },
+    { title: "Commencer à vendre", path: "/resell" }
 ];
 
 export const footerAuthLinks = [
-    {
-        title: "MON ROUND PERSO",
-        links: [
-            { title: "Pack personnalisé", path: "/profil/pack" },
-            { title: "Favoris", path: "/profil/favoris" },
-            { title: "Portefeuille", path: "/profil/portefeuille" }
-        ]
-    },
-    {
-        title: "MON VESTIAIRE",
-        links: [
-            { title: "Articles", path: "/vestiaire/articles" },
-            { title: "Évaluations", path: "/vestiaire/evaluations" },
-            { title: "Historique des ventes", path: "/vestiaire/ventes" }
-        ]
-    }
+    { title: "Mon profil", path: "/profil" },
+    { title: "Se déconnecter", isLogout: true },
+    { title: "Commencer à vendre", path: "/resell" }
 ];
 
 export const footerContact = [

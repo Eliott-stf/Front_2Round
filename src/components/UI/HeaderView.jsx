@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 export default function HeaderView({ title, subtitle, heightClass = "h-[250px]" }) {
   const navigate = useNavigate();
@@ -13,17 +14,25 @@ export default function HeaderView({ title, subtitle, heightClass = "h-[250px]" 
       <div className="relative z-10 flex items-center px-4 md:px-12 lg:px-24 w-full max-w-[1440px] mx-auto gap-4 md:gap-6">
         
         {/* Bouton de retour isolé */}
-        <button
+        <motion.button
+          initial={{ x: 50, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
           onClick={() => navigate(-1)}
           className="text-white hover:text-red transition-colors flex-shrink-0 cursor-pointer"
         >
           <svg className="w-8 h-8 md:w-10 md:h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
           </svg>
-        </button>
+        </motion.button>
 
         {/* Données textuelles */}
-        <div className="flex flex-col mt-1">
+        <motion.div 
+          initial={{ x: 100, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="flex flex-col mt-1"
+        >
           <h1 className="text-white text-3xl md:text-5xl lg:text-6xl font-bebas uppercase tracking-wide leading-tight">
             {title}
           </h1>
@@ -32,7 +41,7 @@ export default function HeaderView({ title, subtitle, heightClass = "h-[250px]" 
               {subtitle}
             </p>
           )}
-        </div>
+        </motion.div>
         
       </div>
     </div>

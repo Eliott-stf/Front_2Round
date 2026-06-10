@@ -9,8 +9,16 @@ import {
   footerAuthLinks, 
   footerContact 
 } from '@constants/appConstant';
+import { useAuthContext } from '@contexts/AuthContext';
 
-export const Footer = ({ isAuthenticated = false }) => {
+export const Footer = () => {
+  const { userId, signOut } = useAuthContext();
+  const isAuthenticated = !!userId;
+
+  const handleLogout = async () => {
+    await signOut();
+    window.location.href = "/";
+  };
   const linkItemClass = "font-inter font-normal text-sm lg:text-[18px] text-gray hover:text-white transition-colors leading-none flex items-center justify-center sm:justify-start w-full";
 
   return (
@@ -50,18 +58,17 @@ export const Footer = ({ isAuthenticated = false }) => {
               />
             </div>
           ) : (
-            footerAuthLinks.map((section, idx) => (
-              <div key={`auth-section-${idx}`} className="flex flex-col items-center sm:items-start gap-4 lg:gap-6 w-full">
-                <h3 className="font-inter font-bold text-base lg:text-[20px] leading-none tracking-normal uppercase">
-                  {section.title}
-                </h3>
-                <SmartNavlinks 
-                  data={section.links}
-                  containerClassName="flex flex-col items-center sm:items-start gap-3 lg:gap-4 w-full"
-                  itemClassName={linkItemClass}
-                />
-              </div>
-            ))
+            <div className="flex flex-col items-center sm:items-start gap-4 lg:gap-6 w-full">
+              <h3 className="font-inter font-bold text-base lg:text-[20px] leading-none tracking-normal uppercase">
+                Mon Compte
+              </h3>
+              <SmartNavlinks 
+                data={footerAuthLinks}
+                containerClassName="flex flex-col items-center sm:items-start gap-3 lg:gap-4 w-full"
+                itemClassName={linkItemClass}
+                onLogout={handleLogout}
+              />
+            </div>
           )}
         </div>
 

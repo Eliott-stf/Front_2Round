@@ -101,7 +101,7 @@ export default function SelectionSection() {
 
     return (
         <section className="relative w-full bg-[#111111] py-15 border-b border-[#2f2f2f] flex justify-center overflow-hidden">
-            
+
             {/* Background global de la section */}
             <div className="absolute inset-0 bg-pattern-overlay z-0" />
 

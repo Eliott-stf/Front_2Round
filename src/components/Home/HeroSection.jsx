@@ -31,7 +31,7 @@ export default function HeroSection() {
     };
 
     return (
-        <section className="relative w-full h-[100vh] min-h-[700px] max-h-[1000px] bg-black overflow-hidden flex flex-col justify-center border-none">
+        <section className="relative w-full h-[85vh] md:h-[100vh] min-h-[550px] md:min-h-[700px] max-h-[1000px] bg-black overflow-hidden flex flex-col justify-center border-none">
             
             {/* Background Image */}
             <img
@@ -65,44 +65,47 @@ export default function HeroSection() {
                 variants={containerVariants}
                 initial="hidden"
                 animate="visible"
-                className="relative z-10 w-full max-w-[1440px] mx-auto px-6 lg:px-[136px] flex flex-col lg:flex-row justify-between items-center h-full pb-20 pt-16 gap-12"
+                className="relative z-10 w-full max-w-[1440px] mx-auto px-6 lg:px-[136px] flex flex-col lg:flex-row justify-between items-center h-full pb-35 pt-16 gap-6 lg:gap-12"
             >
                 {/* Left Side: Slogan */}
                 <motion.div variants={itemVariants} className="w-full lg:w-1/2 flex flex-col items-center lg:items-start text-center lg:text-left">
                     {/* Slogan */}
-                    <h1 className="font-bebas text-white text-[56px] md:text-[80px] lg:text-[110px] leading-[0.85] uppercase tracking-wide drop-shadow-2xl">
-                        VOTRE PROCHAIN <span className="text-red">ROUND</span><br />
+                    <h1 className="font-bebas text-white text-[50px] md:text-[64px] lg:text-[80px] xl:text-[100px] leading-[0.9] uppercase tracking-wide drop-shadow-2xl">
+                        VOTRE SECOND <span className="text-red">ROUND</span><br />
                         COMMENCE ICI
                     </h1>
-                    <p className="font-inter text-gray-300 text-lg md:text-xl mt-6 max-w-lg leading-relaxed">
+                    {/* Masqué sur mobile/tablette, taille ajustée sur grand écran */}
+                    <p className="hidden lg:block font-inter text-gray-400 text-base xl:text-lg mt-6 max-w-md xl:max-w-lg leading-relaxed">
                         L'équipement premium pour ceux qui ne reculent jamais. Découvre la sélection, vends ton ancien matériel, et retourne sur le ring.
                     </p>
                 </motion.div>
 
                 {/* Right Side: Logo & Buttons */}
-                <motion.div variants={itemVariants} className="w-full lg:w-1/2 flex flex-col items-center lg:items-end gap-8 md:gap-12">
-                    {/* Logo */}
-                    <div className="w-48 md:w-64 lg:w-[488px] flex justify-center lg:justify-end">
-                        <Logo className="w-full h-auto drop-shadow-2xl" fill="white" />
-                    </div>
+                <motion.div variants={itemVariants} className="w-full lg:w-1/2 flex flex-col items-center lg:items-end">
+                    <div className="flex flex-col items-center gap-6 lg:gap-10 w-full max-w-[320px] lg:max-w-[488px]">
+                        {/* Logo */}
+                        <div className="w-48 md:w-64 lg:w-[340px] flex justify-center">
+                            <Logo className="w-full h-auto drop-shadow-2xl" fill="white" />
+                        </div>
 
-                    {/* CTA Buttons */}
-                    <div className="flex flex-col gap-5 w-full max-w-[320px] lg:max-w-[488px]">
-                        <button
-                            onClick={handleProfileClick}
-                            className="group relative w-full h-[60px] md:h-[70px] lg:h-[81px] flex items-center justify-center bg-red text-white font-bebas text-2xl lg:text-3xl tracking-widest uppercase transition-all duration-300 overflow-hidden hover:-translate-y-1 shadow-2xl"
-                        >
-                            {/* Hover fill effect */}
-                            <div className="absolute inset-0 bg-white/20 -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out" />
-                            <span className="relative z-10">CRÉER MON PROFIL</span>
-                        </button>
-                        
-                        <Link
-                            to="/resell"
-                            className="group w-full h-[60px] md:h-[70px] lg:h-[81px] flex items-center justify-center bg-white/5 backdrop-blur-md border border-white/20 text-white font-bebas text-2xl lg:text-3xl tracking-widest uppercase hover:bg-white hover:text-black transition-all duration-300 hover:-translate-y-1 shadow-2xl"
-                        >
-                            COMMENCER À VENDRE
-                        </Link>
+                        {/* CTA Buttons */}
+                        <div className="flex flex-col gap-5 w-full">
+                            <button
+                                onClick={handleProfileClick}
+                                className="group relative w-full h-[60px] md:h-[70px] lg:h-[81px] flex items-center justify-center bg-red text-white font-bebas text-2xl lg:text-3xl tracking-widest uppercase transition-all duration-300 overflow-hidden hover:-translate-y-1 shadow-2xl"
+                            >
+                                {/* Hover fill effect */}
+                                <div className="absolute inset-0 bg-white/20 -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out" />
+                                <span className="relative z-10">CRÉER MON PROFIL</span>
+                            </button>
+                            
+                            <Link
+                                to="/resell"
+                                className="group w-full h-[60px] md:h-[70px] lg:h-[81px] flex items-center justify-center bg-white/5 backdrop-blur-md border border-white/20 text-white font-bebas text-2xl lg:text-3xl tracking-widest uppercase hover:bg-white hover:text-black transition-all duration-300 hover:-translate-y-1 shadow-2xl"
+                            >
+                                COMMENCER À VENDRE
+                            </Link>
+                        </div>
                     </div>
                 </motion.div>
             </motion.div>

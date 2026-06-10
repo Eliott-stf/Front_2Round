@@ -18,10 +18,24 @@ export const SmartNavlinks = ({ data, containerClassName, itemClassName, onLogou
         }
 
         const Icon = item.icon;
+
+        if (item.isLogout) {
+          return (
+            <button
+              key={`link-${index}`}
+              onClick={onLogout}
+              className={itemClassName}
+            >
+              {Icon && <Icon className="w-6 h-6 mr-2 shrink-0" />}
+              {item.title && <span>{item.title}</span>}
+            </button>
+          );
+        }
+
         return (
           <NavLink
             key={`link-${index}`}
-            to={item.path}
+            to={item.path || "#"}
             className={itemClassName}
           >
             {Icon && <Icon className="w-6 h-6 mr-2 shrink-0" />}
