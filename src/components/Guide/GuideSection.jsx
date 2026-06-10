@@ -15,9 +15,9 @@ export default function GuideSection() {
     return (
         <section className="w-full bg-black py-6 md:py-12">
             <div className="max-w-[1440px] mx-auto px-6 lg:px-[136px] flex flex-col">
-                
+
                 {GUIDE_DATA.map((guide, index) => (
-                    <button 
+                    <button
                         key={index}
                         onClick={() => setActiveModal(guide.modalId)}
                         className="group flex items-center justify-between py-6 md:py-12 border-b border-[#2f2f2f] hover:border-[#4a4a4a] transition-colors duration-300 w-full text-left cursor-pointer"

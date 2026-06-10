@@ -73,7 +73,7 @@ export default function SwipeCard({ product, isTop, onSwipe }) {
                     className="absolute top-10 left-10 border-4 border-red text-red font-bebas text-5xl px-4 py-2 rounded-lg transform -rotate-12 z-20 pointer-events-none bg-black/40 backdrop-blur-sm"
                     style={{ opacity: opacityNope }}
                 >
-                    NOPE
+                    K.O
                 </motion.div>
                 <motion.div 
                     className="absolute top-3/4 left-1/2 -translate-x-1/2 -translate-y-1/2 border-4 border-amber-500 text-amber-500 font-bebas text-5xl px-4 py-2 rounded-lg z-20 pointer-events-none bg-black/40 backdrop-blur-sm"

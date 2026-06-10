@@ -22,7 +22,8 @@ export default function GuidesSection() {
         <div className="w-full flex flex-col">
 
           {/* Titre de la section */}
-          <h2 className="font-bebas text-white text-[32px] md:text-[40px] lg:text-[56px] uppercase mb-6 md:mb-8 tracking-wider">
+          <p className="text-red font-bold uppercase tracking-[0.3em] text-sm md:text-base">L'ART DU COMBAT</p>
+          <h2 className="font-bebas text-white text-[40px] md:text-[70px] uppercase mb-8 md:mb-8 ">
             UN COUP DE POING ?
           </h2>
 
@@ -39,15 +40,15 @@ export default function GuidesSection() {
                 className="group relative h-[150px] md:h-auto md:min-h-[350px] overflow-hidden text-left border-b md:border-b-0 md:border-r border-[#2f2f2f] last:border-b-0 md:last:border-r-0 p-5 md:p-6 flex items-end cursor-pointer"
               >
                 {/* Image d'arrière-plan de la carte */}
-                <img 
-                  src={guide.img} 
-                  alt={guide.title} 
-                  className="absolute inset-0 h-full w-full object-cover opacity-35 grayscale group-hover:scale-105 group-hover:opacity-55 transition-all duration-500" 
+                <img
+                  src={guide.img}
+                  alt={guide.title}
+                  className="absolute inset-0 h-full w-full object-cover opacity-35 grayscale group-hover:scale-105 group-hover:opacity-55 transition-all duration-500"
                 />
-                
+
                 {/* Overlays pour assurer le contraste et l'effet visuel */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent md:via-black/50" />
-                
+
                 {/* Contenu textuel */}
                 <div className="relative z-10 w-full">
                   <span className="text-red font-inter font-bold uppercase tracking-[0.2em] md:tracking-[0.26em] text-[10px] md:text-xs block mb-1 md:mb-0">
@@ -60,7 +61,7 @@ export default function GuidesSection() {
               </button>
             ))}
           </div>
-        
+
           {/* Bouton de redirection */}
           <div className="flex justify-center md:justify-end w-full mt-8 md:mt-10">
             <Link

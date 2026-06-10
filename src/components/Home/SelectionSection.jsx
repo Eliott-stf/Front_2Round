@@ -25,7 +25,7 @@ export default function SelectionSection() {
                 const response = await api.url('/products?limit=50').get().json();
                 const productsList = response?.data || response?.items || response || [];
                 const available = productsList.filter(p => p.status === 'AVAILABLE');
-                
+
                 // Fonction de mélange 
                 const shuffle = (array) => {
                     const copy = [...array];
@@ -100,10 +100,14 @@ export default function SelectionSection() {
     };
 
     return (
-        <section className="w-full bg-black py-20 border-b border-gray-dark flex justify-center">
-            <div className="w-full max-w-[1240px] px-6">
+        <section className="relative w-full bg-[#111111] py-15 border-b border-[#2f2f2f] flex justify-center overflow-hidden">
+            
+            {/* Background global de la section */}
+            <div className="absolute inset-0 bg-pattern-overlay z-0" />
 
-                <h2 className="font-bebas text-white text-[40px] md:text-[56px] uppercase mb-8 md:mb-10 tracking-wider">
+            <div className="relative z-10 w-full max-w-[1240px] px-6 ">
+                <p className="text-red font-bold uppercase tracking-[0.3em] text-sm md:text-base">FORCE DE FRAPPE</p>
+                <h2 className="font-bebas text-white text-[40px] md:text-[70px] uppercase mb-8 md:mb-8 ">
                     NOTRE SELECTION
                 </h2>
 
