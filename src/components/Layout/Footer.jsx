@@ -14,7 +14,7 @@ export const Footer = ({ isAuthenticated = false }) => {
   const linkItemClass = "font-inter font-normal text-sm lg:text-[18px] text-gray hover:text-white transition-colors leading-none flex items-center justify-center sm:justify-start w-full";
 
   return (
-    <footer id="contact-footer" className="w-full bg-black border-t border-gray-dark text-white pt-10 lg:pt-16 pb-6 lg:pb-8 px-6 md:px-12 xl:px-25.5">
+    <footer id="contact" className="w-full bg-black border-t border-gray-dark text-white pt-10 lg:pt-16 pb-6 lg:pb-8 px-6 md:px-12 xl:px-25.5">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8 mb-10 lg:mb-16">
 
         <div className="flex flex-col items-center sm:items-start text-center sm:text-left gap-4 lg:gap-6">
@@ -26,7 +26,7 @@ export const Footer = ({ isAuthenticated = false }) => {
           </p>
         </div>
 
-        <div className="flex flex-col items-center sm:items-start text-center sm:text-left gap-4 lg:gap-6">
+        <div id="support" className="flex flex-col items-center sm:items-start text-center sm:text-left gap-4 lg:gap-6">
           <h3 className="font-inter font-bold text-base lg:text-[20px] leading-none tracking-normal uppercase">
             Ressources
           </h3>

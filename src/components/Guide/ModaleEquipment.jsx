@@ -1,51 +1,60 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { X, CheckCircle2 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronRight, CheckCircle2 } from 'lucide-react';
 import { GUIDE_EQUIPMENTS_CONTENT } from '@constants/appConstant';
 
 export default function ModaleEquipment({ isOpen, onClose }) {
+    if (!isOpen) return null;
+
     return (
-        <div 
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
-            onClick={onClose}
-        >
-            <motion.div 
-                initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                transition={{ duration: 0.3, ease: 'easeOut' }}
-                onClick={(e) => e.stopPropagation()}
-                className="relative w-full max-w-2xl bg-[#111] border border-[#2f2f2f] rounded-2xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.8)]"
+        <AnimatePresence>
+            <div 
+                className="fixed inset-0 z-50 flex justify-end bg-black/60 backdrop-blur-sm"
+                onClick={onClose}
             >
-                {/* Content Section */}
-                <div className="w-full p-8 md:p-12 relative flex flex-col max-h-[90vh] overflow-y-auto">
+                <motion.div 
+                    initial={{ x: '100%' }}
+                    animate={{ x: 0 }}
+                    exit={{ x: '100%' }}
+                    transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+                    onClick={(e) => e.stopPropagation()}
+                    className="relative w-full sm:max-w-[50vw] min-w-full sm:min-w-[520px] h-full bg-black border-l border-white/20 text-white p-0 flex flex-col shadow-2xl"
+                >
                     <button 
                         onClick={onClose}
-                        className="absolute top-6 right-6 text-gray-400 hover:text-white transition-colors"
+                        className="absolute top-6 right-6 z-50 w-10 h-10 flex items-center justify-center bg-black/50 border border-white/20 rounded-full hover:bg-white hover:text-black transition-all"
                     >
-                        <X size={32} />
+                        <ChevronRight size={24} />
                     </button>
 
-                    <h2 className="font-bebas text-white text-5xl md:text-6xl mb-2 uppercase leading-none mt-4 md:mt-0">
-                        LES ÉQUIPEMENTS
-                    </h2>
-                    <p className="font-inter text-gray-400 text-lg mb-8">
-                        Découvrez le matériel essentiel pour la pratique de la boxe en toute sécurité.
-                    </p>
-
-                    <div className="flex flex-col gap-6">
-                        {GUIDE_EQUIPMENTS_CONTENT.map((item, idx) => (
-                            <div key={idx} className="flex gap-4">
-                                <CheckCircle2 className="text-red shrink-0 mt-1" size={24} />
-                                <div>
-                                    <h3 className="font-bebas text-white text-2xl tracking-wider mb-1 uppercase">{item.title}</h3>
-                                    <p className="font-inter text-gray-400 text-sm leading-relaxed">{item.desc}</p>
-                                </div>
+                    <div className="relative flex-1 p-7 md:p-12 overflow-y-auto custom-scrollbar flex flex-col">
+                        <div className="absolute inset-0 bg-pattern-overlay pointer-events-none" />
+                        
+                        <div className="relative z-10 flex flex-col h-full">
+                            <div className="text-left space-y-5 mb-8">
+                                <p className="text-red font-bold uppercase tracking-[0.3em] text-sm">Manuel tactique</p>
+                                <h2 className="font-bebas text-7xl md:text-8xl leading-[0.88] text-white uppercase">LES ÉQUIPEMENTS</h2>
+                                <p className="text-white/70 text-base leading-8 font-inter">
+                                    Découvrez le matériel essentiel pour la pratique de la boxe en toute sécurité.
+                                    Conseil du coin : vérifiez l’état, l’ajustement et la sensation avant chaque reprise. Un bon équipement doit protéger sans ralentir votre garde.
+                                </p>
                             </div>
-                        ))}
+
+                            <div className="flex flex-col gap-6 relative z-20 pb-12 mt-6">
+                                {GUIDE_EQUIPMENTS_CONTENT.map((item, idx) => (
+                                    <div key={idx} className="flex gap-6 border border-white/10 p-6 bg-black/40 backdrop-blur-sm transition-colors hover:bg-white/5">
+                                        <CheckCircle2 className="text-red shrink-0 mt-1" size={28} />
+                                        <div>
+                                            <h3 className="font-bebas text-white text-3xl tracking-wider mb-2 uppercase">{item.title}</h3>
+                                            <p className="font-inter text-white/70 text-base leading-relaxed">{item.desc}</p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </motion.div>
-        </div>
+                </motion.div>
+            </div>
+        </AnimatePresence>
     );
 }

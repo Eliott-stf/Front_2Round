@@ -48,6 +48,33 @@ export const DropdownItem = ({ item, className, onLogout }) => {
               );
             }
 
+            // Condition : Si le lien est une ancre (#)
+            if (option.path && option.path.startsWith('#')) {
+              return (
+                <button
+                  key={index}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setIsOpen(false);
+                    const targetId = option.path.substring(1);
+                    const element = document.getElementById(targetId);
+                    if (element) {
+                      element.scrollIntoView({ behavior: 'smooth' });
+                    } else {
+                      // S'il n'est pas sur la page, on redirige vers l'accueil avec l'ancre
+                      window.location.href = '/' + option.path;
+                    }
+                  }}
+                  className="group flex items-center px-4 py-2.5 mx-2 font-inter text-sm text-gray hover:text-white hover:bg-gray-dark rounded-xl transition-all duration-200 text-left w-[calc(100%-1rem)]"
+                >
+                  {OptionIcon && (
+                    <OptionIcon className="w-4 h-4 mr-3 text-gray group-hover:text-white transition-colors duration-200 shrink-0" />
+                  )}
+                  <span className="font-medium tracking-wide">{option.title}</span>
+                </button>
+              );
+            }
+
             // Rendu standard pour les liens de navigation
             return (
               <NavLink

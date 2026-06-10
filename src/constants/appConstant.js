@@ -34,8 +34,8 @@ export const dataNavbarAuth = [
     {
         icon: Menu,
         options: [
-            { title: "Support", path: "/support" },
-            { title: "Contact", path: "#contact-footer" },
+            { title: "Support", path: "#contact" },
+            { title: "Contact", path: "#contact" },
             { title: "Déconnexion", isLogout: true, icon: LogOut }
         ]
     },
@@ -50,14 +50,18 @@ export const dataNavbarGuest = [
         ]
     },
     {
+        path: "/discover",
+        icon: Flame
+    },
+    {
         path: "/messages",
         icon: Send
     },
     {
         icon: Menu,
         options: [
-            { title: "Support", path: "/support" },
-            { title: "Contact", path: "#contact-footer" },
+            { title: "Support", path: "#support" },
+            { title: "Contact", path: "#contact" },
         ]
     },
 ];

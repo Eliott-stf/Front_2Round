@@ -37,7 +37,7 @@ export default function HeroSection() {
                 <source src="/videos/smoke2.mp4" type="video/mp4" />
             </video>
 
-            <div className="relative z-10 w-full max-w-[1240px] mx-auto px-6 h-full flex flex-col justify-between pt-12 pb-6 md:pt-20 md:pb-8 lg:py-24">
+            <div className="relative z-10 w-full max-w-[1240px] mx-auto px-6 h-full flex flex-col justify-between pt-12 pb-6 md:pt-20 md:pb-8 lg:pt-24 lg:pb-10">
                 {/* Spacer or empty div to push content down on desktop */}
                 <div className="hidden lg:block lg:h-12" />
 

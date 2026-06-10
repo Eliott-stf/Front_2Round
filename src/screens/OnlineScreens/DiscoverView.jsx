@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { fetchProducts, toggleFavorite } from '@store/product/productSlice';
 import { fetchMyFavorites } from '@store/user/userSlice';
 import { createConversation } from '@store/conversation/conversationSlice';
+import { useAuthContext } from '@contexts/AuthContext';
 import PageLoader from '@components/Loader/PageLoader';
 import SwipeCard from '@components/Discover/SwipeCard';
 import { Heart, X, Banknote } from 'lucide-react';
@@ -12,6 +13,7 @@ export default function DiscoverView() {
     // On récupère le hook
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { userId } = useAuthContext();
     
     // On déclare nos States et Store
     const { items, loading } = useSelector(state => state.products);
@@ -21,26 +23,41 @@ export default function DiscoverView() {
     useEffect(() => {
         // Fetch des dataaaaa
         dispatch(fetchProducts());
-        dispatch(fetchMyFavorites());
-    }, [dispatch]);
+        if (userId) {
+            dispatch(fetchMyFavorites());
+        }
+    }, [dispatch, userId]);
 
     useEffect(() => {
         // Filtrage des articles pour ne pas montrer ceux déjà en favoris
-        if (items && items.length > 0 && myFavorites) {
-            const favoriteIds = new Set(myFavorites.map(fav => fav.id));
-            const unswipedProducts = items.filter(p => !favoriteIds.has(p.id));
-            
-            // Inversion du tab
-            setStack([...unswipedProducts].reverse());
+        if (items && items.length > 0) {
+            if (userId && myFavorites) {
+                const favoriteIds = new Set(myFavorites.map(fav => fav.id));
+                const unswipedProducts = items.filter(p => !favoriteIds.has(p.id));
+                
+                // Inversion du tab
+                setStack([...unswipedProducts].reverse());
+            } else {
+                // Si non connecté, on affiche tout
+                setStack([...items].reverse());
+            }
         }
-    }, [items, myFavorites]);
+    }, [items, myFavorites, userId]);
 
     // Méthode de gestion du balayage (swipe)
     const handleSwipe = async (direction, product) => {
         if (direction === 'right') {
+            if (!userId) {
+                navigate('/login');
+                return;
+            }
             dispatch(toggleFavorite(product.id));
             setStack(prev => prev.filter(p => p.id !== product.id));
         } else if (direction === 'up') {
+            if (!userId) {
+                navigate('/login');
+                return;
+            }
             try {
                 // Création/récupération de la conversation pour cet article
                 const conversation = await dispatch(createConversation({ productId: product.id })).unwrap();

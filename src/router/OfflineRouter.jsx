@@ -15,6 +15,7 @@ import OrderDetail from '@screens/OnlineScreens/OrderDetail';
 import WalletView from '@screens/OnlineScreens/WalletView';
 import FavoriteView from '@screens/OnlineScreens/FavoriteView';
 import ProductCreateView from '@screens/OnlineScreens/ProductCreateView';
+import DiscoverView from '@screens/OnlineScreens/DiscoverView';
 
 const OfflineRouter = createBrowserRouter([
   {
@@ -40,7 +41,8 @@ const OfflineRouter = createBrowserRouter([
       {
         path: "messages",
         element: < MessageView />,
-      }
+      },
+      { path: 'discover', element: <DiscoverView /> }
     ],
   },
 ]);
