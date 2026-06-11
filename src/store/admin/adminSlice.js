@@ -63,7 +63,7 @@ export const fetchAdminUserDetail = createAsyncThunk(
     }
 );
 
-// Récupérer toutes les commandes pour le BackOffice
+// Récupérer toutes les commandes
 export const fetchAdminOrders = createAsyncThunk(
     'admin/fetchAdminOrders',
     async (_, { rejectWithValue }) => {
@@ -71,6 +71,18 @@ export const fetchAdminOrders = createAsyncThunk(
             return await api.url('/orders/all').get().json();
         } catch (error) {
             return rejectWithValue('Erreur lors du chargement des commandes');
+        }
+    }
+);
+
+// Annuler et rembourser une commande
+export const cancelAdminOrder = createAsyncThunk(
+    'admin/cancelAdminOrder',
+    async (id, { rejectWithValue }) => {
+        try {
+            return await api.url(`/orders/admin/${id}/cancel-refund`).patch().json();
+        } catch (error) {
+            return rejectWithValue('Erreur lors de l\'annulation de la commande');
         }
     }
 );
@@ -277,16 +289,30 @@ const adminSlice = createSlice({
             
             // FETCH ALL ORDERS
             .addCase(fetchAdminOrders.pending, (state) => {
+                //loading et erreur
                 state.loading = true;
                 state.error = null;
             })
             .addCase(fetchAdminOrders.fulfilled, (state, action) => {
+                //loading et erreur
                 state.loading = false;
                 state.orders = action.payload?.data || action.payload || [];
             })
             .addCase(fetchAdminOrders.rejected, (state, action) => {
+                //loading et erreur
                 state.loading = false;
                 state.error = action.payload;
+            })
+
+            // CANCEL ORDER
+            .addCase(cancelAdminOrder.fulfilled, (state, action) => {
+                const updatedOrder = action.payload?.data || action.payload;
+                if (updatedOrder) {
+                    const index = state.orders.findIndex(o => o.id === updatedOrder.id);
+                    if (index !== -1) {
+                        state.orders[index] = { ...state.orders[index], status: updatedOrder.status };
+                    }
+                }
             })
             
             // FETCH ALL REPORTS

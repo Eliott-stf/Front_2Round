@@ -18,11 +18,20 @@ export const fetchFactureByOrderId = createAsyncThunk(
 // Thunk pour télécharger et sauvegarder localement le PDF de la facture
 export const downloadFacture = createAsyncThunk(
     'facture/downloadFacture',
-    async ({ orderId, reference }, { rejectWithValue }) => {
+    async ({ orderId, reference, type = 'INVOICE' }, { rejectWithValue }) => {
         try {
-            // recup id de la facture
-            const facture = await api.url(`/factures/${orderId}`).get().json();
+            // recup factures
+            const factures = await api.url(`/factures/${orderId}`).get().json();
             
+            // trouver la facture correspondante
+            const facture = Array.isArray(factures) 
+                ? factures.find(f => f.type === type) 
+                : factures;
+
+            if (!facture) {
+                throw new Error("Facture introuvable");
+            }
+
             // recup le blob binaire du fichier PDF
             const blob = await api.url(`/factures/${facture.id}/download`).get().blob();
             
@@ -30,7 +39,8 @@ export const downloadFacture = createAsyncThunk(
             const downloadUrl = window.URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.href = downloadUrl;
-            link.setAttribute('download', `Facture-${reference}.pdf`);
+            const prefix = type === 'REFUND' ? 'Annulation-' : 'Facture-';
+            link.setAttribute('download', `${prefix}${reference}.pdf`);
             document.body.appendChild(link);
             link.click();
             link.remove();

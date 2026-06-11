@@ -1,12 +1,17 @@
 // src/components/Admin/Order/ModaleOrderDetail.jsx
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { cancelAdminOrder } from '@store/admin/adminSlice';
 import { API_ROOT } from '@constants/apiConstant';
 import { ORDER_STATUS_MAP } from '@constants/appConstant';
 import { formatFullDate } from '@/utils/formateDate';
 import { slugify } from '@/utils/slugify';
 
 export default function ModaleOrderDetail({ isOpen, onClose, order }) {
+    //on récup le hook
+    const dispatch = useDispatch();
+
     //Vérif....
     if (!isOpen || !order) return null;
 
@@ -172,7 +177,24 @@ export default function ModaleOrderDetail({ isOpen, onClose, order }) {
                 </div>
 
                 {/* Actions de pied de page */}
-                <div className="p-6 bg-[#161618] border-t border-[#222222] flex justify-end">
+                <div className="p-6 bg-[#161618] border-t border-[#222222] flex justify-between items-center">
+                    {/* Bouton Annulation et Remboursement */}
+                    {order.status === 'PAID' ? (
+                        <button
+                            onClick={() => {
+                                if (window.confirm("Êtes-vous sûr de vouloir annuler et rembourser cette commande ? Cette action est irréversible.")) {
+                                    dispatch(cancelAdminOrder(order.id));
+                                    onClose();
+                                }
+                            }}
+                            className="px-6 py-2 rounded-full border border-red-500/50 text-red-500 hover:bg-red-500 hover:text-white font-inter text-sm font-semibold transition-colors outline-none"
+                        >
+                            Annuler & Rembourser
+                        </button>
+                    ) : (
+                        <div></div> // Placeholder pour flex-between
+                    )}
+
                     <button
                         onClick={onClose}
                         className="px-6 py-2 rounded-full border border-[#222] text-[#888] hover:text-white hover:border-white font-inter text-sm font-semibold transition-colors outline-none"
