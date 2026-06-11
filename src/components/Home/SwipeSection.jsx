@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 export default function SwipeSection() {
     const controls = useAnimation();
-    const [stamp, setStamp] = useState(null); // 'LIKE', 'PASS', 'OFFER', or null
+    const [stamp, setStamp] = useState(null);
 
     useEffect(() => {
         let isMounted = true;

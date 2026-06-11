@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { HOME_GUIDES } from '@constants/appConstant';
 import { AnimatePresence } from 'framer-motion';
-
 import ModaleTaille from '../Guide/ModaleTaille';
 import ModaleEquipment from '../Guide/ModaleEquipment';
 import ModaleBoxe from '../Guide/ModaleBoxe';

@@ -4,7 +4,8 @@ import { fetchAdminReports } from '@store/admin/adminSlice';
 import PageLoader from '@components/Loader/PageLoader';
 import ReportList from '@components/Admin/Report/ReportList';
 import ModaleReportDetail from '@components/Admin/Report/ModaleReportDetail';
-import { AlertTriangle } from 'lucide-react';
+import ModaleTypeReport from '@components/Admin/Report/ModaleTypeReport';
+import { AlertTriangle, List } from 'lucide-react';
 import HeaderAdmin from '@components/Admin/UI/HeaderAdmin';
 import SearchBar from '@components/Admin/UI/SearchBar';
 import FilterSelect from '@components/Admin/UI/FilterSelect';
@@ -24,6 +25,7 @@ export default function AdminReports() {
     const [typeFilter, setTypeFilter] = useState('ALL');
     const [selectedReportId, setSelectedReportId] = useState(null);
     const [isDetailOpen, setIsDetailOpen] = useState(false);
+    const [isTypeModalOpen, setIsTypeModalOpen] = useState(false);
 
     //Méthode pour récup les donne de L'API
     useEffect(() => {
@@ -91,6 +93,13 @@ export default function AdminReports() {
                     onChange={(e) => setStatusFilter(e.target.value)}
                     options={REPORT_STATUS_FILTER_OPTIONS}
                 />
+                <button
+                    onClick={() => setIsTypeModalOpen(true)}
+                    className="flex items-center gap-2 bg-[#222] hover:bg-[#333] text-white px-4 py-2 rounded-xl transition-colors whitespace-nowrap"
+                >
+                    <List className="w-5 h-5" />
+                    <span className="hidden sm:inline">Gérer les types</span>
+                </button>
                 <CounterBadge count={filteredReports.length} label="Signalements" />
             </HeaderAdmin>
 
@@ -106,6 +115,12 @@ export default function AdminReports() {
                 isOpen={isDetailOpen}
                 onClose={handleCloseDetail}
                 reportId={selectedReportId}
+            />
+
+            {/* Modale CRUD des Types de Signalement */}
+            <ModaleTypeReport
+                isOpen={isTypeModalOpen}
+                onClose={() => setIsTypeModalOpen(false)}
             />
         </div>
     );

@@ -34,7 +34,7 @@ export default function MessageView() {
         setSlideActive(false);
         setTimeout(() => {
             setActiveConversationId(null);
-        }, 300); // Même durée que la transition CSS (duration-300)
+        }, 300);
     };
 
     // Nettoyage du state de navigation pour éviter la réouverture automatique au rafraîchissement

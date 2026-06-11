@@ -123,6 +123,43 @@ export const fetchAdminDashboardStats = createAsyncThunk(
     }
 );
 
+// Récupérer tous les types de signalement
+export const fetchAdminTypeReports = createAsyncThunk(
+    'admin/fetchAdminTypeReports',
+    async (_, { rejectWithValue }) => {
+        try {
+            return await api.url('/type-reports').get().json();
+        } catch (error) {
+            return rejectWithValue('Erreur lors du chargement des types de signalement');
+        }
+    }
+);
+
+// Créer un type de signalement
+export const createAdminTypeReport = createAsyncThunk(
+    'admin/createAdminTypeReport',
+    async (payload, { rejectWithValue }) => {
+        try {
+            return await api.url('/type-reports').post(payload).json();
+        } catch (error) {
+            return rejectWithValue('Erreur lors de la création du type de signalement');
+        }
+    }
+);
+
+// Supprimer un type de signalement
+export const deleteAdminTypeReport = createAsyncThunk(
+    'admin/deleteAdminTypeReport',
+    async (id, { rejectWithValue }) => {
+        try {
+            await api.url(`/type-reports/${id}`).delete().res();
+            return id;
+        } catch (error) {
+            return rejectWithValue('Erreur lors de la suppression du type de signalement');
+        }
+    }
+);
+
 // --- SLICE ---
 
 const adminSlice = createSlice({
@@ -133,6 +170,7 @@ const adminSlice = createSlice({
         products: [],
         orders: [],
         reports: [],
+        typeReports: [],
         reportDetail: null,
         userDetail: null,
         dashboardStats: null,
@@ -315,6 +353,34 @@ const adminSlice = createSlice({
                 //loading et erreur
                 state.loading = false;
                 state.error = action.payload;
+            })
+            
+            // FETCH TYPE REPORTS
+            .addCase(fetchAdminTypeReports.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchAdminTypeReports.fulfilled, (state, action) => {
+                state.loading = false;
+                state.typeReports = action.payload?.data || action.payload || [];
+            })
+            .addCase(fetchAdminTypeReports.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+            
+            // CREATE TYPE REPORT
+            .addCase(createAdminTypeReport.fulfilled, (state, action) => {
+                const newType = action.payload?.data || action.payload;
+                if (newType) {
+                    state.typeReports.push(newType);
+                }
+            })
+            
+            // DELETE TYPE REPORT
+            .addCase(deleteAdminTypeReport.fulfilled, (state, action) => {
+                const deletedId = action.payload;
+                state.typeReports = state.typeReports.filter(tr => tr.id !== deletedId);
             });
     }
 });
