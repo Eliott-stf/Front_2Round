@@ -3,9 +3,12 @@ import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuthContext } from '@contexts/AuthContext';
 import { motion } from 'framer-motion';
+import { useDispatch } from 'react-redux';
+import { openCTAModal } from '@store/auth/authSlice';
 
 export default function HeroSection() {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const { userId } = useAuthContext();
 
     const handleProfileClick = () => {

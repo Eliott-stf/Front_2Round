@@ -1,6 +1,7 @@
 // src/components/Product/ProductImg.jsx
 import { API_ROOT } from '@constants/apiConstant';
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleFavorite } from '@store/product/productSlice';
 import { fetchMyFavorites } from '@store/user/userSlice';
@@ -8,9 +9,11 @@ import { fetchMyFavorites } from '@store/user/userSlice';
 export default function ProductImg({ product }) {
   //on récup le hook
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   //on déclare nos state
   const { myFavorites } = useSelector((state) => state.user);
+  const { token } = useSelector((state) => state.auth);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
 
@@ -42,6 +45,10 @@ export default function ProductImg({ product }) {
 
   //Méthode pour ajouter/supprimer des favoris
   const handleToggleFavorite = async () => {
+    if (!token) {
+      navigate('/login', { state: { message: "Connectez-vous pour enregistrer des favoris." } });
+      return;
+    }
     if (!product?.id) return;
     setIsFavorite(!isFavorite);
     await dispatch(toggleFavorite(product.id));

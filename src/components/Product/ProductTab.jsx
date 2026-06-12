@@ -6,6 +6,7 @@ import { useAuthContext } from '@contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { createConversation } from '@store/conversation/conversationSlice';
 import { sendMessage } from '@store/message/messageSlice';
+import { openCTAModal } from '@store/auth/authSlice';
 
 export default function ProductTab({ targetUserId }) {
     //On récupère le hook
@@ -88,6 +89,10 @@ export default function ProductTab({ targetUserId }) {
                 <div className="flex justify-center mb-4">
                     <button
                         onClick={() => {
+                            if (!authId) {
+                                dispatch(openCTAModal());
+                                return;
+                            }
                             setIsSelectionMode(!isSelectionMode);
                             setSelectedIds([]);
                             setSuggestedPrice('');

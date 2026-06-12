@@ -8,6 +8,7 @@ import { fetchCategories } from '@store/category/categorySlice';
 import { createProduct } from '@store/product/productSlice';
 import { uploadProductImages } from '@store/media/mediaSlice';
 import { slugify } from '@/utils/slugify';
+import { openCTAModal } from '@store/auth/authSlice';
 
 export default function ProductCreateView() {
     const dispatch = useDispatch();
@@ -17,9 +18,10 @@ export default function ProductCreateView() {
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (!token) {
-            navigate('/login');
+            dispatch(openCTAModal());
+            navigate('/');
         }
-    }, [navigate]);
+    }, [navigate, dispatch]);
 
     // Récupération des catégories depuis Redux
     const categories = useSelector((state) => state.categories.items);
@@ -167,11 +169,10 @@ export default function ProductCreateView() {
                             <button
                                 type="submit"
                                 disabled={isSubmitting}
-                                className={`px-10 py-4 bg-red hover:bg-[#cc0000] text-white font-bebas text-2xl tracking-wider rounded-xl uppercase transition-all duration-300 shadow-lg cursor-pointer ${
-                                    isSubmitting
+                                className={`px-10 py-4 bg-red hover:bg-[#cc0000] text-white font-bebas text-2xl tracking-wider rounded-xl uppercase transition-all duration-300 shadow-lg cursor-pointer ${isSubmitting
                                         ? 'opacity-50 cursor-not-allowed'
                                         : 'hover:scale-[1.02] hover:shadow-red/25'
-                                }`}
+                                    }`}
                             >
                                 {isSubmitting ? 'Publication en cours...' : "Publier l'annonce"}
                             </button>

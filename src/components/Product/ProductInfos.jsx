@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchReviewsByUser } from '@store/review/reviewSlice';
 import { createConversation } from '@store/conversation/conversationSlice';
+import { openCTAModal } from '@store/auth/authSlice';
 import StarRating from '@components/UI/StarRating';
 import ModaleUpdate from '@components/Product/ModaleUpdate';
 import ModaleDelete from '@components/Product/ModaleDelete';
@@ -51,6 +52,10 @@ export default function ProductInfos({ product, isOwner }) {
 
   // méthode pour déclencher l'ouverture de la modale
   const handleBuy = () => {
+    if (!userId) {
+      dispatch(openCTAModal());
+      return;
+    }
     setIsPaymentOpen(true);
   };
 
@@ -58,7 +63,7 @@ export default function ProductInfos({ product, isOwner }) {
   const handleOpenReport = () => {
     //Vérif que l'utilisateur est bien connecté
     if (!userId) {
-      navigate('/login');
+      dispatch(openCTAModal());
       return;
     }
     setIsReportOpen(true);
@@ -67,6 +72,10 @@ export default function ProductInfos({ product, isOwner }) {
   // Méthode de création/récupération de la conversation
   const handleContactSeller = async (withOffer = false) => {
     if (!product?.id) return;
+    if (!userId) {
+      dispatch(openCTAModal());
+      return;
+    }
     try {
       const conversation = await dispatch(createConversation({ productId: product.id })).unwrap();
       navigate('/messages', {

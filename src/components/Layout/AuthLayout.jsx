@@ -25,7 +25,7 @@ export const AuthLayout = ({ children }) => {
       <div className="absolute inset-0 bg-black/50 pointer-events-none"></div>
 
       {/* 4. Couche interactive : Conteneur des formulaires */}
-      <div className="relative z-10 flex items-center justify-center w-full h-full px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 flex items-center justify-center w-full h-full px-4 sm:px-6 lg:px-8 pb-16 md:pb-24">
         <div className="w-full max-w-md p-8 bg-black/60 border border-neutral-800 rounded-2xl backdrop-blur-sm shadow-2xl">
           {children}
         </div>

@@ -54,7 +54,7 @@ export const dataNavbarGuest = [
         icon: Flame
     },
     {
-        path: "/messages",
+        isCTA: true,
         icon: Send
     },
     {

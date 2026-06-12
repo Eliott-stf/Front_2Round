@@ -66,7 +66,7 @@ export default function MessageView() {
                                 setActiveId={setActiveConversationId}
                             />
                         </div>
-                        
+
                         {/* Volet droit : Discussion en cours */}
                         <div className="message-panel-right min-w-0 min-h-0">
                             <ChatPanel
@@ -79,7 +79,7 @@ export default function MessageView() {
                 ) : (
                     <div className="flex-1 flex flex-col items-center justify-center p-6 h-full">
                         <div className="relative w-full max-w-2xl bg-[#111111] rounded-2xl p-10 md:p-16 flex flex-col items-center text-center overflow-hidden">
-                            
+
                             {/* Custom Dashed Border with longer dashes */}
                             <svg className="absolute inset-0 w-full h-full pointer-events-none z-10">
                                 <rect width="100%" height="100%" fill="none" stroke="#444" strokeWidth="4" strokeDasharray="24 12" rx="16" />
@@ -87,7 +87,7 @@ export default function MessageView() {
 
                             {/* Background Pattern */}
                             <div className="absolute inset-0 bg-pattern-overlay z-0" />
-                            
+
                             <div className="relative z-10 flex flex-col items-center">
                                 <h2 className="font-bebas text-white text-3xl md:text-5xl uppercase tracking-wider mb-4 drop-shadow-md">
                                     Connecte-toi pour échanger
@@ -96,13 +96,13 @@ export default function MessageView() {
                                     Tu dois posséder un compte pour envoyer des messages aux vendeurs et gérer tes offres. <br></br> Rejoins le ring et commence à négocier !
                                 </p>
                                 <div className="flex flex-col sm:flex-row gap-5 w-full sm:w-auto">
-                                    <button 
+                                    <button
                                         onClick={() => navigate('/login')}
                                         className="bg-red text-white font-bebas text-xl md:text-2xl tracking-widest px-8 py-4 hover:bg-red-600 transition-colors uppercase cursor-pointer w-full sm:w-auto shadow-xl"
                                     >
                                         SE CONNECTER
                                     </button>
-                                    <button 
+                                    <button
                                         onClick={() => navigate('/profil')}
                                         className="border border-white/20 bg-white/5 text-white font-bebas text-xl md:text-2xl tracking-widest px-8 py-4 hover:bg-white/10 transition-colors uppercase backdrop-blur-sm cursor-pointer w-full sm:w-auto"
                                     >

@@ -5,6 +5,7 @@ import { fetchProducts, toggleFavorite } from '@store/product/productSlice';
 import { fetchMyFavorites } from '@store/user/userSlice';
 import { createConversation } from '@store/conversation/conversationSlice';
 import { useAuthContext } from '@contexts/AuthContext';
+import { openCTAModal } from '@store/auth/authSlice';
 import PageLoader from '@components/Loader/PageLoader';
 import SwipeCard from '@components/Discover/SwipeCard';
 import { Heart, X, Banknote } from 'lucide-react';
@@ -14,7 +15,7 @@ export default function DiscoverView() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { userId } = useAuthContext();
-    
+
     // On déclare nos States et Store
     const { items, loading } = useSelector(state => state.products);
     const { myFavorites } = useSelector(state => state.user);
@@ -34,7 +35,7 @@ export default function DiscoverView() {
             if (userId && myFavorites) {
                 const favoriteIds = new Set(myFavorites.map(fav => fav.id));
                 const unswipedProducts = items.filter(p => !favoriteIds.has(p.id));
-                
+
                 // Inversion du tab
                 setStack([...unswipedProducts].reverse());
             } else {
@@ -48,14 +49,14 @@ export default function DiscoverView() {
     const handleSwipe = async (direction, product) => {
         if (direction === 'right') {
             if (!userId) {
-                navigate('/login');
+                dispatch(openCTAModal());
                 return;
             }
             dispatch(toggleFavorite(product.id));
             setStack(prev => prev.filter(p => p.id !== product.id));
         } else if (direction === 'up') {
             if (!userId) {
-                navigate('/login');
+                dispatch(openCTAModal());
                 return;
             }
             try {
@@ -65,7 +66,7 @@ export default function DiscoverView() {
                 navigate('/messages', {
                     state: {
                         activeConversationId: conversation.id,
-                        openOfferModal: true 
+                        openOfferModal: true
                     }
                 });
             } catch (error) {
@@ -83,11 +84,11 @@ export default function DiscoverView() {
 
     return (
         <div className="relative w-full h-full min-h-[calc(100vh-80px)] bg-[#0a0a0a] flex flex-col items-center justify-center overflow-hidden pt-6 pb-24">
-            
+
             <div className="relative w-full max-w-md h-[550px] md:h-[600px] flex justify-center items-center">
                 {stack.length > 0 ? (
                     stack.map((product, index) => (
-                        <SwipeCard 
+                        <SwipeCard
                             key={product.id}
                             product={product}
                             isTop={index === stack.length - 1}
@@ -107,19 +108,19 @@ export default function DiscoverView() {
 
             {/* Boutons d'action rapides */}
             <div className={`flex gap-8 mt-12 z-10 transition-opacity duration-300 ${stack.length > 0 ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-                <button 
+                <button
                     onClick={() => stack.length > 0 && handleSwipe('left', stack[stack.length - 1])}
                     className="w-16 h-16 bg-[#1a1a1a] border border-[#222] rounded-full flex items-center justify-center text-red hover:bg-red/10 hover:border-red transition-all shadow-lg hover:scale-105 active:scale-95"
                 >
                     <X size={32} strokeWidth={2.5} />
                 </button>
-                <button 
+                <button
                     onClick={() => stack.length > 0 && handleSwipe('up', stack[stack.length - 1])}
                     className="w-16 h-16 bg-[#1a1a1a] border border-[#222] rounded-full flex items-center justify-center text-amber-500 hover:bg-amber-500/10 hover:border-amber-500 transition-all shadow-lg hover:scale-105 active:scale-95"
                 >
                     <Banknote size={28} strokeWidth={2.5} />
                 </button>
-                <button 
+                <button
                     onClick={() => stack.length > 0 && handleSwipe('right', stack[stack.length - 1])}
                     className="w-16 h-16 bg-[#1a1a1a] border border-[#222] rounded-full flex items-center justify-center text-green-500 hover:bg-green-500/10 hover:border-green-500 transition-all shadow-lg hover:scale-105 active:scale-95"
                 >

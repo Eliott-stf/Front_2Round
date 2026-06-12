@@ -1,6 +1,6 @@
 import { API_ROOT } from '@constants/apiConstant';
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleFavorite } from '@store/product/productSlice';
 import { fetchMyFavorites } from '@store/user/userSlice';
@@ -19,9 +19,11 @@ export default function ProductCard({ product, selectable = false, selected = fa
 
     //on récup le hook
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     //on déclare nos state
     const { myFavorites } = useSelector((state) => state.user);
+    const { token } = useSelector((state) => state.auth);
     const [isFavorite, setIsFavorite] = useState(false);
 
     // On déclare nos constante pour le confort 
@@ -56,6 +58,10 @@ export default function ProductCard({ product, selectable = false, selected = fa
     const handleToggleFavorite = async (e) => {
         e.preventDefault();
         e.stopPropagation();
+        if (!token) {
+            navigate('/login', { state: { message: "Connectez-vous pour enregistrer des favoris." } });
+            return;
+        }
         if (!product?.id) return;
         setIsFavorite(!isFavorite);
         await dispatch(toggleFavorite(product.id));

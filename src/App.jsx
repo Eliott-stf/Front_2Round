@@ -7,6 +7,8 @@ import Navbar from '@components/Layout/Navbar'
 import { Footer } from '@components/Layout/Footer'
 import ScrollToTop from '@components/UI/ScrollToTop'
 
+import ModaleCTA from '@components/UI/ModaleCTA'
+
 function App() {
   const [count, setCount] = useState(0)
   const location = useLocation();
@@ -33,6 +35,7 @@ function App() {
         <Outlet />
       </main>
       {showFooter && <Footer />}
+      <ModaleCTA />
     </div>
   )
 }

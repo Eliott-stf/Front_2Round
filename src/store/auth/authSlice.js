@@ -17,12 +17,15 @@ const authSlice = createSlice({
         token: null,
         loading: false,
         error: null,
+        showCTAModal: false, // État pour afficher la modale CTA (Boxe)
     },
     reducers: {
         setLoading: (state, action) => { state.loading = action.payload; },
         setUser: (state, action) => { state.user = action.payload; },
         setToken: (state, action) => { state.token = action.payload; },
         setError: (state, action) => { state.error = action.payload; },
+        openCTAModal: (state) => { state.showCTAModal = true; },
+        closeCTAModal: (state) => { state.showCTAModal = false; },
         logout: (state) => {
             state.user = null;
             state.token = null;
@@ -47,7 +50,7 @@ const authSlice = createSlice({
     },
 });
 
-export const { setLoading, setUser, setToken, setError, logout } = authSlice.actions;
+export const { setLoading, setUser, setToken, setError, logout, openCTAModal, closeCTAModal } = authSlice.actions;
 
 export const login = ({ email, password }) => async (dispatch) => {
     try {
