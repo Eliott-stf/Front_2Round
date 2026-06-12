@@ -85,7 +85,7 @@ export default function DiscoverView() {
     return (
         <div className="relative w-full h-full min-h-[calc(100vh-80px)] bg-[#0a0a0a] flex flex-col items-center justify-center overflow-hidden pt-6 pb-24">
 
-            <div className="relative w-full max-w-md h-[550px] md:h-[600px] flex justify-center items-center">
+            <div className="relative w-full max-w-[350px] sm:max-w-md h-[520px] sm:h-[550px] md:h-[600px] flex justify-center items-center">
                 {stack.length > 0 ? (
                     stack.map((product, index) => (
                         <SwipeCard
@@ -107,7 +107,7 @@ export default function DiscoverView() {
             </div>
 
             {/* Boutons d'action rapides */}
-            <div className={`flex gap-8 mt-12 z-10 transition-opacity duration-300 ${stack.length > 0 ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+            <div className={`flex gap-8 mt-10 z-10 transition-opacity duration-300 ${stack.length > 0 ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
                 <button
                     onClick={() => stack.length > 0 && handleSwipe('left', stack[stack.length - 1])}
                     className="w-16 h-16 bg-[#1a1a1a] border border-[#222] rounded-full flex items-center justify-center text-red hover:bg-red/10 hover:border-red transition-all shadow-lg hover:scale-105 active:scale-95"

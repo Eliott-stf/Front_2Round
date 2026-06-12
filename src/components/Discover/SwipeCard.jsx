@@ -110,7 +110,7 @@ export default function SwipeCard({ product, isTop, onSwipe }) {
                         </p>
                     </div>
                     
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 mt-2">
                         <span className="bg-[#222] text-xs font-inter text-[#ccc] px-3 py-1 rounded-full border border-[#333]">
                             Taille: {product.size || 'N/A'}
                         </span>

@@ -103,7 +103,7 @@ export default function SelectionSection() {
         <section className="relative w-full bg-[#111111] py-15 border-b border-[#2f2f2f] flex justify-center overflow-hidden">
 
             {/* Background global de la section */}
-            <div className="absolute inset-0 bg-pattern-overlay z-0" />
+            <div className="absolute inset-x-0 -top-1/2 -bottom-1/2 min-h-[1000px] bg-pattern-overlay z-0" />
 
             <div className="relative z-10 w-full max-w-[1240px] px-6 ">
                 <p className="text-red font-bold uppercase tracking-[0.3em] text-sm md:text-base">FORCE DE FRAPPE</p>

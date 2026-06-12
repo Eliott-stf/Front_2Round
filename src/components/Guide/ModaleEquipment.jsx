@@ -27,8 +27,9 @@ export default function ModaleEquipment({ isOpen, onClose }) {
                         <ChevronRight size={24} />
                     </button>
 
-                    <div className="relative flex-1 p-7 md:p-12 overflow-y-auto custom-scrollbar flex flex-col">
-                        <div className="absolute inset-0 bg-pattern-overlay pointer-events-none" />
+                    <div className="absolute inset-0 bg-pattern-overlay pointer-events-none z-0" />
+
+                    <div className="relative z-10 flex-1 p-7 md:p-12 overflow-y-auto custom-scrollbar flex flex-col">
                         
                         <div className="relative z-10 flex flex-col h-full">
                             <div className="text-left space-y-5 mb-8">

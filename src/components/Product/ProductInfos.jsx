@@ -9,6 +9,7 @@ import ModaleUpdate from '@components/Product/ModaleUpdate';
 import ModaleDelete from '@components/Product/ModaleDelete';
 import ModalePayment from '@components/Product/ModalePayment';
 import ModaleReport from '@components/Report/ModaleReport';
+import ModaleTaille from '@components/Guide/ModaleTaille';
 import { useAuthContext } from '@contexts/AuthContext';
 import { API_ROOT } from '@constants/apiConstant';
 import { getRelativeTime } from '@/utils/formateDate';
@@ -28,6 +29,7 @@ export default function ProductInfos({ product, isOwner }) {
   // Ajout de l'état pour contrôler l'ouverture de la modale de paiement
   const [isPaymentOpen, setIsPaymentOpen] = useState(false);
   const [isReportOpen, setIsReportOpen] = useState(false);
+  const [isGuideOpen, setIsGuideOpen] = useState(false);
 
   // On déclare nos constantes
   const title = product?.title || "Article inconnu";
@@ -125,7 +127,12 @@ export default function ProductInfos({ product, isOwner }) {
           <div className="flex flex-col">
             <div className="flex justify-between items-center mb-1.5 md:mb-2">
               <span className="font-inter text-[11px] md:text-[12px] text-gray uppercase tracking-[0.15em]">Taille</span>
-              <button className="text-[10px] md:text-[11px] font-normal text-gray-light hover:text-white transition-colors underline decoration-[#333] underline-offset-4">Guide</button>
+              <button 
+                onClick={() => setIsGuideOpen(true)}
+                className="text-[10px] md:text-[11px] font-normal text-gray-light hover:text-white transition-colors underline decoration-[#333] underline-offset-4"
+              >
+                Guide
+              </button>
             </div>
             <span className="font-inter font-medium text-white text-[18px] md:text-[22px] tracking-tight truncate">{size}</span>
           </div>
@@ -267,6 +274,11 @@ export default function ProductInfos({ product, isOwner }) {
         isOpen={isReportOpen}
         onClose={() => setIsReportOpen(false)}
         productId={product?.id}
+      />
+
+      <ModaleTaille 
+        isOpen={isGuideOpen}
+        onClose={() => setIsGuideOpen(false)}
       />
     </>
   );

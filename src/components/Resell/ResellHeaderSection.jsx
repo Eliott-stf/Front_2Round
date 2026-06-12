@@ -9,9 +9,9 @@ export default function ResellHeaderSection() {
         <section className="relative w-full h-auto lg:h-[450px] bg-[#111111] overflow-hidden border-b border-[#2f2f2f]">
             <div className="absolute inset-0 bg-pattern-overlay z-0" />
 
-            <div className="max-w-[1728px] mx-auto px-6 md:px-12 lg:px-24 xl:px-[150px] relative z-10 flex flex-col justify-center h-full py-12 lg:py-0 lg:pt-[100px] lg:pb-[50px]">
+            <div className="max-w-[1728px] mx-auto px-6 md:px-12 lg:px-24 xl:px-[150px] relative z-10 flex flex-col justify-center h-full py-6 md:py-12 lg:py-0 lg:pt-[100px] lg:pb-[50px]">
 
-                <div className="flex flex-col lg:flex-row lg:items-center justify-between w-full gap-8">
+                <div className="flex flex-col w-full gap-4 md:gap-8">
 
                     <div className="flex items-center gap-4 md:gap-6">
                         <button
@@ -29,7 +29,7 @@ export default function ResellHeaderSection() {
                         </div>
                     </div>
 
-                    <div className="flex justify-center lg:justify-end w-full lg:w-auto shrink-0">
+                    <div className="flex justify-center md:justify-start md:pl-[88px] lg:pl-[96px] w-full shrink-0">
                         <a
                             href="#lecon-technique"
                             onClick={(e) => {
