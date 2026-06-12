@@ -6,6 +6,7 @@ import AppRouter from './router/AppRouter.jsx'
 import { AuthContextProvider } from './contexts/AuthContext.jsx'
 import { Provider } from 'react-redux'
 import { store } from '@store/store'
+import { SocketContextProvider } from './contexts/SocketContext.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -13,8 +14,10 @@ createRoot(document.getElementById('root')).render(
     <AuthContextProvider>
       {/* Store redux: gère l'atat global*/}
       <Provider store={store}>
-        {/* Router: Gère la navigation entre les pages*/}
-        <AppRouter />
+        <SocketContextProvider>
+          {/* Router: Gère la navigation entre les pages*/}
+          <AppRouter />
+        </SocketContextProvider>
       </Provider>
     </AuthContextProvider>
   </StrictMode>,

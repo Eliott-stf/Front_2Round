@@ -10,6 +10,7 @@ import stripeReducer from './stripe/stripeSlice';
 import addressReducer from './address/addressSlice';
 import conversationReducer from './conversation/conversationSlice';
 import messageReducer from './message/messageSlice';
+import offerReducer from './offer/offerSlice';
 import orderReducer from './order/orderSlice';
 import txReducer from './tx/txSlice';
 import bankAccountReducer from './bankAccount/bankAccountSlice';
@@ -31,6 +32,7 @@ export const store = configureStore({
         addresses: addressReducer,
         conversations: conversationReducer,
         messages: messageReducer,
+        offers: offerReducer,
         orders: orderReducer,
         tx: txReducer,
         bankAccounts: bankAccountReducer,

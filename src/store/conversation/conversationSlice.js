@@ -46,6 +46,74 @@ const conversationSlice = createSlice({
         clearCurrentConversation: (state) => {
             state.currentConversation = null;
         },
+        appendMessageToConversation: (state, action) => {
+            const { conversationId, message } = action.payload;
+            const conversation = state.items.find(conv => conv.id === conversationId);
+            if (conversation) {
+                if (!conversation.messages) {
+                    conversation.messages = [];
+                }
+                const alreadyExists = conversation.messages.some(msg => msg.id === message.id);
+                if (!alreadyExists) {
+                    conversation.messages.push(message);
+                    conversation.updatedAt = message.createdAt;
+                }
+                // Trie pour mettre la conversation active en haut de la liste
+                state.items = [conversation, ...state.items.filter(c => c.id !== conversationId)];
+            }
+            if (state.currentConversation && state.currentConversation.id === conversationId) {
+                if (!state.currentConversation.messages) {
+                    state.currentConversation.messages = [];
+                }
+                const alreadyExists = state.currentConversation.messages.some(msg => msg.id === message.id);
+                if (!alreadyExists) {
+                    state.currentConversation.messages.push(message);
+                    state.currentConversation.updatedAt = message.createdAt;
+                }
+            }
+        },
+        appendOfferToConversation: (state, action) => {
+            const { conversationId, offer } = action.payload;
+            const conversation = state.items.find(conv => conv.id === conversationId);
+            if (conversation) {
+                if (!conversation.offers) {
+                    conversation.offers = [];
+                }
+                const alreadyExists = conversation.offers.some(o => o.id === offer.id);
+                if (!alreadyExists) {
+                    conversation.offers.push(offer);
+                    conversation.updatedAt = offer.createdAt;
+                }
+                // Trie pour mettre la conversation active en haut de la liste
+                state.items = [conversation, ...state.items.filter(c => c.id !== conversationId)];
+            }
+            if (state.currentConversation && state.currentConversation.id === conversationId) {
+                if (!state.currentConversation.offers) {
+                    state.currentConversation.offers = [];
+                }
+                const alreadyExists = state.currentConversation.offers.some(o => o.id === offer.id);
+                if (!alreadyExists) {
+                    state.currentConversation.offers.push(offer);
+                    state.currentConversation.updatedAt = offer.createdAt;
+                }
+            }
+        },
+        updateOfferStatusInConversation: (state, action) => {
+            const { conversationId, offerId, status } = action.payload;
+            const conversation = state.items.find(conv => conv.id === conversationId);
+            if (conversation && conversation.offers) {
+                const offer = conversation.offers.find(o => o.id === offerId);
+                if (offer) {
+                    offer.status = status;
+                }
+            }
+            if (state.currentConversation && state.currentConversation.id === conversationId && state.currentConversation.offers) {
+                const offer = state.currentConversation.offers.find(o => o.id === offerId);
+                if (offer) {
+                    offer.status = status;
+                }
+            }
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -117,5 +185,10 @@ const conversationSlice = createSlice({
     },
 });
 
-export const { clearCurrentConversation } = conversationSlice.actions;
+export const { 
+    clearCurrentConversation, 
+    appendMessageToConversation, 
+    appendOfferToConversation, 
+    updateOfferStatusInConversation 
+} = conversationSlice.actions;
 export default conversationSlice.reducer;
