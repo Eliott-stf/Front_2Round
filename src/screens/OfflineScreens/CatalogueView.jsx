@@ -66,6 +66,7 @@ export default function CatalogueView() {
             
             <HeaderView 
                 title="CATALOGUE" 
+                subtitle="Découvrez tous les articles disponibles"
                 showBackButton={true}
                 heightClass="h-[90px] md:h-[120px]"
             />

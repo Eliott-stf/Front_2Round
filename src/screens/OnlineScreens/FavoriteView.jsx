@@ -23,6 +23,7 @@ const FavoriteView = () => {
 
             <HeaderView
                 title="MES FAVORIS"
+                subtitle="Retrouvez vos articles sauvegardés"
                 showBackButton={true}
                 heightClass="h-[90px] md:h-[120px]"
             />

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchTypeReports, createReport } from '@store/report/reportSlice';
 import { AlertTriangle, CheckCircle, X } from 'lucide-react';
@@ -68,9 +69,9 @@ export default function ModaleReport({ isOpen, onClose, productId, conversationI
         }
     };
 
-    return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md p-4 overflow-y-auto transition-all">
-            <div className="relative w-full max-w-135 bg-[#1c1c1e] rounded-4xl p-10 flex flex-col my-8 shadow-2xl border border-white/5">
+    return createPortal(
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-md p-4 transition-all">
+            <div className="relative w-full max-w-135 bg-[#1c1c1e] rounded-4xl p-6 md:p-10 flex flex-col shadow-2xl border border-white/5 max-h-[90vh] overflow-y-auto">
                 
                 {/* Bouton de fermeture */}
                 <button
@@ -176,6 +177,7 @@ export default function ModaleReport({ isOpen, onClose, productId, conversationI
                     </>
                 )}
             </div>
-        </div>
+        </div>,
+        document.body
     );
 }

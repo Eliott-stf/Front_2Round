@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { createPortal } from "react-dom";
 import { useDispatch } from "react-redux";
 import { X, Tag } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -58,14 +59,14 @@ export default function ModaleOffer({ isOpen, onClose, conversation }) {
         }
     };
 
-    return (
+    return createPortal(
         <AnimatePresence>
             {isOpen && (
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm"
+                    className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4"
                     onClick={onClose}
                 >
                     <motion.div
@@ -73,7 +74,7 @@ export default function ModaleOffer({ isOpen, onClose, conversation }) {
                         animate={{ scale: 1, opacity: 1 }}
                         exit={{ scale: 0.9, opacity: 0 }}
                         onClick={(e) => e.stopPropagation()}
-                        className="bg-gray-dark border border-gray-mid rounded-2xl w-full max-w-sm mx-4 overflow-hidden"
+                        className="bg-gray-dark border border-gray-mid rounded-2xl w-full max-w-sm overflow-y-auto max-h-[90vh]"
                     >
                         {/* Header */}
                         <div className="flex items-center justify-between px-5 py-4 border-b border-gray-mid">
@@ -137,6 +138,7 @@ export default function ModaleOffer({ isOpen, onClose, conversation }) {
                     </motion.div>
                 </motion.div>
             )}
-        </AnimatePresence>
+        </AnimatePresence>,
+        document.body
     );
 }

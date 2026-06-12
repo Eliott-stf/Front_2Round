@@ -53,6 +53,7 @@ export default function MessageView() {
         <div className="flex flex-col w-full bg-[#000000] overflow-hidden h-[calc(100vh-80px)] lg:h-[calc(100vh-120px)]">
             <HeaderView
                 title="MESSAGERIE"
+                subtitle="Gérez vos échanges avec les autres utilisateurs"
                 heightClass="h-[80px] md:h-[120px] shrink-0"
             />
 

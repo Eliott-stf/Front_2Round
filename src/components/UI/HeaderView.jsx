@@ -31,13 +31,13 @@ export default function HeaderView({ title, subtitle, heightClass = "h-[250px]" 
           initial={{ x: 100, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="flex flex-col mt-1"
+          className="flex flex-col mt-1 min-w-0 flex-1"
         >
-          <h1 className="text-white text-3xl md:text-5xl lg:text-6xl font-bebas uppercase tracking-wide leading-tight">
+          <h1 className="text-white text-3xl md:text-5xl lg:text-6xl font-bebas uppercase tracking-wide leading-tight truncate">
             {title}
           </h1>
           {subtitle && (
-            <p className="text-gray-400 text-xs md:text-sm lg:text-base font-inter mt-1 max-w-[90%] md:max-w-2xl">
+            <p className="text-gray-400 text-xs md:text-sm lg:text-base font-inter mt-1 truncate">
               {subtitle}
             </p>
           )}
