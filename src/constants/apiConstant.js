@@ -4,4 +4,4 @@
  * l'avantage: Modifier l'url de base en un seul endroit  
 */
 
-export const API_ROOT = 'http://localhost:3000';
+export const API_ROOT = import.meta.env.VITE_API_URL || 'http://localhost:3000';

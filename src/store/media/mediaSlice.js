@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '@lib/api';
+import { API_ROOT } from '@constants/apiConstant';
 
 export const uploadProductImages = createAsyncThunk('media/upload', async ({ productId, files }, { getState, rejectWithValue }) => {
     try {
@@ -11,7 +12,7 @@ export const uploadProductImages = createAsyncThunk('media/upload', async ({ pro
         // Extraction manuelle du token 
         const token = localStorage.getItem('token');
 
-        const response = await fetch(`http://localhost:3000/media/products/${productId}`, {
+        const response = await fetch(`${API_ROOT}/media/products/${productId}`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`
