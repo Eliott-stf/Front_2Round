@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import ProductCard from '@components/Product/ProductCard';
+import ProductCardSkeleton from '@components/Loader/ProductCardSkeleton';
 
 const FavoriteList = () => {
     //On déclare nos state 
@@ -11,10 +12,13 @@ const FavoriteList = () => {
 
     if (loading) {
         return (
-            <div className="w-full flex justify-center py-20">
-                <span className="font-inter text-[#737373] tracking-widest uppercase text-sm">
-                    Chargement de vos favoris...
-                </span>
+            //loading et erreur
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 md:gap-x-6 gap-y-6 md:gap-y-10">
+                {Array.from({ length: 8 }).map((_, idx) => (
+                    <div key={idx} className="flex justify-center">
+                        <ProductCardSkeleton />
+                    </div>
+                ))}
             </div>
         );
     }

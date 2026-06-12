@@ -1,7 +1,8 @@
 import React, { useRef } from 'react';
 import ProductCard from './ProductCard'; 
+import ProductCardSkeleton from '@components/Loader/ProductCardSkeleton';
 
-export default function SimilarProduct({ title, products = [], limit = 10 }) {
+export default function SimilarProduct({ title, products = [], loading = false, limit = 10 }) {
   const scrollContainerRef = useRef(null);
 
   // Références pour le défilement par clic-glisser (Drag to scroll)
@@ -62,7 +63,15 @@ export default function SimilarProduct({ title, products = [], limit = 10 }) {
         {title}
       </h2>
       
-      {displayedProducts.length > 0 ? (
+      {loading ? (
+        <div className="relative w-full">
+          <div className="flex overflow-x-auto flex-nowrap gap-4 md:gap-8 pb-4 no-scrollbar select-none w-full pointer-events-none">
+            {Array.from({ length: 5 }).map((_, idx) => (
+              <ProductCardSkeleton key={`skel-${idx}`} />
+            ))}
+          </div>
+        </div>
+      ) : displayedProducts.length > 0 ? (
         <div className="relative w-full">
           <div
             ref={scrollContainerRef}

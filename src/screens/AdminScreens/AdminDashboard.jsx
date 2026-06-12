@@ -6,6 +6,7 @@ import ModaleUserDetail from '@components/Admin/User/ModaleUserDetail';
 import ModaleOrderDetail from '@components/Admin/Order/ModaleOrderDetail';
 import ModaleReportDetail from '@components/Admin/Report/ModaleReportDetail';
 import DashboardCard from '@components/Admin/Dashboard/DashboardCard';
+import DashboardCardSkeleton from '@components/Loader/DashboardCardSkeleton';
 import CategoryDistribution from '@components/Admin/Dashboard/CategoryDistribution';
 import RecentOrdersTab from '@components/Admin/Dashboard/RecentOrdersTab';
 import RecentUsersTab from '@components/Admin/Dashboard/RecentUsersTab';
@@ -62,9 +63,10 @@ const AdminDashboard = () => {
     };
 
     //loading et erreur
-    if (loading && !dashboardStats) {
-        return <PageLoader />;
-    }
+    // On retire le PageLoader global pour afficher les skeletons
+    // if (loading && !dashboardStats) {
+    //     return <PageLoader />;
+    // }
 
     //on déclare nos const de confort
     const metrics = dashboardStats?.metrics || DEFAULT_DASHBOARD_METRICS;
@@ -95,52 +97,58 @@ const AdminDashboard = () => {
 
             {/* KPI Cards Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                
-                {/* Utilisateurs */}
-                <DashboardCard
-                    title="Membres"
-                    value={metrics.totalUsers}
-                    icon={Users}
-                    iconBgClass="bg-[#1e1a11] border-[#d97706]/20 text-[#d97706]"
-                    trendPrefix="+"
-                    trendValue={metrics.newUsersThisWeek}
-                    trendSuffix=" cette semaine"
-                    trendColorClass="text-emerald-500"
-                />
+                {(loading && !dashboardStats) ? (
+                    Array.from({ length: 4 }).map((_, idx) => (
+                        <DashboardCardSkeleton key={`dash-skel-${idx}`} />
+                    ))
+                ) : (
+                    <>
+                        {/* Utilisateurs */}
+                        <DashboardCard
+                            title="Membres"
+                            value={metrics.totalUsers}
+                            icon={Users}
+                            iconBgClass="bg-[#1e1a11] border-[#d97706]/20 text-[#d97706]"
+                            trendPrefix="+"
+                            trendValue={metrics.newUsersThisWeek}
+                            trendSuffix=" cette semaine"
+                            trendColorClass="text-emerald-500"
+                        />
 
-                {/* Produits */}
-                <DashboardCard
-                    title="Catalogue"
-                    value={metrics.totalProducts}
-                    icon={ShoppingBag}
-                    iconBgClass="bg-[#111c1e] border-[#0ea5e9]/20 text-[#0ea5e9]"
-                    trendValue={metrics.activeProducts}
-                    trendSuffix=" articles en ligne"
-                    trendColorClass="text-[#0ea5e9]"
-                />
+                        {/* Produits */}
+                        <DashboardCard
+                            title="Catalogue"
+                            value={metrics.totalProducts}
+                            icon={ShoppingBag}
+                            iconBgClass="bg-[#111c1e] border-[#0ea5e9]/20 text-[#0ea5e9]"
+                            trendValue={metrics.activeProducts}
+                            trendSuffix=" articles en ligne"
+                            trendColorClass="text-[#0ea5e9]"
+                        />
 
-                {/* Chiffre d'affaires */}
-                <DashboardCard
-                    title="Ventes globales"
-                    value={`${metrics.totalSalesVolume.toLocaleString('fr-FR')} €`}
-                    icon={TrendingUp}
-                    iconBgClass="bg-[#111e15] border-emerald-500/20 text-emerald-500"
-                    trendValue={metrics.totalOrders}
-                    trendSuffix=" commandes finalisées"
-                    trendColorClass="text-emerald-500"
-                />
+                        {/* Chiffre d'affaires */}
+                        <DashboardCard
+                            title="Ventes globales"
+                            value={`${metrics.totalSalesVolume.toLocaleString('fr-FR')} €`}
+                            icon={TrendingUp}
+                            iconBgClass="bg-[#111e15] border-emerald-500/20 text-emerald-500"
+                            trendValue={metrics.totalOrders}
+                            trendSuffix=" commandes finalisées"
+                            trendColorClass="text-emerald-500"
+                        />
 
-                {/* Signalements */}
-                <DashboardCard
-                    title="Signalements"
-                    value={metrics.pendingReports}
-                    icon={AlertTriangle}
-                    iconBgClass={metrics.pendingReports > 0 ? "bg-[#221111] border-red/20 text-[#ff4444]" : "bg-[#1e1e1e] border-[#333] text-[#888]"}
-                    actionRequiredText={metrics.pendingReports > 0 ? "Action requise" : "Aucun signalement en attente"}
-                    actionRequiredColorClass={metrics.pendingReports > 0 ? "text-[#ff4444]" : "text-[#888]"}
-                    isWarningValue={metrics.pendingReports > 0}
-                />
-
+                        {/* Signalements */}
+                        <DashboardCard
+                            title="Signalements"
+                            value={metrics.pendingReports}
+                            icon={AlertTriangle}
+                            iconBgClass={metrics.pendingReports > 0 ? "bg-[#221111] border-red/20 text-[#ff4444]" : "bg-[#1e1e1e] border-[#333] text-[#888]"}
+                            actionRequiredText={metrics.pendingReports > 0 ? "Action requise" : "Aucun signalement en attente"}
+                            actionRequiredColorClass={metrics.pendingReports > 0 ? "text-[#ff4444]" : "text-[#888]"}
+                            isWarningValue={metrics.pendingReports > 0}
+                        />
+                    </>
+                )}
             </div>
 
             {/* Split layout: Recent Activities & Category breakdown */}

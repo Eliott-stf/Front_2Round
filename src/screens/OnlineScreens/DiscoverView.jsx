@@ -9,6 +9,7 @@ import { useAuthContext } from '@contexts/AuthContext';
 import { openCTAModal } from '@store/auth/authSlice';
 import PageLoader from '@components/Loader/PageLoader';
 import SwipeCard from '@components/Discover/SwipeCard';
+import SwipeCardSkeleton from '@components/Loader/SwipeCardSkeleton';
 import { Heart, X, Banknote } from 'lucide-react';
 
 export default function DiscoverView() {
@@ -88,7 +89,15 @@ export default function DiscoverView() {
         }
     };
 
-    if (loading && stack.length === 0) return <PageLoader />;
+    if (loading && stack.length === 0) {
+        return (
+            <div className="relative w-full h-full min-h-[calc(100vh-80px)] bg-[#0a0a0a] flex flex-col items-center justify-center overflow-hidden pt-6 pb-24">
+                <div className="relative w-full max-w-[350px] sm:max-w-md h-[520px] sm:h-[550px] md:h-[600px] flex justify-center items-center">
+                    <SwipeCardSkeleton />
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="relative w-full h-full min-h-[calc(100vh-80px)] bg-[#0a0a0a] flex flex-col items-center justify-center overflow-hidden pt-6 pb-24">

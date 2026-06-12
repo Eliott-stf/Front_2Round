@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchMyProducts } from '@store/product/productSlice';
 import ProductCard from './ProductCard';
+import ProductCardSkeleton from '@components/Loader/ProductCardSkeleton';
 import { useAuthContext } from '@contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { createConversation } from '@store/conversation/conversationSlice';
@@ -71,7 +72,15 @@ export default function ProductTab({ targetUserId }) {
     };
 
     //Chargement + erreur + Product
-    if (loading) return <p className="text-center py-4 font-inter text-gray-light">Chargement...</p>;
+    if (loading) {
+        return (
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 md:gap-x-8 gap-y-6 md:gap-y-8 mt-4">
+                {Array.from({ length: 8 }).map((_, idx) => (
+                    <ProductCardSkeleton key={idx} />
+                ))}
+            </div>
+        );
+    }
     if (error) return <p className="text-center py-4 text-red font-inter text-sm">Erreur : {error}</p>;
     if (!myItems || myItems.length === 0) return (
         <p className="text-center font-inter text-gray py-8 tracking-widest uppercase text-sm">

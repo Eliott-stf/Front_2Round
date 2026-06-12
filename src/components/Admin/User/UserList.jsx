@@ -1,5 +1,6 @@
 import React from 'react';
 import UserCard from './UserCard';
+import UserCardSkeleton from '@components/Loader/UserCardSkeleton';
 
 const UserList = ({ users, loading, handleToggleBan, handleOpenDetail }) => {
     return (
@@ -17,14 +18,20 @@ const UserList = ({ users, loading, handleToggleBan, handleOpenDetail }) => {
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-[#222222]">
-                        {users.map((user) => (
-                            <UserCard 
-                                key={user.id} 
-                                user={user} 
-                                handleToggleBan={handleToggleBan} 
-                                handleOpenDetail={handleOpenDetail} 
-                            />
-                        ))}
+                        {loading ? (
+                            Array.from({ length: 5 }).map((_, idx) => (
+                                <UserCardSkeleton key={idx} />
+                            ))
+                        ) : (
+                            users.map((user) => (
+                                <UserCard 
+                                    key={user.id} 
+                                    user={user} 
+                                    handleToggleBan={handleToggleBan} 
+                                    handleOpenDetail={handleOpenDetail} 
+                                />
+                            ))
+                        )}
                         {users.length === 0 && !loading && (
                             <tr>
                                 <td colSpan="6" className="px-6 py-8 text-center text-[#555555] font-inter">

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from '@store/product/productSlice';
 import HeaderView from '@components/UI/HeaderView';
 import ProductCard from '@components/Product/ProductCard';
+import ProductCardSkeleton from '@components/Loader/ProductCardSkeleton';
 import CatalogueFilters from '@components/Catalogue/CatalogueFilter';
 import CataloguePagination from '@components/Catalogue/CataloguePagination';
 
@@ -11,8 +12,8 @@ import { setFilters } from '@store/product/productSlice';
 import { fetchCategories } from '@store/category/categorySlice';
 
 export default function CatalogueView() {
-    
-    // On récupère les hooks
+
+    //on récup le hook
     const dispatch = useDispatch();
     const { categorySlug } = useParams();
 
@@ -58,14 +59,14 @@ export default function CatalogueView() {
         dispatch(fetchProducts(filters));
     }, [dispatch, filters]);
 
-    // On déclare nos constantes de confort
+    //on déclare nos const de confort
     const totalResults = meta?.total || 0;
 
     return (
         <main className="w-full min-h-screen bg-black flex flex-col">
-            
-            <HeaderView 
-                title="CATALOGUE" 
+
+            <HeaderView
+                title="CATALOGUE"
                 subtitle="Découvrez tous les articles disponibles"
                 showBackButton={true}
                 heightClass="h-[90px] md:h-[160px] lg:h-[160px]"
@@ -74,18 +75,29 @@ export default function CatalogueView() {
             <CatalogueFilters />
 
             <section className="w-full max-w-[1440px] mx-auto px-6 py-8 flex flex-col flex-1">
-                
-                <span className="font-inter text-[#555555] text-xs uppercase tracking-widest mb-8">
-                    {totalResults} résultats.
-                </span>
 
                 {loading ? (
-                    <div className="w-full flex justify-center py-20">
-                        <span className="font-inter text-[#737373] tracking-widest uppercase text-sm">
-                            Chargement du catalogue...
-                        </span>
+                    //loading et erreur
+                    <div className="relative h-4 w-28 bg-[#111111] mb-8 rounded-sm overflow-hidden border border-white/5">
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full animate-shimmer" />
+                    </div>
+                ) : (
+                    <span className="font-inter text-[#555555] text-xs uppercase tracking-widest mb-8">
+                        {totalResults} résultats.
+                    </span>
+                )}
+
+                {loading ? (
+                    //loading et erreur
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 md:gap-x-6 gap-y-6 md:gap-y-10">
+                        {Array.from({ length: 12 }).map((_, idx) => (
+                            <div key={idx} className="flex justify-center">
+                                <ProductCardSkeleton />
+                            </div>
+                        ))}
                     </div>
                 ) : products.length === 0 ? (
+                    //loading et erreur
                     <div className="w-full flex justify-center py-20">
                         <span className="font-inter text-red tracking-widest uppercase text-sm">
                             Aucun produit ne correspond à vos critères.
@@ -103,7 +115,7 @@ export default function CatalogueView() {
 
             </section>
 
-            <CataloguePagination meta={meta} />
+            {!loading && <CataloguePagination meta={meta} />}
 
         </main>
     );
