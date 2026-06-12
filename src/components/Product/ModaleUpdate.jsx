@@ -53,7 +53,7 @@ export default function ModaleUpdate({ isOpen, onClose, product }) {
         const { name, value } = e.target;
         setFormData(prev => ({
             ...prev,
-            [name]: name === 'price' ? Number(value) : value
+            [name]: name === 'price' ? (value === '' ? '' : Number(value)) : value
         }));
     };
 

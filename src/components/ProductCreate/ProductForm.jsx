@@ -114,7 +114,9 @@ export default function ProductForm({ formData, setFormData, categories, errors 
                             step="0.01"
                             placeholder="0.00"
                             value={formData.price}
-                            onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                            onChange={(e) => {
+                                setFormData({ ...formData, price: e.target.value });
+                            }}
                             className="w-full bg-[#161616] border border-[#2f2f2f] focus:border-red/60 rounded-xl pl-4 pr-12 py-3 text-white placeholder-[#525252] font-inter text-sm focus:outline-none focus:ring-1 focus:ring-red/60 transition-all duration-200"
                         />
                         <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[#737373] font-inter text-sm font-semibold">

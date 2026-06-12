@@ -266,7 +266,9 @@ export default function ModaleReportDetail({ isOpen, onClose, reportId }) {
                                 onClick={handleResolve}
                                 className="flex-1 sm:flex-none h-14 bg-white text-black font-inter font-bold text-xs uppercase tracking-widest hover:bg-[#e5e5e5] transition-colors rounded-xl flex items-center justify-center gap-2 px-8 cursor-pointer"
                             >
-                                <CheckCircle size={16} /> Clôturer et marquer comme résolu
+                                <CheckCircle size={16} className="shrink-0" /> 
+                                <span className="hidden sm:inline">Clôturer et marquer comme résolu</span>
+                                <span className="inline sm:hidden">Marquer résolu</span>
                             </button>
                         ) : (
                             <div className="h-14 border border-emerald-500/20 text-emerald-500 bg-emerald-500/5 font-inter font-bold text-xs uppercase tracking-widest rounded-xl flex items-center justify-center gap-2 px-8">

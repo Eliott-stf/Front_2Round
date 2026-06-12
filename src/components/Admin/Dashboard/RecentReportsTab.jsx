@@ -25,10 +25,10 @@ export default function RecentReportsTab({ recentReports = [], handleOpenReportD
                 <table className="w-full text-left font-inter text-sm border-collapse">
                     <thead>
                         <tr className="border-b border-[#222] text-[#888] text-xs uppercase tracking-wider font-inter">
-                            <th className="pb-3 font-semibold">Déclarant</th>
-                            <th className="pb-3 font-semibold">Date</th>
-                            <th className="pb-3 font-semibold">Description</th>
-                            <th className="pb-3 text-right">Action</th>
+                            <th className="pb-3 font-semibold whitespace-nowrap px-2">Déclarant</th>
+                            <th className="pb-3 font-semibold whitespace-nowrap px-2">Date</th>
+                            <th className="pb-3 font-semibold whitespace-nowrap px-2">Description</th>
+                            <th className="pb-3 text-right whitespace-nowrap px-2">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -38,16 +38,16 @@ export default function RecentReportsTab({ recentReports = [], handleOpenReportD
                                 onClick={() => handleOpenReportDetail(report.id)}
                                 className="border-b border-[#222]/50 hover:bg-white/5 cursor-pointer transition-colors group"
                             >
-                                <td className="py-3 font-medium text-white group-hover:text-red transition-colors">
+                                <td className="py-3 font-medium text-white group-hover:text-red transition-colors whitespace-nowrap px-2">
                                     {report.user ? `${report.user.name} ${report.user.lastname}` : 'Membre'}
                                 </td>
-                                <td className="py-3 text-[#888]">
+                                <td className="py-3 text-[#888] whitespace-nowrap px-2">
                                     {getRelativeTime(report.createdAt)}
                                 </td>
-                                <td className="py-3 text-[#ccc] max-w-xs truncate">
+                                <td className="py-3 text-[#ccc] max-w-xs truncate px-2">
                                     {report.content || 'Aucune description'}
                                 </td>
-                                <td className="py-3 text-right">
+                                <td className="py-3 text-right whitespace-nowrap px-2">
                                     <button className="text-[#888] group-hover:text-white transition-colors">
                                         <ChevronRight size={16} />
                                     </button>

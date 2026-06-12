@@ -18,6 +18,11 @@ export default function ModaleOrderDetail({ isOpen, onClose, order }) {
     //on déclare nos const de confort
     const dateFormatted = formatFullDate(order.createdAt);
 
+    const getFileUrl = (path) => {
+        if (!path) return null;
+        return path.startsWith('http') ? path : `${API_ROOT}${path}`;
+    };
+
     const buyerName = order.buyer
         ? `${order.buyer.name} ${order.buyer.lastname}`
         : 'Inconnu';
@@ -25,6 +30,9 @@ export default function ModaleOrderDetail({ isOpen, onClose, order }) {
 
     const statusStyle = ORDER_STATUS_MAP[order.status] || { label: order.status, color: 'border-white text-white' };
     const items = order.items || [];
+
+    const invoicePath = order.factures?.find(f => f.type === 'INVOICE')?.path;
+    const cancellationInvoicePath = order.factures?.find(f => f.type === 'REFUND')?.path;
 
     const AddressBlock = ({ title, address }) => {
         if (!address) return (
@@ -125,11 +133,11 @@ export default function ModaleOrderDetail({ isOpen, onClose, order }) {
                                     <div key={item.id} className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 bg-[#111] rounded-2xl border border-[#222]">
                                         
                                         {/* Image & Infos de l'article */}
-                                        <div className="flex items-center gap-4">
+                                        <div className="flex items-center gap-4 flex-1 min-w-0">
                                             <div className="w-16 h-16 rounded-xl overflow-hidden bg-[#222] shrink-0">
                                                 <img src={imagePath} alt={product.title} className="w-full h-full object-cover" />
                                             </div>
-                                            <div className="flex flex-col min-w-0">
+                                            <div className="flex flex-col min-w-0 flex-1">
                                                 <Link 
                                                     to={`/product/${slugify(product.title)}-${product.id}`}
                                                     target="_blank" 
@@ -173,6 +181,28 @@ export default function ModaleOrderDetail({ isOpen, onClose, order }) {
                             {order.totalAmount.toFixed(2)} €
                         </span>
                     </div>
+
+                    {/* Documents */}
+                    {(invoicePath || cancellationInvoicePath) && (
+                        <>
+                            <hr className="border-[#222222]" />
+                            <div className="flex flex-col gap-3">
+                                <span className="font-inter text-xs text-[#555555] uppercase block">Documents</span>
+                                <div className="flex gap-4">
+                                    {invoicePath && (
+                                        <a href={getFileUrl(invoicePath)} target="_blank" rel="noopener noreferrer" className="text-sm font-inter text-[#888] hover:text-white underline transition-colors">
+                                            Télécharger la facture
+                                        </a>
+                                    )}
+                                    {cancellationInvoicePath && (
+                                        <a href={getFileUrl(cancellationInvoicePath)} target="_blank" rel="noopener noreferrer" className="text-sm font-inter text-red hover:text-red/80 underline transition-colors">
+                                            Facture d'annulation
+                                        </a>
+                                    )}
+                                </div>
+                            </div>
+                        </>
+                    )}
 
                 </div>
 

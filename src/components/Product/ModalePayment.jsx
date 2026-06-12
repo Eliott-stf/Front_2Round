@@ -10,6 +10,7 @@ import TopupWrapper from "@components/Checkout/TopupWrapper";
 import AddressManager from "@components/Checkout/Address/AddressManager";
 import SuccessView from "@components/Checkout/SuccesView";
 import ErrorView from "@components/Checkout/ErrorView";
+import { createPortal } from "react-dom";
 
 export default function ModalePayment({ isOpen, onClose, product }) {
     // On récupère les hooks
@@ -57,8 +58,8 @@ export default function ModalePayment({ isOpen, onClose, product }) {
         billingAddressId: selectedBillingId,
     };
 
-    const productImageUrl = product?.media?.[0]?.url
-        ? `${API_ROOT}${product.media[0].url}`
+    const productImageUrl = product?.medias?.[0]?.path
+        ? (product.medias[0].path.startsWith('http') ? product.medias[0].path : `${API_ROOT}${product.medias[0].path}`)
         : '/images/placeholder.jpg';
 
     // Méthode de validation du paiement intégral par portefeuille
@@ -126,7 +127,7 @@ export default function ModalePayment({ isOpen, onClose, product }) {
         }
     };
 
-    return (
+    return createPortal(
         <AnimatePresence>
             {isOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -140,7 +141,7 @@ export default function ModalePayment({ isOpen, onClose, product }) {
                     />
 
                     <motion.div
-                        className="relative w-full max-w-md bg-[#111111] border border-[#222222] rounded-2xl overflow-hidden z-10 h-[90vh] sm:h-[550px] max-h-[550px] flex flex-col"
+                        className="relative w-full max-w-md bg-[#111111] border border-[#222222] rounded-2xl overflow-hidden z-10 h-[90vh] sm:h-[550px] max-h-[550px] flex flex-col m-auto"
                         initial={{ opacity: 0, scale: 0.9, y: 40 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.9, y: 40 }}
@@ -319,6 +320,7 @@ export default function ModalePayment({ isOpen, onClose, product }) {
                     </motion.div>
                 </div>
             )}
-        </AnimatePresence>
+        </AnimatePresence>,
+        document.body
     );
 }

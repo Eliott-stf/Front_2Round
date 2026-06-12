@@ -5,6 +5,29 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleFavorite } from '@store/product/productSlice';
 import { fetchMyFavorites } from '@store/user/userSlice';
+import { motion, AnimatePresence } from 'framer-motion';
+
+const variants = {
+  enter: (direction) => ({
+    x: direction > 0 ? 1000 : -1000,
+    opacity: 0
+  }),
+  center: {
+    zIndex: 1,
+    x: 0,
+    opacity: 1
+  },
+  exit: (direction) => ({
+    zIndex: 0,
+    x: direction < 0 ? 1000 : -1000,
+    opacity: 0
+  })
+};
+
+const swipeConfidenceThreshold = 10000;
+const swipePower = (offset, velocity) => {
+  return Math.abs(offset) * velocity;
+};
 
 export default function ProductImg({ product }) {
   //on récup le hook
@@ -15,6 +38,7 @@ export default function ProductImg({ product }) {
   const { myFavorites } = useSelector((state) => state.user);
   const { token } = useSelector((state) => state.auth);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [direction, setDirection] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
 
   //on déclare nos const de confort
@@ -29,10 +53,12 @@ export default function ProductImg({ product }) {
     : ['/images/placeholder.jpg'];
 
   const handlePrev = () => {
+    setDirection(-1);
     setActiveIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
   };
 
   const handleNext = () => {
+    setDirection(1);
     setActiveIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
   };
 
@@ -58,17 +84,40 @@ export default function ProductImg({ product }) {
   return (
     <div className="relative isolate w-full aspect-square md:aspect-auto md:h-[541px] max-w-full md:max-w-[535px] bg-[#111111] shrink-0 overflow-hidden group select-none rounded-sm">
 
-      <img
-        src={images[activeIndex]}
-        alt={product?.title || `Produit ${activeIndex + 1}`}
-        className="relative z-0 w-full h-full object-cover transition-all duration-500 ease-in-out"
-      />
+      <AnimatePresence initial={false} custom={direction}>
+        <motion.img
+          key={activeIndex}
+          src={images[activeIndex]}
+          custom={direction}
+          variants={variants}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          transition={{
+            x: { type: "spring", stiffness: 300, damping: 30 },
+            opacity: { duration: 0.2 }
+          }}
+          drag="x"
+          dragConstraints={{ left: 0, right: 0 }}
+          dragElastic={1}
+          onDragEnd={(e, { offset, velocity }) => {
+            const swipe = swipePower(offset.x, velocity.x);
+            if (swipe < -swipeConfidenceThreshold) {
+              handleNext();
+            } else if (swipe > swipeConfidenceThreshold) {
+              handlePrev();
+            }
+          }}
+          alt={product?.title || `Produit ${activeIndex + 1}`}
+          className="absolute inset-0 z-0 w-full h-full object-cover"
+        />
+      </AnimatePresence>
 
       {images.length > 1 && (
         <>
           <button
             onClick={handlePrev}
-            className="absolute z-10 left-4 md:left-6 top-1/2 -translate-y-1/2 p-2 text-white/80 drop-shadow-md hover:text-white active:text-gray-500 opacity-0 group-hover:opacity-100 transition-all duration-200 outline-none"
+            className="absolute z-10 left-4 md:left-6 top-1/2 -translate-y-1/2 p-2 text-white/80 drop-shadow-md hover:text-white active:text-gray-500 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all duration-200 outline-none"
           >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-6 h-6 md:w-8 md:h-8">
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
@@ -77,7 +126,7 @@ export default function ProductImg({ product }) {
 
           <button
             onClick={handleNext}
-            className="absolute z-10 right-4 md:right-6 top-1/2 -translate-y-1/2 p-2 text-white/80 drop-shadow-md hover:text-white active:text-gray-500 opacity-0 group-hover:opacity-100 transition-all duration-200 outline-none"
+            className="absolute z-10 right-4 md:right-6 top-1/2 -translate-y-1/2 p-2 text-white/80 drop-shadow-md hover:text-white active:text-gray-500 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all duration-200 outline-none"
           >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-6 h-6 md:w-8 md:h-8">
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />

@@ -1,6 +1,7 @@
 import { API_ROOT } from '@constants/apiConstant';
 import React from 'react';
 import { AlertTriangle, ChevronLeft } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 
 export default function ChatHeader({ conversation, interlocutor, isBuyer, onOpenOfferModal, onOpenReportModal, onBack }) {
@@ -32,7 +33,9 @@ export default function ChatHeader({ conversation, interlocutor, isBuyer, onOpen
 
             <div className="flex flex-col min-w-0">
                 <h2 className="text-white font-bebas text-lg md:text-2xl tracking-wide uppercase truncate">
-                    {interlocutorName}
+                    <Link to={`/profil/${interlocutor.id}`} className="hover:text-red transition-colors">
+                        {interlocutorName}
+                    </Link>
                 </h2>
                 <p className="text-gray font-inter text-xs md:text-sm mt-0.5 truncate">
                     {product?.title} {product?.condition ? `- ${product.condition}` : ''}

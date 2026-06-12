@@ -86,7 +86,7 @@ export default function ModaleOffer({ isOpen, onClose, conversation, pendingProd
                         animate={{ scale: 1, opacity: 1 }}
                         exit={{ scale: 0.9, opacity: 0 }}
                         onClick={(e) => e.stopPropagation()}
-                        className="bg-gray-dark border border-gray-mid rounded-2xl w-full max-w-sm overflow-y-auto max-h-[90vh]"
+                        className="bg-gray-dark border border-gray-mid rounded-2xl w-full max-w-sm m-auto overflow-y-auto max-h-[90vh]"
                     >
                         {/* Header */}
                         <div className="flex items-center justify-between px-5 py-4 border-b border-gray-mid">

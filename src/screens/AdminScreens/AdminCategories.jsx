@@ -96,12 +96,14 @@ const AdminCategories = () => {
             dispatch(updateCategory({ id: editId, data: payload })).then((res) => {
                 if (!res.error) {
                     resetForm();
+                    dispatch(fetchCategories());
                 }
             });
         } else {
             dispatch(createCategory(payload)).then((res) => {
                 if (!res.error) {
                     resetForm();
+                    dispatch(fetchCategories());
                 }
             });
         }
@@ -111,6 +113,7 @@ const AdminCategories = () => {
     const handleDelete = (id) => {
         dispatch(deleteCategory(id)).then(() => {
             setDeleteConfirmId(null);
+            dispatch(fetchCategories());
         });
     };
 

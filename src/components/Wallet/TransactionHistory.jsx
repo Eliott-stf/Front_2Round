@@ -36,21 +36,21 @@ export default function TransactionHistory({ transactions }) {
                                 key={tx.id}
                                 className={`flex items-center justify-between p-6 ${index !== transactions.length - 1 ? 'border-b border-[#2f2f2f]' : ''} hover:bg-[#1a1a1a] transition-colors`}
                             >
-                                <div className="flex items-center gap-4">
-                                    <div className={`p-3 rounded-full ${isCredit ? 'bg-emerald-500/10 text-emerald-500' : 'bg-red/10 text-red'}`}>
-                                        {isCredit ? <ArrowDownRight className="w-5 h-5" /> : <ArrowUpRight className="w-5 h-5" />}
+                                <div className="flex items-center gap-3 md:gap-4 flex-1 min-w-0 pr-2 md:pr-4">
+                                    <div className={`p-2 md:p-3 shrink-0 rounded-full ${isCredit ? 'bg-emerald-500/10 text-emerald-500' : 'bg-red/10 text-red'}`}>
+                                        {isCredit ? <ArrowDownRight className="w-4 h-4 md:w-5 md:h-5" /> : <ArrowUpRight className="w-4 h-4 md:w-5 md:h-5" />}
                                     </div>
-                                    <div className="flex flex-col">
-                                        <span className="font-inter text-white text-sm font-medium">
+                                    <div className="flex flex-col min-w-0">
+                                        <span className="font-inter text-white text-xs md:text-sm font-medium truncate">
                                             {tx.description}
                                         </span>
-                                        <span className="font-inter text-[#737373] text-xs mt-1">
+                                        <span className="font-inter text-[#737373] text-[10px] md:text-xs mt-0.5 md:mt-1 truncate">
                                             {date}
                                         </span>
                                     </div>
                                 </div>
 
-                                <span className={`font-bebas text-2xl tracking-wider ${isCredit ? 'text-emerald-500' : 'text-white'}`}>
+                                <span className={`font-bebas text-lg md:text-2xl tracking-wider shrink-0 whitespace-nowrap ${isCredit ? 'text-emerald-500' : 'text-white'}`}>
                                     {isCredit ? '+' : '-'}{tx.amount} €
                                 </span>
                             </div>

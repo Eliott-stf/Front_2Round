@@ -39,7 +39,16 @@ const categorySlice = createSlice({
                 state.current = action.payload?.data || action.payload;
             })
             .addCase(createCategory.fulfilled, (state, action) => {
-                state.items.push(action.payload?.data || action.payload);
+                const newCat = action.payload?.data || action.payload;
+                if (!newCat.parentId) {
+                    state.items.push(newCat);
+                } else {
+                    const parent = state.items.find(c => c.id === newCat.parentId);
+                    if (parent) {
+                        if (!parent.children) parent.children = [];
+                        parent.children.push(newCat);
+                    }
+                }
             })
             .addCase(updateCategory.fulfilled, (state, action) => {
                 const updatedCategory = action.payload?.data || action.payload;

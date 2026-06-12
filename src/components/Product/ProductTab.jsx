@@ -132,44 +132,49 @@ export default function ProductTab({ targetUserId }) {
 
             {/* Barre flottante en bas lors de la sélection */}
             {isSelectionMode && selectedIds.length > 0 && (
-                <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 w-[95%] max-w-[650px] bg-black/90 border border-[#222] backdrop-blur-md px-5 py-4 rounded-2xl flex items-center justify-between shadow-2xl animate-fade-in gap-4">
-                    <div className="flex flex-col shrink-0">
-                        <span className="font-inter text-white font-bold text-sm">
-                            {selectedIds.length} {selectedIds.length > 1 ? 'articles' : 'article'}
-                        </span>
-                        <span className="font-inter text-gray text-xs mt-0.5">
-                            Total : <strong className="text-white">{totalPrice}€</strong>
-                        </span>
+                <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 w-[95%] max-w-[650px] bg-black/90 border border-[#222] backdrop-blur-md p-4 rounded-2xl flex flex-col sm:flex-row items-center justify-between shadow-2xl animate-fade-in gap-4 sm:gap-4">
+                    
+                    {/* Row 1 Mobile / Left Desktop: Info + Input */}
+                    <div className="flex items-center justify-between w-full sm:w-auto gap-4">
+                        <div className="flex flex-col shrink-0">
+                            <span className="font-inter text-white font-bold text-sm">
+                                {selectedIds.length} {selectedIds.length > 1 ? 'articles' : 'article'}
+                            </span>
+                            <span className="font-inter text-gray text-xs mt-0.5">
+                                Total : <strong className="text-white">{totalPrice}€</strong>
+                            </span>
+                        </div>
+
+                        {/* Proposer un prix */}
+                        <div className="flex items-center gap-2 bg-[#111] border border-[#222] px-3 py-1.5 rounded-xl shrink-0">
+                            <span className="text-gray text-[10px] uppercase font-semibold font-inter tracking-wider">Offre (€)</span>
+                            <input
+                                type="number"
+                                min="1"
+                                placeholder={totalPrice}
+                                value={suggestedPrice}
+                                onChange={(e) => setSuggestedPrice(e.target.value)}
+                                className="w-14 bg-transparent text-white font-bebas text-lg focus:outline-none text-center [-moz-appearance:textfield] [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none"
+                            />
+                        </div>
                     </div>
 
-                    {/* Proposer un prix */}
-                    <div className="flex items-center gap-2 bg-[#111] border border-[#222] px-3 py-1.5 rounded-xl">
-                        <span className="text-gray text-[10px] uppercase font-semibold font-inter tracking-wider">Offre (€)</span>
-                        <input
-                            type="number"
-                            min="1"
-                            placeholder={totalPrice}
-                            value={suggestedPrice}
-                            onChange={(e) => setSuggestedPrice(e.target.value)}
-                            className="w-14 bg-transparent text-white font-bebas text-lg focus:outline-none text-center [-moz-appearance:textfield] [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none"
-                        />
-                    </div>
-
-                    <div className="flex gap-2 shrink-0">
+                    {/* Row 2 Mobile / Right Desktop: Buttons */}
+                    <div className="flex gap-2 shrink-0 w-full sm:w-auto">
                         <button
                             onClick={() => {
                                 setIsSelectionMode(false);
                                 setSelectedIds([]);
                                 setSuggestedPrice('');
                             }}
-                            className="px-3 py-2 border border-[#333] hover:border-white rounded-lg text-white font-inter text-xs uppercase tracking-wider transition-colors"
+                            className="flex-1 sm:flex-none px-3 py-2 border border-[#333] hover:border-white rounded-lg text-white font-inter text-xs uppercase tracking-wider transition-colors"
                         >
                             Annuler
                         </button>
                         <button
                             disabled={selectedIds.length < 2 || isSubmitting}
                             onClick={handleStartLotRequest}
-                            className={`px-4 py-2 rounded-lg font-bebas text-lg tracking-wider uppercase transition-all ${
+                            className={`flex-1 sm:flex-none px-4 py-2 rounded-lg font-bebas text-lg tracking-wider uppercase transition-all ${
                                 selectedIds.length < 2
                                     ? 'bg-gray-dark text-gray-light cursor-not-allowed'
                                     : isSubmitting

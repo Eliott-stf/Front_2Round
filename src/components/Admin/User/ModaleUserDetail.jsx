@@ -20,6 +20,7 @@ export default function ModaleUserDetail({ isOpen, onClose, userDetail, loading 
     const favorites = userDetail?.favorites || [];
     const addresses = userDetail?.addresses || [];
     const walletBalance = userDetail?.wallet?.balance ?? 0;
+    const bankAccounts = userDetail?.bankAccounts || [];
 
     // Méthode pour le clic sur les onglets de la sidebar
     const handleTabClick = (tab) => {
@@ -29,7 +30,7 @@ export default function ModaleUserDetail({ isOpen, onClose, userDetail, loading 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md p-4 overflow-y-auto transition-all">
             {/* Conteneur principal de la modale */}
-            <div className="relative w-full max-w-4xl h-[600px] bg-[#1c1c1e] border border-[#222222] rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row my-8">
+            <div className="relative w-full max-w-4xl h-auto md:h-[600px] max-h-[90vh] bg-[#1c1c1e] border border-[#222222] rounded-3xl overflow-y-auto md:overflow-hidden shadow-2xl flex flex-col md:flex-row my-8">
                 
                 {/* Bouton fermer */}
                 <button
@@ -207,8 +208,28 @@ export default function ModaleUserDetail({ isOpen, onClose, userDetail, loading 
                                                 {walletBalance.toFixed(2)} €
                                             </span>
                                         </div>
+
+                                        <div>
+                                            <h4 className="font-bebas text-xl tracking-wider text-white mb-4">Comptes bancaires enregistrés</h4>
+                                            {bankAccounts.length === 0 ? (
+                                                <div className="text-[#555555] text-sm font-inter">Aucun compte bancaire enregistré.</div>
+                                            ) : (
+                                                <div className="grid gap-4">
+                                                    {bankAccounts.map(account => (
+                                                        <div key={account.id} className="bg-[#111111] border border-[#222222] p-4 rounded-xl flex justify-between items-center">
+                                                            <div className="flex flex-col">
+                                                                <span className="font-inter text-white font-medium text-sm">{account.bankName || 'Banque'}</span>
+                                                                <span className="font-inter text-[#888] text-xs mt-1">
+                                                                    **** **** **** {account.iban ? account.iban.slice(-4) : 'XXXX'}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
+                                        </div>
                                     </div>
-                                    <p className="font-inter text-[11px] text-[#555555] leading-relaxed">
+                                    <p className="font-inter text-[11px] text-[#555555] leading-relaxed mt-4 md:mt-0">
                                         Ce solde représente les fonds disponibles utilisables pour les achats sur le site 2ROUND ou retirables vers le compte bancaire configuré par le membre.
                                     </p>
                                 </div>

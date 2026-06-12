@@ -6,6 +6,8 @@ import { createProduct } from '@store/product/productSlice';
 import { sendMessage } from '@store/message/messageSlice';
 import { fetchConversationById } from '@store/conversation/conversationSlice';
 
+import { createPortal } from 'react-dom';
+
 export default function ModaleCreatePack({ isOpen, onClose, conversationId, products = [], initialPrice = null }) {
     const dispatch = useDispatch();
 
@@ -90,7 +92,7 @@ export default function ModaleCreatePack({ isOpen, onClose, conversationId, prod
         }
     };
 
-    return (
+    return createPortal(
         <AnimatePresence>
             {isOpen && (
                 <motion.div
@@ -105,7 +107,7 @@ export default function ModaleCreatePack({ isOpen, onClose, conversationId, prod
                         animate={{ scale: 1, opacity: 1 }}
                         exit={{ scale: 0.9, opacity: 0 }}
                         onClick={(e) => e.stopPropagation()}
-                        className="bg-black border border-[#222] rounded-2xl w-full max-w-md mx-4 overflow-hidden flex flex-col max-h-[90vh]"
+                        className="bg-black border border-[#222] rounded-2xl w-full max-w-md m-auto mx-4 overflow-hidden flex flex-col max-h-[90vh]"
                     >
                         {/* Header */}
                         <div className="flex items-center justify-between px-5 py-4 border-b border-[#222]">
@@ -210,6 +212,7 @@ export default function ModaleCreatePack({ isOpen, onClose, conversationId, prod
                     </motion.div>
                 </motion.div>
             )}
-        </AnimatePresence>
+        </AnimatePresence>,
+        document.body
     );
 }
