@@ -12,7 +12,7 @@ import ModaleCTA from '@components/UI/ModaleCTA'
 function App() {
   const [count, setCount] = useState(0)
   const location = useLocation();
-  const showFooter = location.pathname !== '/messages';
+  const showFooter = location.pathname !== '/messages' && !location.pathname.startsWith('/profil');
 
   React.useEffect(() => {
     if (location.hash) {

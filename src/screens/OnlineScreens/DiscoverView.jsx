@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { useMotionValue } from 'framer-motion';
 import { fetchProducts, toggleFavorite } from '@store/product/productSlice';
 import { fetchMyFavorites } from '@store/user/userSlice';
 import { createConversation } from '@store/conversation/conversationSlice';
@@ -20,6 +21,12 @@ export default function DiscoverView() {
     const { items, loading } = useSelector(state => state.products);
     const { myFavorites } = useSelector(state => state.user);
     const [stack, setStack] = useState([]);
+    const topCardRef = React.useRef(null);
+    const topDragDistance = useMotionValue(0);
+
+    const handleDragChange = (distance) => {
+        topDragDistance.set(distance);
+    };
 
     useEffect(() => {
         // Fetch des dataaaaa
@@ -46,17 +53,20 @@ export default function DiscoverView() {
     }, [items, myFavorites, userId]);
 
     // Méthode de gestion du balayage (swipe)
-    const handleSwipe = async (direction, product) => {
+    const handleSwipe = async (direction, product, resetCard) => {
         if (direction === 'right') {
             if (!userId) {
                 dispatch(openCTAModal());
+                if (resetCard) resetCard();
                 return;
             }
             dispatch(toggleFavorite(product.id));
+            topDragDistance.set(0);
             setStack(prev => prev.filter(p => p.id !== product.id));
         } else if (direction === 'up') {
             if (!userId) {
                 dispatch(openCTAModal());
+                if (resetCard) resetCard();
                 return;
             }
             
@@ -69,9 +79,11 @@ export default function DiscoverView() {
             });
             
             // On le retire quand même de la pile pour ne plus le revoir
+            topDragDistance.set(0);
             setStack(prev => prev.filter(p => p.id !== product.id));
         } else {
             // On retire la carte qui vient d'être balayée à gauche
+            topDragDistance.set(0);
             setStack(prev => prev.filter(p => p.id !== product.id));
         }
     };
@@ -88,7 +100,10 @@ export default function DiscoverView() {
                             key={product.id}
                             product={product}
                             isTop={index === stack.length - 1}
-                            onSwipe={(dir) => handleSwipe(dir, product)}
+                            onSwipe={(dir, reset) => handleSwipe(dir, product, reset)}
+                            onDragChange={handleDragChange}
+                            topDragDistance={topDragDistance}
+                            ref={index === stack.length - 1 ? topCardRef : null}
                         />
                     ))
                 ) : (
@@ -105,19 +120,19 @@ export default function DiscoverView() {
             {/* Boutons d'action rapides */}
             <div className={`flex gap-8 mt-10 z-10 transition-opacity duration-300 ${stack.length > 0 ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
                 <button
-                    onClick={() => stack.length > 0 && handleSwipe('left', stack[stack.length - 1])}
+                    onClick={() => stack.length > 0 && topCardRef.current?.swipe('left')}
                     className="w-16 h-16 bg-[#1a1a1a] border border-[#222] rounded-full flex items-center justify-center text-red hover:bg-red/10 hover:border-red transition-all shadow-lg hover:scale-105 active:scale-95"
                 >
                     <X size={32} strokeWidth={2.5} />
                 </button>
                 <button
-                    onClick={() => stack.length > 0 && handleSwipe('up', stack[stack.length - 1])}
+                    onClick={() => stack.length > 0 && topCardRef.current?.swipe('up')}
                     className="w-16 h-16 bg-[#1a1a1a] border border-[#222] rounded-full flex items-center justify-center text-amber-500 hover:bg-amber-500/10 hover:border-amber-500 transition-all shadow-lg hover:scale-105 active:scale-95"
                 >
                     <Banknote size={28} strokeWidth={2.5} />
                 </button>
                 <button
-                    onClick={() => stack.length > 0 && handleSwipe('right', stack[stack.length - 1])}
+                    onClick={() => stack.length > 0 && topCardRef.current?.swipe('right')}
                     className="w-16 h-16 bg-[#1a1a1a] border border-[#222] rounded-full flex items-center justify-center text-green-500 hover:bg-green-500/10 hover:border-green-500 transition-all shadow-lg hover:scale-105 active:scale-95"
                 >
                     <Heart size={28} fill="currentColor" strokeWidth={0} />

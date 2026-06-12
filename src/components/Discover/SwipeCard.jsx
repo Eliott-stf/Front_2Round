@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { forwardRef, useImperativeHandle } from 'react';
 import { motion, useMotionValue, useTransform, useAnimation } from 'framer-motion';
 import { API_ROOT } from '@constants/apiConstant';
 
-export default function SwipeCard({ product, isTop, onSwipe }) {
+const SwipeCard = forwardRef(({ product, isTop, onSwipe, topDragDistance, onDragChange }, ref) => {
     const x = useMotionValue(0);
     const y = useMotionValue(0);
     const rotate = useTransform(x, [-200, 200], [-15, 15]);
@@ -12,26 +12,67 @@ export default function SwipeCard({ product, isTop, onSwipe }) {
 
     const controls = useAnimation();
 
+    const dynamicBackgroundScale = useTransform(topDragDistance, [0, 200], [0.95, 1]);
+
+    React.useEffect(() => {
+        if (!isTop) return;
+
+        const updateDistance = () => {
+            const currentX = x.get();
+            const currentY = y.get();
+            const distance = Math.sqrt(currentX * currentX + currentY * currentY);
+            if (onDragChange) onDragChange(distance);
+        };
+
+        const unsubX = x.on("change", updateDistance);
+        const unsubY = y.on("change", updateDistance);
+
+        return () => {
+            unsubX();
+            unsubY();
+        };
+    }, [isTop, x, y, onDragChange]);
+
+    const reset = () => {
+        controls.start({ x: 0, y: 0, opacity: 1, transition: { type: 'spring', stiffness: 300, damping: 20 } });
+    };
+
+    useImperativeHandle(ref, () => ({
+        swipe: async (direction) => {
+            const transitionParams = { duration: 0.8, ease: "easeOut" };
+            if (direction === 'left') {
+                await controls.start({ x: -500, opacity: 0, transition: transitionParams });
+                onSwipe('left', reset);
+            } else if (direction === 'right') {
+                await controls.start({ x: 500, opacity: 0, transition: transitionParams });
+                onSwipe('right', reset);
+            } else if (direction === 'up') {
+                await controls.start({ y: -500, opacity: 0, transition: transitionParams });
+                onSwipe('up', reset);
+            }
+        }
+    }));
+
     const handleDragEnd = async (event, info) => {
         const threshold = 120;
         if (Math.abs(info.offset.x) > Math.abs(info.offset.y)) {
             // Balayage horizontal
             if (info.offset.x > threshold) {
-                await controls.start({ x: 500, opacity: 0, transition: { duration: 0.3 } });
-                onSwipe('right');
+                await controls.start({ x: 500, opacity: 0, transition: { duration: 0.6 } });
+                onSwipe('right', reset);
             } else if (info.offset.x < -threshold) {
-                await controls.start({ x: -500, opacity: 0, transition: { duration: 0.3 } });
-                onSwipe('left');
+                await controls.start({ x: -500, opacity: 0, transition: { duration: 0.6 } });
+                onSwipe('left', reset);
             } else {
-                controls.start({ x: 0, y: 0, transition: { type: 'spring', stiffness: 300, damping: 20 } });
+                reset();
             }
         } else {
             // Balayage vertical
             if (info.offset.y < -threshold) {
-                await controls.start({ y: -500, opacity: 0, transition: { duration: 0.3 } });
-                onSwipe('up');
+                await controls.start({ y: -500, opacity: 0, transition: { duration: 0.6 } });
+                onSwipe('up', reset);
             } else {
-                controls.start({ x: 0, y: 0, transition: { type: 'spring', stiffness: 300, damping: 20 } });
+                reset();
             }
         }
     };
@@ -52,7 +93,7 @@ export default function SwipeCard({ product, isTop, onSwipe }) {
                 x, 
                 y,
                 rotate,
-                scale: isTop ? 1 : 0.95,
+                scale: isTop ? 1 : dynamicBackgroundScale,
                 zIndex: isTop ? 10 : 1 
             }}
             drag={isTop ? true : false}
@@ -122,4 +163,6 @@ export default function SwipeCard({ product, isTop, onSwipe }) {
             </div>
         </motion.div>
     );
-}
+});
+
+export default SwipeCard;

@@ -4,6 +4,7 @@ import ReviewTab from '@components/Review/ReviewTab';
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAuthContext } from '@contexts/AuthContext';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Profil() {
 
@@ -27,13 +28,24 @@ export default function Profil() {
         isOwnProfile={isOwnProfile}
       />
 
-      <section className="w-full grow bg-black py-12">
-        <div className="max-w-[1200px] mx-auto px-4 md:px-8">
-          {activeTab === 'articles' ? (
-            <ProductTab targetUserId={targetUserId} />
-          ) : (
-            <ReviewTab targetUserId={targetUserId} />
-          )}
+      <section className="w-full grow bg-black py-12 overflow-hidden">
+        <div className="max-w-[1200px] mx-auto px-4 md:px-8 relative">
+          <AnimatePresence mode="popLayout">
+            <motion.div
+              key={activeTab}
+              initial={{ x: activeTab === 'articles' ? '-100vw' : '100vw' }}
+              animate={{ x: 0 }}
+              exit={{ x: activeTab === 'articles' ? '-100vw' : '100vw' }}
+              transition={{ type: "spring", stiffness: 220, damping: 30, mass: 0.8 }}
+              className="w-full"
+            >
+              {activeTab === 'articles' ? (
+                <ProductTab targetUserId={targetUserId} />
+              ) : (
+                <ReviewTab targetUserId={targetUserId} />
+              )}
+            </motion.div>
+          </AnimatePresence>
         </div>
       </section>
     </main>

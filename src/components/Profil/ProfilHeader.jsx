@@ -4,6 +4,7 @@ import { fetchReviewsByUser } from '@store/review/reviewSlice';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { Plus } from 'lucide-react';
 import ProfileModal from './ProfilModal';
 import StarRating from '@components/UI/StarRating';
@@ -48,17 +49,33 @@ export default function ProfilHeader({ activeTab, setActiveTab, targetUserId, is
 
   return (
     <>
-      <section className="relative w-full bg-[#111111] text-white pt-12 md:pt-20">
+      <section className="relative w-full bg-[#111111] text-white pt-6 md:pt-12">
         <div className="absolute inset-0 z-0 bg-pattern-overlay"></div>
 
         <div className="relative z-10 max-w-[1200px] mx-auto px-4 md:px-8">
-          <div onClick={() => navigate(-1)} className="flex items-center gap-3 md:gap-4 mb-6 md:mb-10 cursor-pointer group w-fit">
-            <svg className="w-8 h-8 md:w-12 md:h-12 text-white group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-            <h1 className="font-bebas text-3xl md:text-5xl lg:text-6xl uppercase tracking-wide mt-1 md:mt-2">
-              {isOwnProfile ? 'Mon vestiaire' : `Vestiaire de ${displayUser.name}`}
-            </h1>
+          <div className="flex items-center gap-4 md:gap-6 mb-6 md:mb-10 w-full">
+            <motion.button
+              initial={{ x: 50, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              onClick={() => navigate(-1)}
+              className="text-white hover:text-red transition-colors flex-shrink-0 cursor-pointer group"
+            >
+              <svg className="w-8 h-8 md:w-10 md:h-10 group-hover:-translate-x-1 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
+              </svg>
+            </motion.button>
+            
+            <motion.div 
+              initial={{ x: 100, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="flex flex-col mt-1 min-w-0 flex-1"
+            >
+              <h1 className="text-white text-3xl md:text-5xl lg:text-6xl font-bebas uppercase tracking-wide leading-tight truncate">
+                {isOwnProfile ? 'Mon vestiaire' : `Vestiaire de ${displayUser.name}`}
+              </h1>
+            </motion.div>
           </div>
 
           <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-center md:items-start mt-6 md:mt-12">
@@ -106,17 +123,29 @@ export default function ProfilHeader({ activeTab, setActiveTab, targetUserId, is
             <div className="flex gap-6 md:gap-10 w-full sm:w-auto justify-center sm:justify-start">
               <button
                 onClick={() => setActiveTab('articles')}
-                className={`font-inter text-sm md:text-base uppercase pb-3 border-b-2 tracking-widest transition-all ${activeTab === 'articles' ? 'border-red text-white' : 'border-transparent text-gray'
-                  }`}
+                className={`relative font-inter text-sm md:text-base uppercase pb-3 tracking-widest transition-colors ${activeTab === 'articles' ? 'text-white' : 'text-gray hover:text-white'}`}
               >
                 Articles
+                {activeTab === 'articles' && (
+                  <motion.div
+                    layoutId="profilTabIndicator"
+                    className="absolute bottom-0 left-[20%] w-[60%] h-[2px] bg-red"
+                    transition={{ type: "spring", stiffness: 250, damping: 30 }}
+                  />
+                )}
               </button>
               <button
                 onClick={() => setActiveTab('reviews')}
-                className={`font-inter text-sm md:text-base uppercase pb-3 border-b-2 tracking-widest transition-all ${activeTab === 'reviews' ? 'border-red text-white' : 'border-transparent text-gray'
-                  }`}
+                className={`relative font-inter text-sm md:text-base uppercase pb-3 tracking-widest transition-colors ${activeTab === 'reviews' ? 'text-white' : 'text-gray hover:text-white'}`}
               >
                 Évaluations
+                {activeTab === 'reviews' && (
+                  <motion.div
+                    layoutId="profilTabIndicator"
+                    className="absolute bottom-0 left-[20%] w-[60%] h-[2px] bg-red"
+                    transition={{ type: "spring", stiffness: 250, damping: 30 }}
+                  />
+                )}
               </button>
             </div>
             {isOwnProfile && (
