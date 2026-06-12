@@ -25,7 +25,7 @@ const FavoriteView = () => {
                 title="MES FAVORIS"
                 subtitle="Retrouvez vos articles sauvegardés"
                 showBackButton={true}
-                heightClass="h-[90px] md:h-[120px]"
+                heightClass="h-[90px] md:h-[160px] lg:h-[160px]"
             />
 
             <section className="w-full max-w-[1440px] mx-auto px-6 py-8 flex flex-col flex-1">

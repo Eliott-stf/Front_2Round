@@ -71,7 +71,7 @@ export default function HeroSection() {
                 className="relative z-10 w-full max-w-[1440px] mx-auto px-6 lg:px-[136px] flex flex-col lg:flex-row justify-between items-center h-full pb-35 pt-16 gap-6 lg:gap-12"
             >
                 {/* Left Side: Slogan */}
-                <motion.div variants={itemVariants} className="w-full lg:w-1/2 flex flex-col items-center lg:items-start text-center lg:text-left">
+                <motion.div variants={itemVariants} className="w-full lg:w-1/2 flex flex-col items-center lg:items-start text-center lg:text-left mt-12 lg:mt-0">
                     {/* Slogan */}
                     <h1 className="font-bebas text-white text-[50px] md:text-[64px] lg:text-[80px] xl:text-[100px] leading-[0.9] uppercase tracking-wide drop-shadow-2xl">
                         VOTRE SECOND <span className="text-red">ROUND</span><br />
@@ -84,7 +84,7 @@ export default function HeroSection() {
                 </motion.div>
 
                 {/* Right Side: Logo & Buttons */}
-                <motion.div variants={itemVariants} className="w-full lg:w-1/2 flex flex-col items-center lg:items-end">
+                <motion.div variants={itemVariants} className="w-full lg:w-1/2 flex flex-col items-center lg:items-end mb-16 lg:mb-0">
                     <div className="flex flex-col items-center gap-6 lg:gap-10 w-full max-w-[320px] lg:max-w-[488px]">
                         {/* Logo */}
                         <div className="w-48 md:w-64 lg:w-[340px] flex justify-center">
@@ -99,7 +99,7 @@ export default function HeroSection() {
                             >
                                 {/* Hover fill effect */}
                                 <div className="absolute inset-0 bg-white/20 -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out" />
-                                <span className="relative z-10">CRÉER MON PROFIL</span>
+                                <span className="relative z-10">{userId ? "VOIR MON PROFIL" : "CRÉER MON PROFIL"}</span>
                             </button>
                             
                             <Link

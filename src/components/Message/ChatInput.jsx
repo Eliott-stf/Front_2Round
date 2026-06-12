@@ -2,27 +2,48 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Send } from 'lucide-react';
 import { sendMessage } from '@store/message/messageSlice';
+import { createConversation } from '@store/conversation/conversationSlice';
 
-export default function ChatInput({ activeId }) {
+export default function ChatInput({ activeId, pendingProduct, onConversationCreated }) {
     // On récupère les hooks
     const dispatch = useDispatch();
 
     // On déclare nos states locaux
     const [text, setText] = useState("");
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     // Méthode de soumission
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         //le fameux eheh
         e.preventDefault();
-        if (!text.trim()) return;
+        if (!text.trim() || isSubmitting) return;
 
-        //méthode du slice
-        dispatch(sendMessage({
-            conversationId: activeId,
-            content: text.trim()
-        }));
+        setIsSubmitting(true);
+        try {
+            let targetId = activeId;
+            
+            // Si on est dans une conversation brouillon
+            if (!targetId && pendingProduct) {
+                const newConv = await dispatch(createConversation({ productId: pendingProduct.id })).unwrap();
+                targetId = newConv.id;
+                if (onConversationCreated) {
+                    onConversationCreated(newConv.id);
+                }
+            }
 
-        setText("");
+            if (targetId) {
+                //méthode du slice
+                dispatch(sendMessage({
+                    conversationId: targetId,
+                    content: text.trim()
+                }));
+                setText("");
+            }
+        } catch (error) {
+            console.error("Erreur lors de l'envoi du message :", error);
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     return (
@@ -39,7 +60,7 @@ export default function ChatInput({ activeId }) {
             {/* Send */}
             <button
                 type="submit"
-                disabled={!text.trim()}
+                disabled={!text.trim() || isSubmitting}
                 className="shrink-0 w-10 h-10 rounded-xl bg-red flex items-center justify-center text-white hover:bg-red/90 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
             >
                 <Send className="w-4 h-4" />

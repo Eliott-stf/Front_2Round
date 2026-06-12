@@ -71,24 +71,18 @@ export default function ProductInfos({ product, isOwner }) {
     setIsReportOpen(true);
   };
 
-  // Méthode de création/récupération de la conversation
-  const handleContactSeller = async (withOffer = false) => {
+  const handleContactSeller = (withOffer = false) => {
     if (!product?.id) return;
     if (!userId) {
       dispatch(openCTAModal());
       return;
     }
-    try {
-      const conversation = await dispatch(createConversation({ productId: product.id })).unwrap();
-      navigate('/messages', {
-        state: {
-          activeConversationId: conversation.id,
-          openOfferModal: withOffer 
-        }
-      });
-    } catch (error) {
-      console.error("Erreur d'initialisation de la conversation :", error);
-    }
+    navigate('/messages', {
+      state: {
+        pendingProduct: product,
+        openOfferModal: withOffer 
+      }
+    });
   };
 
   // Méthode pour récupérer les évaluations du vendeur

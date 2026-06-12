@@ -17,23 +17,47 @@ export default function MessageView() {
 
     // On déclare nos states locaux et store
     const [activeConversationId, setActiveConversationId] = useState(location.state?.activeConversationId || null);
-    const [slideActive, setSlideActive] = useState(!!(location.state?.activeConversationId));
+    const [pendingProduct, setPendingProduct] = useState(location.state?.pendingProduct || null);
+    const [slideActive, setSlideActive] = useState(!!(location.state?.activeConversationId) || !!(location.state?.pendingProduct));
     const initialOfferModalState = location.state?.openOfferModal || false;
+
+    // Gestion du Swipe pour mobile
+    const [touchStart, setTouchStart] = useState(null);
+    const [touchEnd, setTouchEnd] = useState(null);
+    const minSwipeDistance = 75;
+
+    const onTouchStart = (e) => {
+        setTouchEnd(null);
+        setTouchStart(e.targetTouches[0].clientX);
+    };
+
+    const onTouchMove = (e) => setTouchEnd(e.targetTouches[0].clientX);
+
+    const onTouchEnd = () => {
+        if (!touchStart || !touchEnd) return;
+        const distance = touchStart - touchEnd;
+        const isRightSwipe = distance < -minSwipeDistance;
+        
+        if (isRightSwipe && slideActive) {
+            handleBack();
+        }
+    };
 
     // Synchronisation de slideActive quand activeConversationId change
     useEffect(() => {
-        if (activeConversationId) {
+        if (activeConversationId || pendingProduct) {
             setSlideActive(true);
         } else {
             setSlideActive(false);
         }
-    }, [activeConversationId]);
+    }, [activeConversationId, pendingProduct]);
 
     // Retour progressif vers la liste avec animation de glissement avant de vider activeConversationId
     const handleBack = () => {
         setSlideActive(false);
         setTimeout(() => {
             setActiveConversationId(null);
+            setPendingProduct(null);
         }, 300);
     };
 
@@ -50,11 +74,11 @@ export default function MessageView() {
     }, [dispatch]);
 
     return (
-        <div className="flex flex-col w-full bg-[#000000] overflow-hidden h-[calc(100vh-80px)] lg:h-[calc(100vh-120px)]">
+        <div className="flex flex-col w-full bg-[#000000] overflow-hidden h-[calc(100dvh-80px)] lg:h-[calc(100dvh-120px)]">
             <HeaderView
                 title="MESSAGERIE"
                 subtitle="Gérez vos échanges avec les autres utilisateurs"
-                heightClass="h-[80px] md:h-[120px] shrink-0"
+                heightClass="h-[80px] md:h-[160px] lg:h-[160px] shrink-0"
             />
 
             <div className="flex-1 flex flex-col min-h-0 w-full max-w-[1440px] mx-auto border-t border-[#2f2f2f] overflow-hidden relative bg-[#000000]">
@@ -69,11 +93,21 @@ export default function MessageView() {
                         </div>
 
                         {/* Volet droit : Discussion en cours */}
-                        <div className="message-panel-right min-w-0 min-h-0">
+                        <div 
+                            className="message-panel-right min-w-0 min-h-0"
+                            onTouchStart={onTouchStart}
+                            onTouchMove={onTouchMove}
+                            onTouchEnd={onTouchEnd}
+                        >
                             <ChatPanel
                                 activeId={activeConversationId}
+                                pendingProduct={pendingProduct}
                                 initialOfferModalState={initialOfferModalState}
                                 onBack={handleBack}
+                                onConversationCreated={(newId) => {
+                                    setActiveConversationId(newId);
+                                    setPendingProduct(null);
+                                }}
                             />
                         </div>
                     </div>

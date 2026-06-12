@@ -68,7 +68,7 @@ export default function CatalogueView() {
                 title="CATALOGUE" 
                 subtitle="Découvrez tous les articles disponibles"
                 showBackButton={true}
-                heightClass="h-[90px] md:h-[120px]"
+                heightClass="h-[90px] md:h-[160px] lg:h-[160px]"
             />
 
             <CatalogueFilters />

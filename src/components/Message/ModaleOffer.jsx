@@ -4,9 +4,9 @@ import { useDispatch } from "react-redux";
 import { X, Tag } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { createOffer } from "@store/offer/offerSlice";
-import { fetchConversationById } from "@store/conversation/conversationSlice";
+import { fetchConversationById, createConversation } from "@store/conversation/conversationSlice";
 
-export default function ModaleOffer({ isOpen, onClose, conversation }) {
+export default function ModaleOffer({ isOpen, onClose, conversation, pendingProduct, onConversationCreated }) {
     // On récupère les hooks
     const dispatch = useDispatch();
 
@@ -40,15 +40,27 @@ export default function ModaleOffer({ isOpen, onClose, conversation }) {
         setIsSubmitting(true);
 
         try {
+            let targetConversationId = conversation.id;
+            let targetProductId = conversation.productId || pendingProduct?.id;
+            
+            // Si on est sur une conversation brouillon
+            if (targetConversationId === 'pending' && pendingProduct) {
+                const newConv = await dispatch(createConversation({ productId: pendingProduct.id })).unwrap();
+                targetConversationId = newConv.id;
+                if (onConversationCreated) {
+                    onConversationCreated(newConv.id);
+                }
+            }
+
             //on appelle notre méthode en back pour créer l'offre avec ses params
             await dispatch(createOffer({
-                productId: conversation.productId,
-                conversationId: conversation.id,
+                productId: targetProductId,
+                conversationId: targetConversationId,
                 proposedPrice: proposedPrice,
             })).unwrap();
 
             //refresh de la conversation
-            await dispatch(fetchConversationById(conversation.id));
+            await dispatch(fetchConversationById(targetConversationId));
 
             setPrice("");
             onClose();

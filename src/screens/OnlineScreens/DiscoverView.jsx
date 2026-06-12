@@ -59,19 +59,15 @@ export default function DiscoverView() {
                 dispatch(openCTAModal());
                 return;
             }
-            try {
-                // Création/récupération de la conversation pour cet article
-                const conversation = await dispatch(createConversation({ productId: product.id })).unwrap();
-                // Redirection vers la messagerie avec la modale d'offre ouverte
-                navigate('/messages', {
-                    state: {
-                        activeConversationId: conversation.id,
-                        openOfferModal: true
-                    }
-                });
-            } catch (error) {
-                console.error("Erreur d'initialisation de la conversation :", error);
-            }
+            
+            // Redirection vers la messagerie avec la modale d'offre ouverte en mode brouillon
+            navigate('/messages', {
+                state: {
+                    pendingProduct: product,
+                    openOfferModal: true
+                }
+            });
+            
             // On le retire quand même de la pile pour ne plus le revoir
             setStack(prev => prev.filter(p => p.id !== product.id));
         } else {
