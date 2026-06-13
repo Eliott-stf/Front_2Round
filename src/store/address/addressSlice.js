@@ -21,7 +21,7 @@ export const createAddress = createAsyncThunk(
         try {
             return await api.url('/addresses').post(addressDto).json();
         } catch (error) {
-            return rejectWithValue(handleWretchError(error, 'Échec de la création de l\'adresse'));
+            return rejectWithValue(handleApiError(error, 'Échec de la création de l\'adresse'));
         }
     }
 );
@@ -33,7 +33,7 @@ export const updateAddress = createAsyncThunk(
         try {
             return await api.url(`/addresses/${id}`).patch(addressDto).json();
         } catch (error) {
-            return rejectWithValue(handleWretchError(error, 'Échec de la mise à jour de l\'adresse'));
+            return rejectWithValue(handleApiError(error, 'Échec de la mise à jour de l\'adresse'));
         }
     }
 );
@@ -46,7 +46,7 @@ export const deleteAddress = createAsyncThunk(
             await api.url(`/addresses/${id}`).delete().res();
             return id; 
         } catch (error) {
-            return rejectWithValue(handleWretchError(error, 'Échec de la suppression de l\'adresse'));
+            return rejectWithValue(handleApiError(error, 'Échec de la suppression de l\'adresse'));
         }
     }
 );

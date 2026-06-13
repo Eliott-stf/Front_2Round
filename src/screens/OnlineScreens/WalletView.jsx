@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { fetchBankAccounts } from '@store/bankAccount/bankAccountSlice';
@@ -17,14 +17,20 @@ export default function WalletView() {
     const { current: wallet, loading: walletLoading } = useSelector((state) => state.wallets);
     const { items: bankAccounts, loading: bankLoading } = useSelector((state) => state.bankAccounts);
 
+    const [isInitialized, setIsInitialized] = useState(false);
+
     // On gère le cycle de vie
     useEffect(() => {
-        dispatch(fetchMyWallet());
-        dispatch(fetchBankAccounts());
+        Promise.all([
+            dispatch(fetchMyWallet()),
+            dispatch(fetchBankAccounts())
+        ]).finally(() => {
+            setIsInitialized(true);
+        });
     }, [dispatch]);
 
-    // Affichage conditionnel (Loading)
-    if (walletLoading || bankLoading) {
+    // Affichage conditionnel (Loading initial uniquement)
+    if (!isInitialized) {
         return (
             <main className="w-full min-h-screen bg-black flex flex-col items-center justify-center">
                 <span className="text-[#737373] font-inter tracking-widest uppercase text-sm">Chargement du portefeuille...</span>

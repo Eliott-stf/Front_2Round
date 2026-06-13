@@ -96,7 +96,7 @@ export default function ModaleTypeReport({ isOpen, onClose }) {
                                             <span className="text-white font-medium">{type.label}</span>
                                             <button
                                                 onClick={() => handleDelete(type.id)}
-                                                className="text-gray-500 hover:text-red-500 p-2 rounded-lg hover:bg-red-500/10 transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
+                                                className="text-gray-500 hover:text-red-500 p-2 rounded-lg hover:bg-red-500/10 transition-colors opacity-100 lg:opacity-0 group-hover:opacity-100 focus:opacity-100"
                                                 title="Supprimer"
                                             >
                                                 <Trash2 className="w-4 h-4" />

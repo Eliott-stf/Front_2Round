@@ -1,10 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 export const DropdownItem = ({ item, className, onLogout }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const location = useLocation();
   const Icon = item.icon;
+
+  const isActive = item.options?.some(option => option.path && option.path === location.pathname);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -22,7 +25,7 @@ export const DropdownItem = ({ item, className, onLogout }) => {
         onClick={() => setIsOpen(!isOpen)}
         className={className}
       >
-        {Icon && <Icon className="w-6 h-6 transition-transform duration-200" style={{ transform: isOpen ? 'scale(0.95)' : 'scale(1)' }} />}
+        {Icon && <Icon className={`w-6 h-6 md:w-7 md:h-7 shrink-0 transition-transform duration-200 ${isActive ? 'fill-white' : ''}`} style={{ transform: isOpen ? 'scale(0.95)' : 'scale(1)' }} />}
         {item.title && <span className="sr-only md:not-sr-only md:ml-2">{item.title}</span>}
       </button>
 

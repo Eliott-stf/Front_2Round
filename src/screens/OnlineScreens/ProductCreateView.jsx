@@ -135,8 +135,8 @@ export default function ProductCreateView() {
             {/* Header réutilisant HeaderView */}
             <HeaderView
                 title="PUBLIER UN ARTICLE"
-                subtitle="Donnez une seconde vie à votre équipement de boxe en quelques secondes"
-                heightClass="h-[200px]"
+                subtitle="Donnez un second round à votre équipement en quelques clics"
+                heightClass="h-[90px] md:h-[160px] lg:h-[160px]"
             />
 
             <section className="w-full max-w-[1000px] mx-auto px-6 py-10">

@@ -86,7 +86,7 @@ const Navbar = () => {
               to="/admin"
               className="flex items-center text-white hover:opacity-75 transition-opacity"
             >
-              <LayoutDashboard className="w-5 h-5 md:w-6 md:h-6 shrink-0" />
+              <LayoutDashboard className="w-6 h-6 md:w-7 md:h-7 shrink-0" />
             </NavLink>
           )}
 

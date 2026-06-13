@@ -64,7 +64,6 @@ export default function ModaleCreatePack({ isOpen, onClose, conversationId, prod
                 price: finalPrice,
                 condition: baseProduct.condition || 'VERY_GOOD',
                 categoryId: baseProduct.categoryId,
-                size: 'Lot',
             })).unwrap();
 
             const newProduct = resultAction?.data || resultAction;

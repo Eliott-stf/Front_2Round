@@ -230,7 +230,10 @@ const AdminDashboard = () => {
             {/* Order detail modal */}
             <ModaleOrderDetail
                 isOpen={isOrderModalOpen}
-                onClose={() => setIsOrderModalOpen(false)}
+                onClose={() => {
+                    setIsOrderModalOpen(false);
+                    dispatch(fetchAdminDashboardStats());
+                }}
                 order={selectedOrder}
             />
 

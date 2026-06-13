@@ -46,7 +46,7 @@ export const SmartNavlinks = ({ data, containerClassName, itemClassName, onLogou
               }}
               className={itemClassName}
             >
-              {Icon && <Icon className="w-6 h-6 shrink-0" />}
+              {Icon && <Icon className="w-6 h-6 md:w-7 md:h-7 shrink-0" />}
               {item.title && <span className="ml-2">{item.title}</span>}
             </button>
           );
@@ -59,7 +59,7 @@ export const SmartNavlinks = ({ data, containerClassName, itemClassName, onLogou
               onClick={onLogout}
               className={itemClassName}
             >
-              {Icon && <Icon className="w-6 h-6 shrink-0" />}
+              {Icon && <Icon className="w-6 h-6 md:w-7 md:h-7 shrink-0" />}
               {item.title && <span className="ml-2">{item.title}</span>}
             </button>
           );
@@ -71,14 +71,14 @@ export const SmartNavlinks = ({ data, containerClassName, itemClassName, onLogou
             to={item.path || "#"}
             className={itemClassName}
           >
-            <div className="relative">
+            <div className="relative flex items-center justify-center">
               {item.path === "/messages" ? (
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill={location.pathname === item.path ? "white" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill={location.pathname === item.path ? "white" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 md:w-7 md:h-7 shrink-0">
                   <path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z" />
                   <path d="m21.854 2.147-10.94 10.939" stroke={location.pathname === item.path ? "black" : "currentColor"} />
                 </svg>
               ) : (
-                Icon && <Icon className={`w-6 h-6 shrink-0 ${location.pathname === item.path ? 'fill-white' : ''}`} />
+                Icon && <Icon className={`w-6 h-6 md:w-7 md:h-7 shrink-0 ${location.pathname === item.path ? 'fill-white' : ''}`} />
               )}
               {item.path === "/messages" && hasUnreadMessages && (
                 <span className="absolute top-4 -right-2 w-3 h-3 bg-red rounded-full border-2 border-black z-10" />
