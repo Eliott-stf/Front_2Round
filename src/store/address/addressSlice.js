@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../lib/api';
+import { handleApiError } from '@/utils/apiErrorHandler';
 
 // Récupération de la liste des adresses
 export const fetchAddresses = createAsyncThunk(
@@ -8,7 +9,7 @@ export const fetchAddresses = createAsyncThunk(
         try {
             return await api.url('/addresses').get().json();
         } catch (error) {
-            return rejectWithValue(error.message || 'Échec de la récupération des adresses');
+            return rejectWithValue(handleApiError(error, 'Échec de la récupération des adresses'));
         }
     }
 );
@@ -20,7 +21,7 @@ export const createAddress = createAsyncThunk(
         try {
             return await api.url('/addresses').post(addressDto).json();
         } catch (error) {
-            return rejectWithValue(error.message || 'Échec de la création de l\'adresse');
+            return rejectWithValue(handleWretchError(error, 'Échec de la création de l\'adresse'));
         }
     }
 );
@@ -32,7 +33,7 @@ export const updateAddress = createAsyncThunk(
         try {
             return await api.url(`/addresses/${id}`).patch(addressDto).json();
         } catch (error) {
-            return rejectWithValue(error.message || 'Échec de la mise à jour de l\'adresse');
+            return rejectWithValue(handleWretchError(error, 'Échec de la mise à jour de l\'adresse'));
         }
     }
 );
@@ -45,7 +46,7 @@ export const deleteAddress = createAsyncThunk(
             await api.url(`/addresses/${id}`).delete().res();
             return id; 
         } catch (error) {
-            return rejectWithValue(error.message || 'Échec de la suppression de l\'adresse');
+            return rejectWithValue(handleWretchError(error, 'Échec de la suppression de l\'adresse'));
         }
     }
 );

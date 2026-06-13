@@ -4,7 +4,8 @@ import {
     fetchCategories, 
     createCategory, 
     updateCategory, 
-    deleteCategory 
+    deleteCategory,
+    clearCategoryError
 } from '@store/category/categorySlice';
 import PageLoader from '@components/Loader/PageLoader';
 import HeaderAdmin from '@components/Admin/UI/HeaderAdmin';
@@ -26,9 +27,12 @@ const AdminCategories = () => {
     const [autoSlug, setAutoSlug] = useState(true);
     const [deleteConfirmId, setDeleteConfirmId] = useState(null);
 
-    //Méthode pour récup les donne de L'API
+    //Méthode pour récup les donne de L'API et nettoyage erreur
     useEffect(() => {
         dispatch(fetchCategories());
+        return () => {
+            dispatch(clearCategoryError());
+        };
     }, [dispatch]);
 
     //on déclare nos const de confort
@@ -66,6 +70,7 @@ const AdminCategories = () => {
         setIsEditing(false);
         setEditId(null);
         setAutoSlug(true);
+        dispatch(clearCategoryError());
     };
 
     //Méthode pour charger une catégorie en mode édition
@@ -77,6 +82,7 @@ const AdminCategories = () => {
         setEditId(cat.id);
         setAutoSlug(false);
         setDeleteConfirmId(null);
+        dispatch(clearCategoryError());
     };
 
     //Méthode pour soumettre le formulaire (création ou modification)
@@ -156,9 +162,8 @@ const AdminCategories = () => {
                     </div>
 
                     {error && (
-                        <div className="flex items-start gap-2 bg-[#221111] border border-[#ff4444]/20 p-3 rounded-md text-[#ff4444] font-inter text-xs">
-                            <AlertCircle size={16} className="shrink-0 mt-0.5" />
-                            <span>{error}</span>
+                        <div className="text-red font-inter text-sm text-center bg-red/10 border border-red/20 py-3 px-4 md:px-6 rounded-lg break-words">
+                            {error}
                         </div>
                     )}
 

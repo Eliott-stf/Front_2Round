@@ -67,6 +67,8 @@ export default function ProductCreateView() {
 
         if (files.length === 0) {
             tempErrors.files = 'Veuillez ajouter au moins une photo de l\'article';
+        } else if (files.length > 5) {
+            tempErrors.files = 'Vous ne pouvez pas ajouter plus de 5 photos';
         }
 
         setErrors(tempErrors);
@@ -144,7 +146,7 @@ export default function ProductCreateView() {
                 ) : (
                     <form onSubmit={handleSubmit} className="flex flex-col gap-8">
                         {submitError && (
-                            <div className="bg-[#1b0c0c] border border-red/40 rounded-xl p-4 text-red font-inter text-sm text-center">
+                            <div className="text-red font-inter text-sm text-center bg-red/10 border border-red/20 py-3 px-4 md:px-6 rounded-lg break-words">
                                 {submitError}
                             </div>
                         )}

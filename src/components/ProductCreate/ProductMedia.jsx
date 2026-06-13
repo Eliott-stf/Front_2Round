@@ -6,7 +6,13 @@ export default function ProductMedia({ files, setFiles, errors }) {
     const handleFileChange = (e) => {
         if (e.target.files) {
             const selectedFiles = Array.from(e.target.files);
-            setFiles((prev) => [...prev, ...selectedFiles]);
+            setFiles((prev) => {
+                const total = prev.length + selectedFiles.length;
+                if (total > 5) {
+                    return [...prev, ...selectedFiles].slice(0, 5);
+                }
+                return [...prev, ...selectedFiles];
+            });
         }
     };
 
@@ -25,7 +31,13 @@ export default function ProductMedia({ files, setFiles, errors }) {
         if (e.dataTransfer.files) {
             const droppedFiles = Array.from(e.dataTransfer.files);
             const imageFiles = droppedFiles.filter(file => file.type.startsWith('image/'));
-            setFiles((prev) => [...prev, ...imageFiles]);
+            setFiles((prev) => {
+                const total = prev.length + imageFiles.length;
+                if (total > 5) {
+                    return [...prev, ...imageFiles].slice(0, 5);
+                }
+                return [...prev, ...imageFiles];
+            });
         }
     };
 

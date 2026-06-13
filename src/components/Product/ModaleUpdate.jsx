@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateProduct, fetchProductById } from '@store/product/productSlice';
+import { updateProduct, fetchProductById, clearProductError } from '@store/product/productSlice';
 import { fetchCategories } from '@store/category/categorySlice';
 import { uploadProductImages, deleteProductImage } from '@store/media/mediaSlice';
 import { PRODUCT_CONDITIONS } from '@constants/appConstant';
@@ -17,6 +17,7 @@ export default function ModaleUpdate({ isOpen, onClose, product }) {
     // filed d'attente
     const [mediasToDelete, setMediasToDelete] = useState([]);
     const { items: categories = [] } = useSelector(state => state.categories || { items: [] });
+    const { error } = useSelector(state => state.products || { error: null });
     const [formData, setFormData] = useState({
         title: '', description: '', price: '', condition: 'GOOD', size: '', categoryId: '',
     });
@@ -44,8 +45,12 @@ export default function ModaleUpdate({ isOpen, onClose, product }) {
             setExistingMedias(product.medias || []);
             setNewFiles([]);
             setMediasToDelete([]);
+            dispatch(clearProductError());
         }
-    }, [isOpen, product?.id]);
+        return () => {
+            dispatch(clearProductError());
+        };
+    }, [isOpen, product?.id, dispatch]);
 
     if (!isOpen || !product) return null;
 
@@ -65,7 +70,17 @@ export default function ModaleUpdate({ isOpen, onClose, product }) {
         const selectedFiles = Array.from(e.target.files);
 
         if (selectedFiles.length > 0) {
-            setNewFiles(prev => [...prev, ...selectedFiles]);
+            setNewFiles(prev => {
+                const total = existingMedias.length + prev.length + selectedFiles.length;
+                if (total > 5) {
+                    const allowed = 5 - (existingMedias.length + prev.length);
+                    if (allowed > 0) {
+                        return [...prev, ...selectedFiles.slice(0, allowed)];
+                    }
+                    return prev;
+                }
+                return [...prev, ...selectedFiles];
+            });
         }
 
         // On vide l'input proprement pour pouvoir resélectionner la même image si on change d'avis
@@ -83,8 +98,17 @@ export default function ModaleUpdate({ isOpen, onClose, product }) {
         setNewFiles(prev => prev.filter((_, index) => index !== indexToRemove));
     };
 
+    const [localError, setLocalError] = useState(null);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLocalError(null);
+        const totalFiles = existingMedias.length + newFiles.length;
+        if (totalFiles === 0) {
+            setLocalError("Veuillez ajouter au moins une photo de l'article.");
+            return;
+        }
+
         setIsSubmitting(true);
         try {
             // 1. Mise à jour des textes
@@ -129,6 +153,11 @@ export default function ModaleUpdate({ isOpen, onClose, product }) {
                 </div>
 
                 <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+                    {(error || localError) && (
+                        <div className="text-red font-inter text-sm text-center bg-red/10 border border-red/20 py-3 px-4 md:px-6 rounded-lg break-words">
+                            {error || localError}
+                        </div>
+                    )}
 
                     {/* Section Médias (Scroll horizontal) */}
                     <div className="flex flex-col gap-2 mb-2">

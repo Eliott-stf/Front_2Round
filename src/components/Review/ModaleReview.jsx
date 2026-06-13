@@ -1,15 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createReview, deleteReview } from '@store/review/reviewSlice';
+import { createReview, deleteReview, clearReviewError } from '@store/review/reviewSlice';
 import { X, Star, Trash2 } from 'lucide-react';
 
 export default function ModaleReview({ isOpen, onClose, orderId, productTitle, existingReview }) {
     const dispatch = useDispatch();
-    const { loading } = useSelector((state) => state.reviews || { loading: false });
+    const { loading, error } = useSelector((state) => state.reviews || { loading: false, error: null });
 
     const [rating, setRating] = useState(0);
     const [hoveredRating, setHoveredRating] = useState(0);
     const [comment, setComment] = useState('');
+
+    useEffect(() => {
+        if (isOpen) {
+            dispatch(clearReviewError());
+        }
+        return () => {
+            dispatch(clearReviewError());
+        };
+    }, [isOpen, dispatch]);
 
     if (!isOpen) return null;
 
@@ -116,6 +125,12 @@ export default function ModaleReview({ isOpen, onClose, orderId, productTitle, e
                         <span className="font-bebas text-white text-xl tracking-wide truncate">{productTitle}</span>
                     </div>
 
+                    {error && (
+                        <div className="text-red font-inter text-sm text-center bg-red/10 border border-red/20 py-3 px-4 md:px-6 rounded-lg break-words">
+                            {error}
+                        </div>
+                    )}
+
                     <div className="flex justify-center gap-2">
                         {[1, 2, 3, 4, 5].map((star) => (
                             <button
@@ -137,12 +152,19 @@ export default function ModaleReview({ isOpen, onClose, orderId, productTitle, e
                         ))}
                     </div>
 
-                    <textarea
-                        value={comment}
-                        onChange={(e) => setComment(e.target.value)}
-                        placeholder="Partagez votre expérience avec cet article et ce vendeur..."
-                        className="w-full h-32 bg-black border border-[#2f2f2f] rounded-lg p-4 font-inter text-sm text-white placeholder:text-[#737373] focus:outline-none focus:border-red transition-colors resize-none"
-                    />
+                    <div className="relative">
+                        <textarea
+                            value={comment}
+                            onChange={(e) => {
+                                if (e.target.value.length <= 500) setComment(e.target.value);
+                            }}
+                            placeholder="Partagez votre expérience avec cet article et ce vendeur..."
+                            className="w-full h-32 bg-black border border-[#2f2f2f] rounded-lg p-4 font-inter text-sm text-white placeholder:text-[#737373] focus:outline-none focus:border-red transition-colors resize-none pb-8"
+                        />
+                        <div className="absolute bottom-3 right-4 text-xs font-inter text-[#737373]">
+                            {comment.length}/500
+                        </div>
+                    </div>
 
                     <button
                         type="submit"

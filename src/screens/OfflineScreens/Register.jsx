@@ -215,11 +215,11 @@ export const Register = () => {
               <ChevronLeft size={20} />
             </button>
             <button
-              type="button"
-              onClick={() => setStep(1)}
-              className="flex-1 py-4 bg-red text-white font-bebas text-xl tracking-widest rounded-xl transition-all duration-300 shadow-[0_0_15px_rgba(255,255,255,0.1)] hover:bg-gray-light hover:scale-[1.02] active:scale-95"
+              type="submit"
+              disabled={loading}
+              className={`flex-1 py-4 bg-red text-white font-bebas text-xl tracking-widest rounded-xl transition-all duration-300 shadow-[0_0_15px_rgba(255,255,255,0.1)] ${loading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-light hover:scale-[1.02] active:scale-95'}`}
             >
-              VALIDER MA LICENCE
+              {loading ? 'CRÉATION...' : 'VALIDER MA LICENCE'}
             </button>
           </div>
         </div>
@@ -227,7 +227,7 @@ export const Register = () => {
       </form>
 
       {error && (
-        <div className="mt-4 text-red font-inter text-sm text-center bg-red/10 border border-red/20 py-2 rounded-lg">
+        <div className="mt-4 text-red font-inter text-sm text-center bg-red/10 border border-red/20 py-3 px-4 md:px-6 rounded-lg break-words">
           {error}
         </div>
       )}

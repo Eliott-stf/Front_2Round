@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useDispatch, useSelector } from 'react-redux';
-import { createBankAccount } from '@store/bankAccount/bankAccountSlice';
+import { createBankAccount, clearBankAccountError } from '@store/bankAccount/bankAccountSlice';
 import { X, Building } from 'lucide-react';
 
 export default function ModaleAddBankAccount({ isOpen, onClose }) {
@@ -10,7 +10,7 @@ export default function ModaleAddBankAccount({ isOpen, onClose }) {
     const dispatch = useDispatch();
     
     // On récupère nos datas Redux
-    const { loading } = useSelector((state) => state.bankAccounts);
+    const { loading, error } = useSelector((state) => state.bankAccounts);
 
     // On déclare nos states locaux
     const [formData, setFormData] = useState({
@@ -19,6 +19,16 @@ export default function ModaleAddBankAccount({ isOpen, onClose }) {
         ownerName: '',
         isDefault: false
     });
+
+    // Nettoyage de l'erreur
+    useEffect(() => {
+        if (isOpen) {
+            dispatch(clearBankAccountError());
+        }
+        return () => {
+            dispatch(clearBankAccountError());
+        };
+    }, [isOpen, dispatch]);
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -116,6 +126,12 @@ export default function ModaleAddBankAccount({ isOpen, onClose }) {
                                     Définir comme compte par défaut
                                 </span>
                             </label>
+
+                            {error && (
+                                <div className="text-red font-inter text-sm text-center bg-red/10 border border-red/20 py-3 px-4 md:px-6 rounded-lg break-words">
+                                    {error}
+                                </div>
+                            )}
 
                             <button
                                 type="submit"

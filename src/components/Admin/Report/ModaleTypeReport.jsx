@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { 
     fetchAdminTypeReports, 
     createAdminTypeReport, 
-    deleteAdminTypeReport 
+    deleteAdminTypeReport,
+    clearAdminError
 } from '@store/admin/adminSlice';
 
 export default function ModaleTypeReport({ isOpen, onClose }) {
@@ -13,14 +14,18 @@ export default function ModaleTypeReport({ isOpen, onClose }) {
     const dispatch = useDispatch();
 
     //state
-    const { typeReports, loading } = useSelector((state) => state.admin);
+    const { typeReports, loading, error } = useSelector((state) => state.admin);
     const [newLabel, setNewLabel] = useState('');
 
     //appel a l'api
     useEffect(() => {
         if (isOpen) {
             dispatch(fetchAdminTypeReports());
+            dispatch(clearAdminError());
         }
+        return () => {
+            dispatch(clearAdminError());
+        };
     }, [isOpen, dispatch]);
 
     //méthode de création
@@ -64,6 +69,12 @@ export default function ModaleTypeReport({ isOpen, onClose }) {
                         </button>
                     </div>
 
+                    {error && (
+                        <div className="mx-6 mt-6 mb-2 text-red font-inter text-sm text-center bg-red/10 border border-red/20 py-3 px-4 md:px-6 rounded-lg break-words">
+                            {error}
+                        </div>
+                    )}
+
                     {/* Content */}
                     <div className="p-6 overflow-y-auto flex-1 custom-scrollbar">
                         {loading && typeReports.length === 0 ? (
@@ -99,14 +110,21 @@ export default function ModaleTypeReport({ isOpen, onClose }) {
 
                     {/* Footer / Form */}
                     <div className="p-6 border-t border-[#2f2f2f] bg-[#0a0a0a] shrink-0">
-                        <form onSubmit={handleCreate} className="flex gap-3">
-                            <input
-                                type="text"
-                                value={newLabel}
-                                onChange={(e) => setNewLabel(e.target.value)}
-                                placeholder="Nouveau type..."
-                                className="flex-1 bg-[#111111] border border-[#2f2f2f] text-white px-4 py-3 rounded-xl focus:outline-none focus:border-white transition-colors"
-                            />
+                        <form onSubmit={handleCreate} className="flex gap-3 relative">
+                            <div className="flex-1 relative">
+                                <input
+                                    type="text"
+                                    value={newLabel}
+                                    onChange={(e) => {
+                                        if (e.target.value.length <= 100) setNewLabel(e.target.value);
+                                    }}
+                                    placeholder="Nouveau type..."
+                                    className="w-full bg-[#111111] border border-[#2f2f2f] text-white px-4 py-3 rounded-xl focus:outline-none focus:border-white transition-colors pr-14"
+                                />
+                                <div className="absolute top-1/2 -translate-y-1/2 right-4 text-xs font-inter text-[#737373]">
+                                    {newLabel.length}/100
+                                </div>
+                            </div>
                             <button
                                 type="submit"
                                 disabled={!newLabel.trim() || loading}

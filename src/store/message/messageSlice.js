@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '@lib/api';
-
+import { handleApiError } from '@/utils/apiErrorHandler';
 
 export const sendMessage = createAsyncThunk(
   'messages/send',
@@ -9,7 +9,7 @@ export const sendMessage = createAsyncThunk(
       const response = await api.url(`/conversations/${conversationId}/messages`).post({ content }).json();
       return { conversationId, message: response };
     } catch (error) {
-      return rejectWithValue(error.message || "Erreur lors de l'envoi du message");
+      return rejectWithValue(handleApiError(error, "Erreur lors de l'envoi du message"));
     }
   }
 );
@@ -21,7 +21,7 @@ export const markMessagesAsRead = createAsyncThunk(
       await api.url(`/conversations/${conversationId}/messages/read`).post().res();
       return conversationId;
     } catch (error) {
-      return rejectWithValue(error.message || 'Erreur lors du marquage des messages');
+      return rejectWithValue(handleApiError(error, 'Erreur lors du marquage des messages'));
     }
   }
 );
@@ -51,6 +51,9 @@ const messageSlice = createSlice({
       const conversationId = action.payload;
       delete state.items[conversationId];
     },
+    clearMessageError: (state) => {
+      state.error = null;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -95,6 +98,6 @@ const messageSlice = createSlice({
   },
 });
 
-export const { receiveMessage, clearConversationMessages } = messageSlice.actions;
+export const { receiveMessage, clearConversationMessages, clearMessageError } = messageSlice.actions;
 
 export default messageSlice.reducer;

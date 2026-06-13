@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '@lib/api';
+import { handleApiError } from '@/utils/apiErrorHandler';
 
 export const fetchProducts = createAsyncThunk('products/fetchAll', (filters = {}, { rejectWithValue }) => {
     const { price, ...apiFilters } = filters;
@@ -7,31 +8,31 @@ export const fetchProducts = createAsyncThunk('products/fetchAll', (filters = {}
     const queryString = new URLSearchParams(cleanFilters).toString();
     const url = queryString ? `/products?${queryString}` : '/products';
 
-    return api.url(url).get().json().catch(() => rejectWithValue('Erreur chargement produits'));
+    return api.url(url).get().json().catch((err) => rejectWithValue(handleApiError(err, 'Erreur chargement produits')));
 });
 
 export const fetchProductById = createAsyncThunk('products/fetchOne', (id, { rejectWithValue }) =>
-    api.url(`/products/${id}`).get().json().catch(() => rejectWithValue('Produit introuvable'))
+    api.url(`/products/${id}`).get().json().catch((err) => rejectWithValue(handleApiError(err, 'Produit introuvable')))
 );
 
 export const fetchMyProducts = createAsyncThunk('products/fetchMine', (sellerId, { rejectWithValue }) =>
-    api.url(`/products?sellerId=${sellerId}`).get().json().catch(() => rejectWithValue('Erreur chargement mes produits'))
+    api.url(`/products?sellerId=${sellerId}`).get().json().catch((err) => rejectWithValue(handleApiError(err, 'Erreur chargement mes produits')))
 );
 
 export const createProduct = createAsyncThunk('products/create', (data, { rejectWithValue }) =>
-    api.url('/products').post(data).json().catch(() => rejectWithValue('Erreur création produit'))
+    api.url('/products').post(data).json().catch((err) => rejectWithValue(handleApiError(err, 'Erreur création produit')))
 );
 
 export const updateProduct = createAsyncThunk('products/update', ({ id, data }, { rejectWithValue }) =>
-    api.url(`/products/${id}`).patch(data).json().catch(() => rejectWithValue('Erreur modification produit'))
+    api.url(`/products/${id}`).patch(data).json().catch((err) => rejectWithValue(handleApiError(err, 'Erreur modification produit')))
 );
 
 export const deleteProduct = createAsyncThunk('products/delete', (id, { rejectWithValue }) =>
-    api.url(`/products/${id}`).delete().res().then(() => id).catch(() => rejectWithValue('Erreur suppression produit'))
+    api.url(`/products/${id}`).delete().res().then(() => id).catch((err) => rejectWithValue(handleApiError(err, 'Erreur suppression produit')))
 );
 
 export const toggleFavorite = createAsyncThunk('products/toggleFavorite', (id, { rejectWithValue }) =>
-    api.url(`/products/${id}/favorite`).post().json().catch(() => rejectWithValue('Erreur lors de la mise en favori'))
+    api.url(`/products/${id}/favorite`).post().json().catch((err) => rejectWithValue(handleApiError(err, 'Erreur lors de la mise en favori')))
 );
 
 const initialFilters = {
@@ -53,6 +54,7 @@ const productSlice = createSlice({
         setFilters: (state, action) => { state.filters = { ...state.filters, ...action.payload, page: 1 }; },
         setPage: (state, action) => { state.filters.page = action.payload; },
         resetFilters: (state) => { state.filters = initialFilters; },
+        clearProductError: (state) => { state.error = null; },
     },
     extraReducers: (builder) => {
         builder
@@ -93,5 +95,5 @@ const productSlice = createSlice({
     },
 });
 
-export const { setFilters, setPage, resetFilters } = productSlice.actions;
+export const { setFilters, setPage, resetFilters, clearProductError } = productSlice.actions;
 export default productSlice.reducer;

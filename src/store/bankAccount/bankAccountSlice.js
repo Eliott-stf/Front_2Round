@@ -1,47 +1,47 @@
-// On importe nos dépendances
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '@lib/api';
+import { handleApiError } from '@/utils/apiErrorHandler';
 
 // On déclare nos actions asynchrones (Thunks)
 export const fetchBankAccounts = createAsyncThunk(
   'bankAccounts/fetchAll',
   async (_, { rejectWithValue }) => {
-    return api.url('/bank-accounts').get().json().catch((err) => rejectWithValue(err.message || 'Erreur chargement des comptes bancaires'));
+    return api.url('/bank-accounts').get().json().catch((err) => rejectWithValue(handleApiError(err, 'Erreur chargement des comptes bancaires')));
   }
 );
 
 export const fetchBankAccountById = createAsyncThunk(
   'bankAccounts/fetchById',
   async (id, { rejectWithValue }) => {
-    return api.url(`/bank-accounts/${id}`).get().json().catch((err) => rejectWithValue(err.message || 'Erreur chargement du compte bancaire'));
+    return api.url(`/bank-accounts/${id}`).get().json().catch((err) => rejectWithValue(handleApiError(err, 'Erreur chargement du compte bancaire')));
   }
 );
 
 export const createBankAccount = createAsyncThunk(
   'bankAccounts/create',
   async (data, { rejectWithValue }) => {
-    return api.url('/bank-accounts').post(data).json().catch((err) => rejectWithValue(err.message || 'Erreur lors de la création du compte bancaire'));
+    return api.url('/bank-accounts').post(data).json().catch((err) => rejectWithValue(handleApiError(err, 'Erreur lors de la création du compte bancaire')));
   }
 );
 
 export const updateBankAccount = createAsyncThunk(
   'bankAccounts/update',
   async ({ id, data }, { rejectWithValue }) => {
-    return api.url(`/bank-accounts/${id}`).patch(data).json().catch((err) => rejectWithValue(err.message || 'Erreur lors de la mise à jour du compte bancaire'));
+    return api.url(`/bank-accounts/${id}`).patch(data).json().catch((err) => rejectWithValue(handleApiError(err, 'Erreur lors de la mise à jour du compte bancaire')));
   }
 );
 
 export const setDefaultBankAccount = createAsyncThunk(
   'bankAccounts/setDefault',
   async (id, { rejectWithValue }) => {
-    return api.url(`/bank-accounts/${id}/default`).patch().json().catch((err) => rejectWithValue(err.message || 'Erreur lors de la définition du compte par défaut'));
+    return api.url(`/bank-accounts/${id}/default`).patch().json().catch((err) => rejectWithValue(handleApiError(err, 'Erreur lors de la définition du compte par défaut')));
   }
 );
 
 export const deleteBankAccount = createAsyncThunk(
   'bankAccounts/delete',
   async (id, { rejectWithValue }) => {
-    return api.url(`/bank-accounts/${id}`).delete().json().then(() => id).catch((err) => rejectWithValue(err.message || 'Erreur lors de la suppression du compte bancaire'));
+    return api.url(`/bank-accounts/${id}`).delete().json().then(() => id).catch((err) => rejectWithValue(handleApiError(err, 'Erreur lors de la suppression du compte bancaire')));
   }
 );
 
@@ -57,6 +57,9 @@ const bankAccountSlice = createSlice({
   reducers: {
     clearCurrentBankAccount: (state) => {
       state.current = null;
+    },
+    clearBankAccountError: (state) => {
+      state.error = null;
     },
   },
   extraReducers: (builder) => {
@@ -120,5 +123,5 @@ const bankAccountSlice = createSlice({
   },
 });
 
-export const { clearCurrentBankAccount } = bankAccountSlice.actions;
+export const { clearCurrentBankAccount, clearBankAccountError } = bankAccountSlice.actions;
 export default bankAccountSlice.reducer;

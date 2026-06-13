@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createAddress, updateAddress, toggleForm } from "../../../store/address/addressSlice";
+import { createAddress, updateAddress, clearAddressError } from "../../../store/address/addressSlice";
 
 export default function AddressForm({ initialData, onCancel }) {
     // On récupère les hooks
     const dispatch = useDispatch();
-    const { loading } = useSelector((state) => state.addresses);
+    const { loading, error } = useSelector((state) => state.addresses);
 
     // Détermination automatique du mode d'opération
     const isEditMode = !!initialData;
@@ -18,6 +18,14 @@ export default function AddressForm({ initialData, onCancel }) {
         city: "",
         additionalInfo: "",
     });
+
+    // Nettoyage de l'erreur quand on quitte ou ouvre le form
+    useEffect(() => {
+        dispatch(clearAddressError());
+        return () => {
+            dispatch(clearAddressError());
+        };
+    }, [dispatch]);
 
     // Chargement des données si on est en modification
     useEffect(() => {
@@ -106,6 +114,12 @@ export default function AddressForm({ initialData, onCancel }) {
                     />
                 </div>
             </div>
+
+            {error && (
+                <div className="text-red font-inter text-sm text-center bg-red/10 border border-red/20 py-3 px-4 md:px-6 rounded-lg break-words">
+                    {error}
+                </div>
+            )}
 
             <div className="flex gap-3 pt-4 pb-2">
                 {isEditMode && (

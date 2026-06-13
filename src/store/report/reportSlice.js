@@ -1,14 +1,15 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '@lib/api';
+import { handleApiError } from '@/utils/apiErrorHandler';
 
 // Méthode pour récup les donne de L'API (types de signalements)
 export const fetchTypeReports = createAsyncThunk('reports/fetchTypes', async (_, { rejectWithValue }) =>
-    api.url('/type-reports').get().json().catch(() => rejectWithValue('Erreur lors du chargement des motifs de signalement'))
+    api.url('/type-reports').get().json().catch((err) => rejectWithValue(handleApiError(err, 'Erreur lors du chargement des motifs de signalement')))
 );
 
 // Méthode pour créer un signalement via L'API
 export const createReport = createAsyncThunk('reports/create', async (data, { rejectWithValue }) =>
-    api.url('/reports').post(data).json().catch(() => rejectWithValue('Erreur lors de la création du signalement'))
+    api.url('/reports').post(data).json().catch((err) => rejectWithValue(handleApiError(err, 'Erreur lors de la création du signalement')))
 );
 
 const reportSlice = createSlice({
@@ -19,7 +20,11 @@ const reportSlice = createSlice({
         loading: false,
         error: null,
     },
-    reducers: {},
+    reducers: {
+        clearReportError: (state) => {
+            state.error = null;
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(fetchTypeReports.fulfilled, (state, action) => {
@@ -49,4 +54,5 @@ const reportSlice = createSlice({
     },
 });
 
+export const { clearReportError } = reportSlice.actions;
 export default reportSlice.reducer;

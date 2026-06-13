@@ -1,20 +1,21 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '@lib/api';
+import { handleApiError } from '@/utils/apiErrorHandler';
 
 export const fetchReviewsByUser = createAsyncThunk('reviews/fetchByUser', (userId, { rejectWithValue }) =>
-  api.url(`/reviews/user/${userId}`).get().json().catch(() => rejectWithValue('Erreur chargement avis utilisateur'))
+  api.url(`/reviews/user/${userId}`).get().json().catch((err) => rejectWithValue(handleApiError(err, 'Erreur chargement avis utilisateur')))
 );
 
 export const fetchReviewByOrder = createAsyncThunk('reviews/fetchByOrder', (orderId, { rejectWithValue }) =>
-  api.url(`/reviews/order/${orderId}`).get().json().catch(() => rejectWithValue('Erreur chargement avis commande'))
+  api.url(`/reviews/order/${orderId}`).get().json().catch((err) => rejectWithValue(handleApiError(err, 'Erreur chargement avis commande')))
 );
 
 export const createReview = createAsyncThunk('reviews/create', ({ orderId, data }, { rejectWithValue }) =>
-  api.url(`/reviews/${orderId}`).post(data).json().catch(() => rejectWithValue('Erreur création avis'))
+  api.url(`/reviews/${orderId}`).post(data).json().catch((err) => rejectWithValue(handleApiError(err, 'Erreur création avis')))
 );
 
 export const deleteReview = createAsyncThunk('reviews/delete', (id, { rejectWithValue }) =>
-  api.url(`/reviews/${id}`).delete().res().then(() => id).catch(() => rejectWithValue('Erreur suppression avis'))
+  api.url(`/reviews/${id}`).delete().res().then(() => id).catch((err) => rejectWithValue(handleApiError(err, 'Erreur suppression avis')))
 );
 
 const reviewSlice = createSlice({
@@ -25,7 +26,11 @@ const reviewSlice = createSlice({
     loading: false,
     error: null,
   },
-  reducers: {},
+  reducers: {
+    clearReviewError: (state) => {
+      state.error = null;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchReviewsByUser.fulfilled, (state, action) => {
@@ -58,4 +63,5 @@ const reviewSlice = createSlice({
   },
 });
 
+export const { clearReviewError } = reviewSlice.actions;
 export default reviewSlice.reducer;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchTypeReports, createReport } from '@store/report/reportSlice';
+import { fetchTypeReports, createReport, clearReportError } from '@store/report/reportSlice';
 import { AlertTriangle, CheckCircle, X } from 'lucide-react';
 
 export default function ModaleReport({ isOpen, onClose, productId, conversationId }) {
@@ -35,8 +35,12 @@ export default function ModaleReport({ isOpen, onClose, productId, conversationI
             setContent('');
             setIsSubmitted(false);
             setLocalError(null);
+            dispatch(clearReportError());
         }
-    }, [isOpen]);
+        return () => {
+            dispatch(clearReportError());
+        };
+    }, [isOpen, dispatch]);
 
     //Vérif que l'élément est ouvert
     if (!isOpen) return null;
@@ -139,18 +143,25 @@ export default function ModaleReport({ isOpen, onClose, productId, conversationI
                             {/* Description / Précisions */}
                             <div className="flex flex-col gap-2">
                                 <label className="font-inter text-[13px] font-medium text-white/70 ml-1">Détails (Optionnel)</label>
-                                <textarea
-                                    value={content}
-                                    onChange={(e) => setContent(e.target.value)}
-                                    placeholder="Décrivez précisément le problème pour aider notre équipe de modération..."
-                                    rows={4}
-                                    className="w-full bg-[#2c2c2e] rounded-xl p-4 text-white font-inter text-[15px] outline-none focus:ring-2 focus:ring-white/20 transition-all placeholder:text-white/30 resize-none"
-                                />
+                                <div className="relative">
+                                    <textarea
+                                        value={content}
+                                        onChange={(e) => {
+                                            if (e.target.value.length <= 1000) setContent(e.target.value);
+                                        }}
+                                        placeholder="Décrivez précisément le problème pour aider notre équipe de modération..."
+                                        rows={4}
+                                        className="w-full bg-[#2c2c2e] rounded-xl p-4 text-white font-inter text-[15px] outline-none focus:ring-2 focus:ring-white/20 transition-all placeholder:text-white/30 resize-none pb-8"
+                                    />
+                                    <div className="absolute bottom-3 right-4 text-xs font-inter text-[#737373]">
+                                        {content.length}/1000
+                                    </div>
+                                </div>
                             </div>
 
                             {/* loading et erreur */}
                             {(localError || apiError) && (
-                                <div className="text-red font-inter text-sm text-center bg-red/10 py-3 px-4 rounded-xl border border-red/20">
+                                <div className="text-red font-inter text-sm text-center bg-red/10 py-3 px-4 rounded-xl border border-red/20 break-words">
                                     {localError || apiError}
                                 </div>
                             )}

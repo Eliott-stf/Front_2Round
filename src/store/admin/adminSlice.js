@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../lib/api';
+import { handleApiError } from '@/utils/apiErrorHandler';
 
 // --- THUNKS ---
 
@@ -154,7 +155,7 @@ export const createAdminTypeReport = createAsyncThunk(
         try {
             return await api.url('/type-reports').post(payload).json();
         } catch (error) {
-            return rejectWithValue('Erreur lors de la création du type de signalement');
+            return rejectWithValue(handleApiError(error, 'Erreur lors de la création du type de signalement'));
         }
     }
 );
@@ -190,7 +191,9 @@ const adminSlice = createSlice({
         error: null,
     },
     reducers: {
-        // Reducers synchrones si besoin
+        clearAdminError: (state) => {
+            state.error = null;
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -396,11 +399,20 @@ const adminSlice = createSlice({
             })
             
             // CREATE TYPE REPORT
+            .addCase(createAdminTypeReport.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
             .addCase(createAdminTypeReport.fulfilled, (state, action) => {
+                state.loading = false;
                 const newType = action.payload?.data || action.payload;
                 if (newType) {
                     state.typeReports.push(newType);
                 }
+            })
+            .addCase(createAdminTypeReport.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
             })
             
             // DELETE TYPE REPORT
@@ -411,4 +423,5 @@ const adminSlice = createSlice({
     }
 });
 
+export const { clearAdminError } = adminSlice.actions;
 export default adminSlice.reducer;

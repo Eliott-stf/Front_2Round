@@ -1,12 +1,14 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '@lib/api';
 import { USER_INFOS } from '@constants/appConstant';
+import { handleApiError } from '@/utils/apiErrorHandler';
+
 
 export const register = createAsyncThunk('auth/register', async (formData, { rejectWithValue }) => {
     try {
         await api.url('/auth/register').post(formData).json();
     } catch (error) {
-        return rejectWithValue('Erreur lors de l\'inscription');
+        return rejectWithValue(handleApiError(error, 'Erreur lors de l\'inscription'));
     }
 });
 

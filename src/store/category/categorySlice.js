@@ -1,24 +1,25 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '@lib/api';
+import { handleApiError } from '@/utils/apiErrorHandler';
 
 export const fetchCategories = createAsyncThunk('categories/fetchAll', async (_, { rejectWithValue }) =>
-    api.url('/categories').get().json().catch(() => rejectWithValue('Erreur chargement catégories'))
+    api.url('/categories').get().json().catch((err) => rejectWithValue(handleApiError(err, 'Erreur chargement catégories')))
 );
 
 export const fetchCategoryById = createAsyncThunk('categories/fetchOne', async (id, { rejectWithValue }) =>
-    api.url(`/categories/${id}`).get().json().catch(() => rejectWithValue('Catégorie introuvable'))
+    api.url(`/categories/${id}`).get().json().catch((err) => rejectWithValue(handleApiError(err, 'Catégorie introuvable')))
 );
 
 export const createCategory = createAsyncThunk('categories/create', async (data, { rejectWithValue }) =>
-    api.url('/categories').post(data).json().catch(() => rejectWithValue('Erreur création catégorie'))
+    api.url('/categories').post(data).json().catch((err) => rejectWithValue(handleApiError(err, 'Erreur création catégorie')))
 );
 
 export const updateCategory = createAsyncThunk('categories/update', async ({ id, data }, { rejectWithValue }) =>
-    api.url(`/categories/${id}`).patch(data).json().catch(() => rejectWithValue('Erreur modification catégorie'))
+    api.url(`/categories/${id}`).patch(data).json().catch((err) => rejectWithValue(handleApiError(err, 'Erreur modification catégorie')))
 );
 
 export const deleteCategory = createAsyncThunk('categories/delete', async (id, { rejectWithValue }) =>
-    api.url(`/categories/${id}`).delete().res().then(() => id).catch(() => rejectWithValue('Erreur suppression catégorie'))
+    api.url(`/categories/${id}`).delete().res().then(() => id).catch((err) => rejectWithValue(handleApiError(err, 'Erreur suppression catégorie')))
 );
 
 const categorySlice = createSlice({
@@ -29,7 +30,11 @@ const categorySlice = createSlice({
         loading: false,
         error: null,
     },
-    reducers: {},
+    reducers: {
+        clearCategoryError: (state) => {
+            state.error = null;
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(fetchCategories.fulfilled, (state, action) => {
@@ -85,4 +90,5 @@ const categorySlice = createSlice({
     },
 });
 
+export const { clearCategoryError } = categorySlice.actions;
 export default categorySlice.reducer;
