@@ -11,6 +11,7 @@ import AdminProducts from '@screens/AdminScreens/AdminProducts';
 import AdminOrders from '@screens/AdminScreens/AdminOrders';
 import AdminReports from '@screens/AdminScreens/AdminReports';
 import AdminCategories from '@screens/AdminScreens/AdminCategories';
+import AdminAttributes from '@screens/AdminScreens/AdminAttributes';
 import CatalogueView from '@screens/OfflineScreens/CatalogueView';
 import ProductDetail from '@screens/OfflineScreens/ProductDetail';
 import ResellView from '@screens/OfflineScreens/ResellView';
@@ -59,6 +60,7 @@ const OnlineRouter = createBrowserRouter([
       { path: 'users', element: <AdminUsers /> },
       { path: 'products', element: <AdminProducts /> },
       { path: 'categories', element: <AdminCategories /> },
+      { path: 'attributes', element: <AdminAttributes /> },
       { path: 'orders', element: <AdminOrders /> },
       { path: 'reports', element: <AdminReports /> },
     ],

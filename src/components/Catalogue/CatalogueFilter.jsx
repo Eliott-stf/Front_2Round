@@ -2,13 +2,11 @@ import React, { useMemo, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setFilters, resetFilters } from '@store/product/productSlice';
 import { fetchCategories } from '@store/category/categorySlice';
+import { fetchAttributes } from '@store/attribute/attributeSlice';
 import { ChevronDown } from 'lucide-react';
 import {
     CATALOGUE_PRICES,
-    PRODUCT_CONDITIONS,
-    SIZES_CLOTHING,
-    SIZES_GLOVES,
-    SIZES_SHOES
+    PRODUCT_CONDITIONS
 } from '@constants/appConstant';
 
 export default function CatalogueFilters() {
@@ -19,12 +17,14 @@ export default function CatalogueFilters() {
     // On récupère nos datas Redux
     const { filters } = useSelector((state) => state.products);
     const { items: categories = [] } = useSelector((state) => state.categories || { items: [] });
+    const { items: attributes = [] } = useSelector((state) => state.attributes || { items: [] });
 
-    // Charger les catégories au montage si elles sont vides
+    // Charger les catégories et attributs au montage
     useEffect(() => {
         if (categories.length === 0) {
             dispatch(fetchCategories());
         }
+        dispatch(fetchAttributes());
     }, [dispatch, categories.length]);
 
     // On déclare nos méthodes
@@ -32,7 +32,7 @@ export default function CatalogueFilters() {
         const { name, value } = e.target;
 
         if (name === 'categoryId') {
-            dispatch(setFilters({ [name]: value, size: '' }));
+            dispatch(setFilters({ [name]: value, attributeId: '' }));
         } else if (name === 'price') {
             // Récupération des valeurs min et max définies dans appConstant
             const selectedPrice = CATALOGUE_PRICES.find(p => p.value === value);
@@ -65,15 +65,24 @@ export default function CatalogueFilters() {
         if (!filters.categoryId) return [];
 
         const selectedCategory = categories.find(cat => cat.id === filters.categoryId);
-        if (!selectedCategory) return SIZES_CLOTHING;
+        if (!selectedCategory) return [];
 
         const categoryName = selectedCategory.name.toLowerCase();
 
-        if (categoryName.includes('gant')) return SIZES_GLOVES;
-        if (categoryName.includes('chaussure')) return SIZES_SHOES;
-        
-        return SIZES_CLOTHING;
-    }, [filters.categoryId, categories]);
+        let filteredAttrs = [];
+        if (categoryName.includes('gant')) {
+            filteredAttrs = attributes.filter(a => a.type === 'size_glove');
+        } else if (categoryName.includes('chaussure')) {
+            filteredAttrs = attributes.filter(a => a.type === 'size_shoe');
+        } else if (categoryName.includes('vêtement') || categoryName.includes('vetement') || categoryName.includes('casque')) {
+            filteredAttrs = attributes.filter(a => a.type === 'size_clothing');
+        }
+
+        return filteredAttrs.map(attr => ({
+            value: attr.id,
+            label: attr.value
+        }));
+    }, [filters.categoryId, categories, attributes]);
 
     const FilterSelect = ({ label, name, options, value, disabled = false }) => (
         <div className={`relative group ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}>
@@ -111,10 +120,10 @@ export default function CatalogueFilters() {
 
                     <FilterSelect
                         label="TAILLE"
-                        name="size"
-                        value={filters.size}
+                        name="attributeId"
+                        value={filters.attributeId}
                         options={sizeOptions}
-                        disabled={!filters.categoryId}
+                        disabled={!filters.categoryId || sizeOptions.length === 0}
                     />
 
                     <FilterSelect

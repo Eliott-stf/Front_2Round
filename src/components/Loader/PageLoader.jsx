@@ -1,12 +1,20 @@
 import React from 'react';
+import Navbar from '@components/Layout/Navbar';
+import HeaderView from '@components/UI/HeaderView';
+import { BrowserRouter } from 'react-router-dom';
 
-export default function PageLoader() {
+export default function PageLoader({ withLayout = false }) {
     // Génération d'un tableau de 8 éléments pour afficher la grille de chargement
     const skeletons = Array(8).fill(null);
 
-    return (
-        <div className="w-full min-h-screen bg-[#050505] py-24">
-            <div className="max-w-[1440px] mx-auto px-6 lg:px-[100px]">
+    const content = (
+        <div className={withLayout ? "flex-1 flex flex-col min-h-0 bg-[#000000]" : "w-full"}>
+            <HeaderView 
+                title="CHARGEMENT..." 
+                subtitle="Merci de patienter pendant que nous préparons vos données." 
+                heightClass="h-[120px] md:h-[200px]" 
+            />
+            <div className="max-w-[1440px] mx-auto px-6 lg:px-[100px] py-12 w-full">
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                     {skeletons.map((_, index) => (
                         <div 
@@ -32,6 +40,23 @@ export default function PageLoader() {
                     ))}
                 </div>
             </div>
+        </div>
+    );
+
+    if (withLayout) {
+        return (
+            <BrowserRouter>
+                <div className="flex flex-col min-h-screen bg-[#000000] w-full">
+                    <Navbar />
+                    {content}
+                </div>
+            </BrowserRouter>
+        );
+    }
+
+    return (
+        <div className="flex flex-col min-h-screen bg-[#000000] w-full">
+            {content}
         </div>
     );
 }

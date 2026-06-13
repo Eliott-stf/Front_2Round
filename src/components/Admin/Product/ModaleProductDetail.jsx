@@ -139,7 +139,9 @@ export default function ModaleProductDetail({ isOpen, onClose, product }) {
                             </div>
                             <div>
                                 <span className="font-inter text-xs text-[#555555] uppercase block">Taille</span>
-                                <span className="font-inter text-sm text-white font-medium">{product.size || 'N/A'}</span>
+                                <span className="font-inter text-sm text-white font-medium">
+                                    {product.attributes?.map(pa => pa.attribute?.value).filter(Boolean).join(', ') || product.size || 'N/A'}
+                                </span>
                             </div>
                         </div>
 

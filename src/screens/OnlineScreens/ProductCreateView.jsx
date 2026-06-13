@@ -5,6 +5,7 @@ import HeaderView from '@components/UI/HeaderView';
 import ProductForm from '@components/ProductCreate/ProductForm';
 import ProductMedia from '@components/ProductCreate/ProductMedia';
 import { fetchCategories } from '@store/category/categorySlice';
+import { fetchAttributes } from '@store/attribute/attributeSlice';
 import { createProduct } from '@store/product/productSlice';
 import { uploadProductImages } from '@store/media/mediaSlice';
 import { slugify } from '@/utils/slugify';
@@ -26,13 +27,14 @@ export default function ProductCreateView() {
     // Récupération des catégories depuis Redux
     const categories = useSelector((state) => state.categories.items);
     const categoriesLoading = useSelector((state) => state.categories.loading);
+    const attributes = useSelector((state) => state.attributes.items);
 
     // États locaux pour le formulaire et les fichiers
     const [formData, setFormData] = useState({
         title: '',
         description: '',
         condition: '',
-        size: '',
+        attributeId: '',
         price: '',
         categoryId: '',
     });
@@ -41,9 +43,10 @@ export default function ProductCreateView() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitError, setSubmitError] = useState(null);
 
-    // Charger les catégories au montage
+    // Charger les catégories et attributs au montage
     useEffect(() => {
         dispatch(fetchCategories());
+        dispatch(fetchAttributes());
     }, [dispatch]);
 
     // Validation du formulaire
@@ -95,7 +98,7 @@ export default function ProductCreateView() {
             title: formData.title,
             description: formData.description,
             condition: formData.condition,
-            size: formData.size.trim() || null,
+            attributeIds: formData.attributeId ? [formData.attributeId] : [],
             price: parseFloat(formData.price),
             categoryId: formData.categoryId,
         };
@@ -156,6 +159,7 @@ export default function ProductCreateView() {
                             formData={formData}
                             setFormData={setFormData}
                             categories={categories}
+                            attributes={attributes}
                             errors={errors}
                         />
 

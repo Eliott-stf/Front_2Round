@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateProduct, fetchProductById, clearProductError } from '@store/product/productSlice';
 import { fetchCategories } from '@store/category/categorySlice';
+import { fetchAttributes } from '@store/attribute/attributeSlice';
 import { uploadProductImages, deleteProductImage } from '@store/media/mediaSlice';
 import { PRODUCT_CONDITIONS } from '@constants/appConstant';
 import { API_ROOT } from '@constants/apiConstant';
@@ -17,16 +18,19 @@ export default function ModaleUpdate({ isOpen, onClose, product }) {
     // filed d'attente
     const [mediasToDelete, setMediasToDelete] = useState([]);
     const { items: categories = [] } = useSelector(state => state.categories || { items: [] });
+    const { items: attributes = [] } = useSelector(state => state.attributes || { items: [] });
     const { error } = useSelector(state => state.products || { error: null });
     const [formData, setFormData] = useState({
-        title: '', description: '', price: '', condition: 'GOOD', size: '', categoryId: '',
+        title: '', description: '', price: '', condition: 'GOOD', attributeId: '', categoryId: '',
     });
+    const [localError, setLocalError] = useState(null);
     const fileInputRef = useRef(null);
 
-    // Charger les catégories si besoin
+    // Charger les catégories et attributs si besoin
     useEffect(() => {
-        if (isOpen && categories.length === 0) {
-            dispatch(fetchCategories());
+        if (isOpen) {
+            if (categories.length === 0) dispatch(fetchCategories());
+            dispatch(fetchAttributes());
         }
     }, [isOpen, categories.length, dispatch]);
 
@@ -39,7 +43,7 @@ export default function ModaleUpdate({ isOpen, onClose, product }) {
                 description: product.description || '',
                 price: product.price || '',
                 condition: product.condition || 'GOOD',
-                size: product.size || '',
+                attributeId: product.attributes?.[0]?.attribute?.id || '',
                 categoryId: product.categoryId || '',
             });
             setExistingMedias(product.medias || []);
@@ -51,6 +55,19 @@ export default function ModaleUpdate({ isOpen, onClose, product }) {
             dispatch(clearProductError());
         };
     }, [isOpen, product?.id, dispatch]);
+
+    const selectedCategory = categories.find(cat => cat.id === formData.categoryId);
+    const categoryName = selectedCategory ? selectedCategory.name.toLowerCase() : '';
+
+    let filteredAttributes = [];
+    if (categoryName.includes('gant')) {
+        filteredAttributes = attributes.filter(a => a.type === 'size_glove');
+    } else if (categoryName.includes('chaussure')) {
+        filteredAttributes = attributes.filter(a => a.type === 'size_shoe');
+    } else if (categoryName.includes('vêtement') || categoryName.includes('vetement') || categoryName.includes('casque')) {
+        filteredAttributes = attributes.filter(a => a.type === 'size_clothing');
+    }
+    const hasSizes = filteredAttributes.length > 0;
 
     if (!isOpen || !product) return null;
 
@@ -98,7 +115,6 @@ export default function ModaleUpdate({ isOpen, onClose, product }) {
         setNewFiles(prev => prev.filter((_, index) => index !== indexToRemove));
     };
 
-    const [localError, setLocalError] = useState(null);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -112,7 +128,12 @@ export default function ModaleUpdate({ isOpen, onClose, product }) {
         setIsSubmitting(true);
         try {
             // 1. Mise à jour des textes
-            await dispatch(updateProduct({ id: product.id, data: formData })).unwrap();
+            const { attributeId, ...rest } = formData;
+            const updatePayload = {
+                ...rest,
+                attributeIds: attributeId ? [attributeId] : []
+            };
+            await dispatch(updateProduct({ id: product.id, data: updatePayload })).unwrap();
 
             // 2. Supprimer les images mises en file d'attente
             if (mediasToDelete.length > 0) {
@@ -135,8 +156,8 @@ export default function ModaleUpdate({ isOpen, onClose, product }) {
     };
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md p-4 overflow-y-auto transition-all">
-            <div className="relative w-full max-w-135 bg-[#1c1c1e] rounded-4xl p-10 flex flex-col my-8 shadow-2xl">
+        <div className="fixed inset-0 z-[100] flex bg-black/60 backdrop-blur-md p-4 overflow-y-auto transition-all">
+            <div className="relative w-full max-w-135 bg-[#1c1c1e] rounded-4xl p-10 flex flex-col m-auto shadow-2xl">
 
                 <button
                     onClick={onClose}
@@ -242,13 +263,22 @@ export default function ModaleUpdate({ isOpen, onClose, product }) {
 
                         <div className="flex flex-col gap-1.5">
                             <label className="font-inter text-[13px] font-medium text-white/70 ml-1">Taille</label>
-                            <input
-                                type="text"
-                                name="size"
-                                value={formData.size}
+                            <select
+                                name="attributeId"
+                                value={formData.attributeId || ''}
                                 onChange={handleChange}
-                                className="w-full h-13 bg-[#2c2c2e] rounded-xl px-4 text-white font-inter text-[15px] outline-none focus:ring-2 focus:ring-white/20 transition-all"
-                            />
+                                disabled={!formData.categoryId || !hasSizes}
+                                className="w-full h-13 bg-[#2c2c2e] rounded-xl px-4 text-white font-inter text-[15px] outline-none focus:ring-2 focus:ring-white/20 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                <option value="">
+                                    {formData.categoryId 
+                                        ? (hasSizes ? 'Sélectionner' : 'Aucune') 
+                                        : 'Sélectionner...'}
+                                </option>
+                                {filteredAttributes.map(attr => (
+                                    <option key={attr.id} value={attr.id} className="text-black bg-white">{attr.value}</option>
+                                ))}
+                            </select>
                         </div>
                     </div>
 

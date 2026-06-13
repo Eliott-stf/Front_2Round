@@ -50,7 +50,7 @@ export default function TargetElementCard({
                         <h4 className="text-white font-bold text-base truncate">{targetProduct.title}</h4>
                         <span className="text-red font-bebas text-lg mt-1">{targetProduct.price} €</span>
                         <span className="text-white/40 text-[11px] mt-1 truncate">
-                            Vendeur : {sellerName}
+                            Vendeur : {sellerName} • Taille : {targetProduct.attributes?.map(pa => pa.attribute?.value).filter(Boolean).join(', ') || targetProduct.size || 'N/A'}
                         </span>
                     </div>
                 </div>
@@ -149,7 +149,7 @@ export default function TargetElementCard({
                             <div className="flex flex-col min-w-0">
                                 <span className="text-white font-medium text-sm truncate">{targetConversation.product.title}</span>
                                 <span className="text-white/50 text-xs mt-0.5 flex flex-wrap items-center gap-1.5">
-                                    {targetConversation.product.price} € • Taille {targetConversation.product.size || 'N/A'} • 
+                                    {targetConversation.product.price} € • Taille {targetConversation.product.attributes?.map(pa => pa.attribute?.value).filter(Boolean).join(', ') || targetConversation.product.size || 'N/A'} • 
                                     <span className={`inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider ${
                                         targetConversation.product.status === 'AVAILABLE' ? 'text-emerald-400' : 'text-[#555555]'
                                     }`}>

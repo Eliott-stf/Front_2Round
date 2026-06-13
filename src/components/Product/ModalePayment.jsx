@@ -213,9 +213,9 @@ export default function ModalePayment({ isOpen, onClose, product }) {
                                                     <p className="font-inter text-xs md:text-sm text-white font-medium truncate">
                                                         {product.title}
                                                     </p>
-                                                    <p className="font-inter text-[10px] md:text-xs text-gray-500 mt-0.5 md:mt-1">
-                                                        {product.condition || "État non spécifié"} · {product.size || "Taille non spécifiée"}
-                                                    </p>
+                                                     <p className="font-inter text-[10px] md:text-xs text-gray-500 mt-0.5 md:mt-1">
+                                                         {product.condition || "État non spécifié"} · {product.attributes?.map(pa => pa.attribute?.value).filter(Boolean).join(', ') || product.size || "Taille non spécifiée"}
+                                                     </p>
                                                 </div>
                                                 <p className="font-bebas text-2xl md:text-3xl text-white">{cartTotal.toFixed(2)}€</p>
                                             </div>

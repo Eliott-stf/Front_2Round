@@ -17,6 +17,7 @@ import bankAccountReducer from './bankAccount/bankAccountSlice';
 import adminReducer from './admin/adminSlice';
 import reportReducer from './report/reportSlice';
 import factureReducer from './facture/factureSlice';
+import attributeReducer from './attribute/attributeSlice';
 
 export const store = configureStore({
     reducer: {
@@ -38,6 +39,7 @@ export const store = configureStore({
         bankAccounts: bankAccountReducer,
         admin: adminReducer,
         reports: reportReducer,
-        facture: factureReducer
+        facture: factureReducer,
+        attributes: attributeReducer
     }
 });

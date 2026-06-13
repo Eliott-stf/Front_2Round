@@ -36,7 +36,7 @@ const AppRouter = () => {
 
   // Loader pendant la vérification
   if (inSession === null) {
-    return <PageLoader />
+    return <PageLoader withLayout={true} />
   }
 
   return (

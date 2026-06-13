@@ -34,7 +34,7 @@ export default function ProductInfos({ product, isOwner }) {
   // On déclare nos constantes
   const title = product?.title || "Article inconnu";
   const price = product?.price || 0;
-  const size = product?.size || "Non spécifiée";
+  const size = product?.attributes?.map(pa => pa.attribute?.value).filter(Boolean).join(', ') || product?.size || "Non spécifiée";
   const brand = "Non spécifiée";
   const condition = product?.condition || "Non spécifié";
   const categoryName = product?.category?.name || "Non spécifiée";

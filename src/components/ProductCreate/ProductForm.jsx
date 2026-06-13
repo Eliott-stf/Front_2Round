@@ -1,6 +1,21 @@
 import React from 'react';
 
-export default function ProductForm({ formData, setFormData, categories, errors }) {
+export default function ProductForm({ formData, setFormData, categories, attributes = [], errors }) {
+    //on récupère la catégorie actuellement sélectionnée pour filtrer les tailles
+    const selectedCategory = categories.find(cat => cat.id === formData.categoryId);
+    const categoryName = selectedCategory ? selectedCategory.name.toLowerCase() : '';
+
+    //on filtre les attributs en fonction de la catégorie
+    let filteredAttributes = [];
+    if (categoryName.includes('gant')) {
+        filteredAttributes = attributes.filter(a => a.type === 'size_glove');
+    } else if (categoryName.includes('chaussure')) {
+        filteredAttributes = attributes.filter(a => a.type === 'size_shoe');
+    } else if (categoryName.includes('vêtement') || categoryName.includes('vetement') || categoryName.includes('casque')) {
+        filteredAttributes = attributes.filter(a => a.type === 'size_clothing');
+    }
+
+    const hasSizes = filteredAttributes.length > 0;
     return (
         <div className="bg-[#111111] border border-[#2f2f2f] rounded-2xl p-6 md:p-8 flex flex-col gap-6">
             <h2 className="font-bebas text-white text-3xl tracking-wider uppercase border-b border-[#2f2f2f] pb-3">
@@ -91,16 +106,29 @@ export default function ProductForm({ formData, setFormData, categories, errors 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Taille */}
                 <div className="flex flex-col gap-2">
-                    <label className="text-white font-inter text-xs uppercase tracking-widest font-semibold">
-                        Taille / Dimension
+                    <label className="text-white font-inter text-xs uppercase tracking-widest font-semibold flex items-center justify-between">
+                        <span>Taille / Dimension</span>
+                        {!formData.categoryId && (
+                            <span className="text-[#525252] text-[10px] lowercase italic font-normal">(choisissez d'abord une catégorie)</span>
+                        )}
                     </label>
-                    <input
-                        type="text"
-                        placeholder="Ex: 14oz, L, 42..."
-                        value={formData.size}
-                        onChange={(e) => setFormData({ ...formData, size: e.target.value })}
-                        className="w-full bg-[#161616] border border-[#2f2f2f] focus:border-red/60 rounded-xl px-4 py-3 text-white placeholder-[#525252] font-inter text-sm focus:outline-none focus:ring-1 focus:ring-red/60 transition-all duration-200"
-                    />
+                    <select
+                        value={formData.attributeId || ''}
+                        onChange={(e) => setFormData({ ...formData, attributeId: e.target.value })}
+                        disabled={!formData.categoryId || !hasSizes}
+                        className="w-full bg-[#161616] border border-[#2f2f2f] focus:border-red/60 rounded-xl px-4 py-3 text-white font-inter text-sm focus:outline-none focus:ring-1 focus:ring-red/60 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        <option value="" className="text-[#525252]">
+                            {formData.categoryId 
+                                ? (hasSizes ? 'Sélectionner une taille' : 'Aucune taille disponible') 
+                                : 'Sélectionner une catégorie...'}
+                        </option>
+                        {filteredAttributes.map((attr) => (
+                            <option key={attr.id} value={attr.id} className="text-white bg-[#111111]">
+                                {attr.value}
+                            </option>
+                        ))}
+                    </select>
                 </div>
 
                 {/* Prix */}

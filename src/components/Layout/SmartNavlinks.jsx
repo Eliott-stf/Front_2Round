@@ -80,7 +80,7 @@ export const SmartNavlinks = ({ data, containerClassName, itemClassName, onLogou
               ) : (
                 Icon && <Icon className={`w-6 h-6 shrink-0 ${location.pathname === item.path ? 'fill-white' : ''}`} />
               )}
-              {item.path === "/messages" && !hasUnreadMessages && (
+              {item.path === "/messages" && hasUnreadMessages && (
                 <span className="absolute top-4 -right-2 w-3 h-3 bg-red rounded-full border-2 border-black z-10" />
               )}
             </div>

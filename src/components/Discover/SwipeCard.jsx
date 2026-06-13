@@ -153,7 +153,7 @@ const SwipeCard = forwardRef(({ product, isTop, onSwipe, topDragDistance, onDrag
                     
                     <div className="flex gap-2 mt-2">
                         <span className="bg-[#222] text-xs font-inter text-[#ccc] px-3 py-1 rounded-full border border-[#333]">
-                            Taille: {product.size || 'N/A'}
+                            Taille: {product.attributes?.map(pa => pa.attribute?.value).filter(Boolean).join(', ') || product.size || 'N/A'}
                         </span>
                         <span className="bg-[#222] text-xs font-inter text-[#ccc] px-3 py-1 rounded-full border border-[#333]">
                             État: {product.condition || 'N/A'}

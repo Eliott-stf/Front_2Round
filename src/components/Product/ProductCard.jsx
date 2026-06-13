@@ -33,7 +33,7 @@ export default function ProductCard({ product, selectable = false, selected = fa
     const isPack = product?.isPack || product?.description?.includes('[PACK:');
 
     // Construction du sous-titre : "Taille - Condition"
-    const size = product?.size;
+    const size = product?.attributes?.map(pa => pa.attribute?.value).filter(Boolean).join(', ') || product?.size;
     const condition = product?.condition;
     const details = [size, condition].filter(Boolean);
     const subtitle = details.length > 0 ? details.join(' - ') : (product?.description || 'Bon état');
