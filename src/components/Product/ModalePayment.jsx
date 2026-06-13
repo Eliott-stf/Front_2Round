@@ -5,7 +5,7 @@ import { createOrder } from "../../store/order/orderSlice";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Wallet, CheckCircle, AlertCircle, ChevronLeft } from "lucide-react";
 import { API_ROOT } from "@constants/apiConstant";
-import { slideVariants } from "@constants/appConstant";
+import { slideVariants, PRODUCT_CONDITIONS } from "@constants/appConstant";
 import TopupWrapper from "@components/Checkout/TopupWrapper";
 import AddressManager from "@components/Checkout/Address/AddressManager";
 import SuccessView from "@components/Checkout/SuccesView";
@@ -214,7 +214,7 @@ export default function ModalePayment({ isOpen, onClose, product }) {
                                                         {product.title}
                                                     </p>
                                                      <p className="font-inter text-[10px] md:text-xs text-gray-500 mt-0.5 md:mt-1">
-                                                         {product.condition || "État non spécifié"} · {product.attributes?.map(pa => pa.attribute?.value).filter(Boolean).join(', ') || product.size || "Taille non spécifiée"}
+                                                         {PRODUCT_CONDITIONS.find(c => c.value === product.condition)?.label || product.condition || "État non spécifié"} · {product.attributes?.map(pa => pa.attribute?.value).filter(Boolean).join(', ') || product.size || "Taille non spécifiée"}
                                                      </p>
                                                 </div>
                                                 <p className="font-bebas text-2xl md:text-3xl text-white">{cartTotal.toFixed(2)}€</p>

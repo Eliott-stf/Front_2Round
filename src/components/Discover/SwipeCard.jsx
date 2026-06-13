@@ -1,6 +1,7 @@
 import React, { forwardRef, useImperativeHandle } from 'react';
 import { motion, useMotionValue, useTransform, useAnimation } from 'framer-motion';
 import { API_ROOT } from '@constants/apiConstant';
+import { PRODUCT_CONDITIONS } from '@constants/appConstant';
 
 const SwipeCard = forwardRef(({ product, isTop, onSwipe, topDragDistance, onDragChange }, ref) => {
     const x = useMotionValue(0);
@@ -156,7 +157,7 @@ const SwipeCard = forwardRef(({ product, isTop, onSwipe, topDragDistance, onDrag
                             Taille: {product.attributes?.map(pa => pa.attribute?.value).filter(Boolean).join(', ') || product.size || 'N/A'}
                         </span>
                         <span className="bg-[#222] text-xs font-inter text-[#ccc] px-3 py-1 rounded-full border border-[#333]">
-                            État: {product.condition || 'N/A'}
+                            État: {PRODUCT_CONDITIONS.find(c => c.value === product.condition)?.label || product.condition || 'N/A'}
                         </span>
                     </div>
                 </div>

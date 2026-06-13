@@ -10,6 +10,7 @@ import { useAuthContext } from '@contexts/AuthContext';
 import HeaderView from '@components/UI/HeaderView';
 import { slugify } from '@/utils/slugify';
 import { API_ROOT } from '@constants/apiConstant';
+import { PRODUCT_CONDITIONS } from '@constants/appConstant';
 
 export default function ProductDetail() {
 
@@ -118,7 +119,7 @@ export default function ProductDetail() {
                         />
                         <div className="flex flex-col min-w-0 font-inter">
                           <span className="text-white text-xs font-bold truncate uppercase">{subProd.title}</span>
-                          <span className="text-[10px] text-gray-light uppercase mt-0.5">{subProd.size} - {subProd.condition}</span>
+                          <span className="text-[10px] text-gray-light uppercase mt-0.5">{subProd.attributes?.map(pa => pa.attribute?.value).filter(Boolean).join(', ') || subProd.size} - {PRODUCT_CONDITIONS.find(c => c.value === subProd.condition)?.label || subProd.condition}</span>
                           <span className="text-white text-xs font-semibold mt-1">{subProd.price}€</span>
                         </div>
                       </Link>

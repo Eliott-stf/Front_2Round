@@ -1,4 +1,5 @@
 import { API_ROOT } from '@constants/apiConstant';
+import { PRODUCT_CONDITIONS } from '@constants/appConstant';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { slugify } from '@/utils/slugify';
@@ -42,10 +43,10 @@ export default function OrderItems({ items }) {
                                 </Link>
                                 <div className="flex flex-col sm:flex-row sm:gap-4 gap-1 mt-1 sm:mt-2">
                                     <span className="font-inter text-[#737373] text-[11px] sm:text-sm">
-                                        Taille : <span className="text-white">{product?.size || 'N/A'}</span>
+                                        Taille : <span className="text-white">{product?.attributes?.map(pa => pa.attribute?.value).filter(Boolean).join(', ') || product?.size || 'N/A'}</span>
                                     </span>
                                     <span className="font-inter text-[#737373] text-[11px] sm:text-sm">
-                                        État : <span className="text-white">{product?.condition || 'N/A'}</span>
+                                        État : <span className="text-white">{PRODUCT_CONDITIONS.find(c => c.value === product?.condition)?.label || product?.condition || 'N/A'}</span>
                                     </span>
                                 </div>
                             </div>

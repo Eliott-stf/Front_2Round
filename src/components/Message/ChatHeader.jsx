@@ -1,4 +1,5 @@
 import { API_ROOT } from '@constants/apiConstant';
+import { PRODUCT_CONDITIONS } from '@constants/appConstant';
 import React from 'react';
 import { AlertTriangle, ChevronLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -38,7 +39,7 @@ export default function ChatHeader({ conversation, interlocutor, isBuyer, onOpen
                     </Link>
                 </h2>
                 <p className="text-gray font-inter text-xs md:text-sm mt-0.5 truncate">
-                    {product?.title} {product?.condition ? `- ${product.condition}` : ''}
+                    {product?.title} {product?.condition ? `- ${PRODUCT_CONDITIONS.find(c => c.value === product.condition)?.label || product.condition}` : ''}
                 </p>
                 <p className="text-white font-bebas text-md md:text-xl mt-0.5 tracking-wide">
                     {product?.price} €

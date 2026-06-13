@@ -1,4 +1,5 @@
 import { API_ROOT } from '@constants/apiConstant';
+import { PRODUCT_CONDITIONS } from '@constants/appConstant';
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -34,7 +35,7 @@ export default function ProductCard({ product, selectable = false, selected = fa
 
     // Construction du sous-titre : "Taille - Condition"
     const size = product?.attributes?.map(pa => pa.attribute?.value).filter(Boolean).join(', ') || product?.size;
-    const condition = product?.condition;
+    const condition = PRODUCT_CONDITIONS.find(c => c.value === product?.condition)?.label || product?.condition;
     const details = [size, condition].filter(Boolean);
     const subtitle = details.length > 0 ? details.join(' - ') : (product?.description || 'Bon état');
 

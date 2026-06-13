@@ -5,6 +5,7 @@ import OfferNode from './OfferNode';
 import { useAuthContext } from '@contexts/AuthContext';
 import api from '@lib/api';
 import { API_ROOT } from '@constants/apiConstant';
+import { PRODUCT_CONDITIONS } from '@constants/appConstant';
 import { Package, ShoppingBag, Check } from 'lucide-react';
 
 export default function MessageList({ activeId, conversation, initialMessages = [], initialOffers = [], onPaymentRequest, onCreatePackRequest }) {
@@ -145,7 +146,7 @@ export default function MessageList({ activeId, conversation, initialMessages = 
                                                     <img src={imageUrl} alt={prod.title} className="w-10 h-10 object-cover rounded bg-[#111]" />
                                                     <div className="flex-1 min-w-0 flex flex-col">
                                                         <span className="text-white text-xs font-bold truncate uppercase">{prod.title}</span>
-                                                        <span className="text-[10px] text-gray-light uppercase font-inter">{prod.size} - {prod.condition}</span>
+                                                        <span className="text-[10px] text-gray-light uppercase font-inter">{prod.attributes?.map(pa => pa.attribute?.value).filter(Boolean).join(', ') || prod.size} - {PRODUCT_CONDITIONS.find(c => c.value === prod.condition)?.label || prod.condition}</span>
                                                     </div>
                                                     <span className="text-white text-xs font-semibold">{prod.price}€</span>
                                                 </div>

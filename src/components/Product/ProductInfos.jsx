@@ -12,6 +12,7 @@ import ModaleReport from '@components/Report/ModaleReport';
 import ModaleTaille from '@components/Guide/ModaleTaille';
 import { useAuthContext } from '@contexts/AuthContext';
 import { API_ROOT } from '@constants/apiConstant';
+import { PRODUCT_CONDITIONS } from '@constants/appConstant';
 import { getRelativeTime } from '@/utils/formateDate';
 
 export default function ProductInfos({ product, isOwner }) {
@@ -36,7 +37,7 @@ export default function ProductInfos({ product, isOwner }) {
   const price = product?.price || 0;
   const size = product?.attributes?.map(pa => pa.attribute?.value).filter(Boolean).join(', ') || product?.size || "Non spécifiée";
   const brand = "Non spécifiée";
-  const condition = product?.condition || "Non spécifié";
+  const condition = PRODUCT_CONDITIONS.find(c => c.value === product?.condition)?.label || product?.condition || "Non spécifié";
   const categoryName = product?.category?.name || "Non spécifiée";
   const description = product?.description || "Aucune description disponible.";
   const isArchived = product?.status === 'ARCHIVED';
