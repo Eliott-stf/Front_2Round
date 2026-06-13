@@ -14,28 +14,25 @@ const AuthContext = createContext({
 
 //On déclare nos States 
 const AuthContextProvider = ({ children }) => {
-    const [userId, setUserId] = useState('');
-    const [email, setEmail] = useState('');
-    const [name, setName] = useState('');
-    const [lastname, setLastname] = useState('');
-    const [role, setRole] = useState('');
-
-    // Recharge token + user au démarrage de l'app
-    useEffect(() => {
-        //On récupère les USER_INFOS + JWT du localStorage
-        const savedUser = localStorage.getItem(USER_INFOS);
+    const getSavedValue = (key, field) => {
+        const saved = localStorage.getItem(key);
         const token = localStorage.getItem('token');
-
-        // On 'Restaure' de la session si les données et le jwt existent
-        if (savedUser && token) {
-            const user = JSON.parse(savedUser);
-            setUserId(user.userId);
-            setEmail(user.email);
-            setName(user.name);
-            setLastname(user.lastname);
-            setRole(user.role ?? '');
+        if (saved && token) {
+            try {
+                const parsed = JSON.parse(saved);
+                return parsed[field] || '';
+            } catch {
+                return '';
+            }
         }
-    }, []);
+        return '';
+    };
+
+    const [userId, setUserId] = useState(() => getSavedValue(USER_INFOS, 'userId'));
+    const [email, setEmail] = useState(() => getSavedValue(USER_INFOS, 'email'));
+    const [name, setName] = useState(() => getSavedValue(USER_INFOS, 'name'));
+    const [lastname, setLastname] = useState(() => getSavedValue(USER_INFOS, 'lastname'));
+    const [role, setRole] = useState(() => getSavedValue(USER_INFOS, 'role'));
 
     // Méthode de connexion: reçoit le user + jwt depuis la page Login
     const signIn = (user, token) => {

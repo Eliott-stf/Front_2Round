@@ -22,10 +22,8 @@ const SessionContext = createContext({ inSession: false });
 export const useSessionContext = () => useContext(SessionContext);
 
 const AppRouter = () => {
-  //On déclare nos states pour gérer l'état de connexion
-  //null = chargement, true = connecté, false = déconnecté
-  const [inSession, setInSession] = useState(null);
   const { userId } = useAuthContext();
+  const [inSession, setInSession] = useState(() => !!userId);
 
   //===================================
   // VERIFICATION DE SESSION AU MONTAGE
@@ -33,11 +31,6 @@ const AppRouter = () => {
   useEffect(() => {
     setInSession(!!userId);
   }, [userId]);
-
-  // Loader pendant la vérification
-  if (inSession === null) {
-    return <PageLoader withLayout={true} />
-  }
 
   return (
     <SessionContext.Provider value={{ inSession, setInSession }}>

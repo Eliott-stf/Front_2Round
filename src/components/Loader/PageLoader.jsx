@@ -9,11 +9,13 @@ export default function PageLoader({ withLayout = false }) {
 
     const content = (
         <div className={withLayout ? "flex-1 flex flex-col min-h-0 bg-[#000000]" : "w-full"}>
-            <HeaderView 
-                title="CHARGEMENT..." 
-                subtitle="Merci de patienter pendant que nous préparons vos données." 
-                heightClass="h-[120px] md:h-[200px]" 
-            />
+            <div className="relative w-full h-[90px] md:h-[160px] lg:h-[160px] border-b border-[#1a1a1a] bg-[#111111] overflow-hidden flex flex-col justify-center">
+                <div className="absolute inset-0 bg-pattern-overlay z-0" />
+                <div className="relative z-10 max-w-[1440px] w-full mx-auto px-6 lg:px-[100px] space-y-4">
+                    <div className="w-[250px] md:w-[400px] h-10 md:h-14 bg-[#1f1f1f] rounded-full animate-pulse"></div>
+                    <div className="w-[200px] md:w-[300px] h-4 md:h-5 bg-[#1f1f1f] rounded-full animate-pulse"></div>
+                </div>
+            </div>
             <div className="max-w-[1440px] mx-auto px-6 lg:px-[100px] py-12 w-full">
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                     {skeletons.map((_, index) => (
