@@ -8,6 +8,9 @@ import { Footer } from '@components/Layout/Footer'
 import ScrollToTop from '@components/UI/ScrollToTop'
 
 import ModaleCTA from '@components/UI/ModaleCTA'
+import AdminCredentialsToast from '@components/UI/AdminCredentialsToast'
+import ServerWakeupToast from '@components/UI/ServerWakeupToast'
+import { API_ROOT } from '@constants/apiConstant'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -27,6 +30,13 @@ function App() {
     }
   }, [location]);
 
+  // Wake-up ping pour l'API Render
+  useEffect(() => {
+    fetch(`${API_ROOT}/health`).catch(() => {
+      // On ignore l'erreur, le but est juste de réveiller le serveur
+    });
+  }, []);
+
   return (
     <div className="flex flex-col min-h-screen bg-[#000000]">
       <ScrollToTop />
@@ -36,6 +46,8 @@ function App() {
       </main>
       {showFooter && <Footer />}
       <ModaleCTA />
+      <AdminCredentialsToast />
+      <ServerWakeupToast />
     </div>
   )
 }

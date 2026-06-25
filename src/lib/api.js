@@ -9,6 +9,16 @@ const api = wretch(API_ROOT)
     .headers({ 'Content-Type': 'application/json' })
     .middlewares([
         next => (url, opts) => {
+            // Timer pour le toast du serveur lent
+            const timeoutId = setTimeout(() => {
+                window.dispatchEvent(new CustomEvent('server-wakeup-delay'));
+            }, 4000);
+
+            const clearDelayTimer = () => {
+                clearTimeout(timeoutId);
+                window.dispatchEvent(new CustomEvent('server-wakeup-resolved'));
+            };
+
             // On extrait le JWT du localStorage
             const token = localStorage.getItem('token');
 
@@ -21,7 +31,15 @@ const api = wretch(API_ROOT)
                     Authorization: `Bearer ${token}`,
                 };
             }
-            return next(url, opts);
+            return next(url, opts)
+                .then(res => {
+                    clearDelayTimer();
+                    return res;
+                })
+                .catch(err => {
+                    clearDelayTimer();
+                    throw err;
+                });
         },
     ]);
 
@@ -29,6 +47,15 @@ const api = wretch(API_ROOT)
 export const apiUpload = wretch(API_ROOT)
     .middlewares([
         next => (url, opts) => {
+            const timeoutId = setTimeout(() => {
+                window.dispatchEvent(new CustomEvent('server-wakeup-delay'));
+            }, 4000);
+
+            const clearDelayTimer = () => {
+                clearTimeout(timeoutId);
+                window.dispatchEvent(new CustomEvent('server-wakeup-resolved'));
+            };
+
             const token = localStorage.getItem('token');
             if (token) {
                 opts.headers = {
@@ -36,7 +63,15 @@ export const apiUpload = wretch(API_ROOT)
                     Authorization: `Bearer ${token}`,
                 };
             }
-            return next(url, opts);
+            return next(url, opts)
+                .then(res => {
+                    clearDelayTimer();
+                    return res;
+                })
+                .catch(err => {
+                    clearDelayTimer();
+                    throw err;
+                });
         },
     ]);
 //On exporte l'instance pour la réutiliser pour toutes nos requetes 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Eye, EyeOff } from 'lucide-react';
 import { AuthLayout } from '@components/Layout/AuthLayout';
 import { Logo } from '@components/UI/Logo';
@@ -12,10 +12,14 @@ export const Login = () => {
   //on récupère le hook
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
   //On déclare nos State locaux et store
   const [showPassword, setShowPassword] = useState(false);
-  const [form, setForm] = useState({ email: '', password: '' });
+  const [form, setForm] = useState({ 
+    email: location.state?.prefillRecruiter ? 'admin@2round.com' : '', 
+    password: location.state?.prefillRecruiter ? 'password123' : '' 
+  });
   const { loading, error, user, token } = useSelector(state => state.auth);
 
   //On déclare nos méthodes du AuthContext
